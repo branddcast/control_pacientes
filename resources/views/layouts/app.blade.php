@@ -47,7 +47,7 @@
                   <ul class="app-nav">
                     
                     <!--Notification Menu-->
-                    <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><i class="far fa-bell fa-lg"></i></a>
+                    <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><i class="far fa-bell fa-lg"></i><sup class="badge badge-danger">4</sup></a>
                       <ul class="app-notification dropdown-menu dropdown-menu-right">
                         <li class="app-notification__title">You have 4 new notifications.</li>
                         <div class="app-notification__content">
@@ -111,7 +111,7 @@
                   <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" style="max-width: 50px" src="{{ url('img/user.png') }}" alt="{{ Auth::user()->usuario}}">
                     <div>
                       <p class="app-sidebar__user-name">{{ Auth::user()->usuario}}</p>
-                      <p class="app-sidebar__user-designation"><i style="color: green; font-size: 14pt;">•</i> <small>En línea</small></p>
+                      <p class="app-sidebar__user-designation"><i style="color: green; font-size: 16pt;">•</i> <small>En línea</small></p>
                     </div>
                   </div>
                   <ul class="app-menu">
@@ -173,34 +173,9 @@
     <!-- The javascript plugin to display page loading on top-->
     <script src="{{ asset('js/plugins/pace.min.js') }}"></script>
     <!-- Page specific javascripts-->
-    <script type="text/javascript" src="{{ asset('js/plugins/chart.js') }}"></script>
+    
     <script type="text/javascript">
         $('sidebar').collapse('hide');
-        var data = {
-          labels: ["January", "February", "March", "April", "May"],
-          datasets: [
-              {
-                  label: "My First dataset",
-                  fillColor: "rgba(220,220,220,0.2)",
-                  strokeColor: "rgba(220,220,220,1)",
-                  pointColor: "rgba(220,220,220,1)",
-                  pointStrokeColor: "#fff",
-                  pointHighlightFill: "#fff",
-                  pointHighlightStroke: "rgba(220,220,220,1)",
-                  data: [65, 59, 80, 81, 56]
-              },
-              {
-                  label: "My Second dataset",
-                  fillColor: "rgba(151,187,205,0.2)",
-                  strokeColor: "rgba(151,187,205,1)",
-                  pointColor: "rgba(151,187,205,1)",
-                  pointStrokeColor: "#fff",
-                  pointHighlightFill: "#fff",
-                  pointHighlightStroke: "rgba(151,187,205,1)",
-                  data: [28, 48, 40, 19, 86]
-              }
-          ]
-        };
         var pdata = [
           {
               value: 300,
@@ -215,9 +190,6 @@
               label: "In-Progress"
           }
         ]
-        
-        var ctxl = $("#lineChartDemo").get(0).getContext("2d");
-        var lineChart = new Chart(ctxl).Line(data);
         
         var ctxp = $("#pieChartDemo").get(0).getContext("2d");
         var pieChart = new Chart(ctxp).Pie(pdata);

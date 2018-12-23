@@ -26,6 +26,6 @@ class Cita extends Model
 
     public function color()
     {
-        return $this->belongsTo('App\Models\Usuario', 'Id_Color', 'Id_Color');
+        return $this->belongsTo('App\Models\Color', 'Id_Color', 'Id_Color');
     }
 }
