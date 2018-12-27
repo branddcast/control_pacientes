@@ -82,7 +82,7 @@
                   <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" style="max-width: 50px" src="{{ url('img/user.png') }}" alt="{{ Auth::user()->usuario}}">
                     <div>
                       <p class="app-sidebar__user-name">{{ Auth::user()->usuario}}</p>
-                      <p class="app-sidebar__user-designation"><i style="color: green; font-size: 16pt;">•</i> <small>En línea</small></p>
+                      <p class="app-sidebar__user-designation"><small>{{ Auth::user()->rol->Nombre}}</small></p>
                     </div>
                   </div>
                   <ul class="app-menu">
@@ -111,25 +111,31 @@
                         <li><a class="treeview-item {{ request()->is('especialidades/create') ? 'active' : '' }}" href="{{ url('/especialidades/create') }}" rel="noopener"><i class="icon fas fa-plus"></i> Agregar</a></li>
                       </ul>
                     </li>
+                    @if(Auth::user()->hasRole('Super Admin'))
                     <li class="treeview"><a class="app-menu__item {{ request()->is('usuarios') ? 'active' : '' }} {{ request()->is('usuarios/create') ? 'active' : '' }}" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-users"></i><span class="app-menu__label">Usuarios</span><i class="treeview-indicator fa fa-angle-right"></i></a>
                       <ul class="treeview-menu">
                         <li><a class="treeview-item {{ request()->is('usuarios') ? 'active' : '' }}" href="{{ url('/usuarios') }}"><i class="icon fas fa-list"></i> Mostrar</a></li>
                         <li><a class="treeview-item {{ request()->is('usuarios/create') ? 'active' : '' }}" href="{{ url('/usuarios/create') }}" rel="noopener"><i class="icon fas fa-plus"></i> Agregar</a></li>
                       </ul>
                     </li>
+                    @endif
+                    @if(Auth::user()->hasRole('Super Admin'))
                     <li class="treeview"><a class="app-menu__item {{ request()->is('roles') ? 'active' : '' }} {{ request()->is('roles/create') ? 'active' : '' }}" href="#" data-toggle="treeview"><i class="app-menu__icon far fa-circle"></i><span class="app-menu__label">Roles</span><i class="treeview-indicator fa fa-angle-right"></i></a>
                       <ul class="treeview-menu">
                         <li><a class="treeview-item {{ request()->is('roles') ? 'active' : '' }}" href="{{ url('/roles') }}"><i class="icon fas fa-list"></i> Mostrar</a></li>
                         <li><a class="treeview-item {{ request()->is('roles/create') ? 'active' : '' }}" href="{{ url('/roles/create') }}" rel="noopener"><i class="icon fas fa-plus"></i> Agregar</a></li>
                       </ul>
                     </li>
+                    @endif
                     <li><a class="app-menu__item {{ request()->is('citas') ? 'active' : '' }}" href="{{url('/citas')}}"><i class="app-menu__icon far fa-address-book"></i><span class="app-menu__label">Citas</span></a></li>
+                    @if(Auth::user()->hasRole('Super Admin'))
                     <li class="treeview"><a class="app-menu__item {{ request()->is('colores') ? 'active' : '' }} {{ request()->is('colores/create') ? 'active' : '' }}" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-palette"></i><span class="app-menu__label">Colores</span><i class="treeview-indicator fa fa-angle-right"></i></a>
                       <ul class="treeview-menu">
                         <li><a class="treeview-item {{ request()->is('colores') ? 'active' : '' }}" href="{{ url('/colores') }}"><i class="icon fas fa-list"></i> Mostrar</a></li>
                         <li><a class="treeview-item {{ request()->is('colores/create') ? 'active' : '' }}" href="{{ url('/colores/create') }}" rel="noopener"><i class="icon fas fa-plus"></i> Agregar</a></li>
                       </ul>
                     </li>
+                    @endif
                   </ul>
                 </aside>
             @endguest

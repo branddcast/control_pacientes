@@ -42,6 +42,7 @@ class PacientesController extends Controller
      */
     public function create()
     {
+        \Auth::user()->authorizeRoles(['Super Admin', 'Admin']);
         $estatus = Estatus::all();
         return view('pacientes.create', ['estatus' => $estatus]);
     }
@@ -54,6 +55,7 @@ class PacientesController extends Controller
      */
     public function store(Request $request)
     {
+        \Auth::user()->authorizeRoles(['Super Admin', 'Admin']);
         $paciente = new Paciente;
         $paciente->nombre = $request->nombre;
         $paciente->ap_paterno = $request->ap_paterno;
@@ -95,6 +97,7 @@ class PacientesController extends Controller
      */
     public function edit($id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin', 'Admin']);
         $estatus = Estatus::all();
         $paciente = Paciente::find($id);
         return view('pacientes.edit', ['paciente' => $paciente, 'estatus' => $estatus]);
@@ -109,6 +112,7 @@ class PacientesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin', 'Admin']);
         $paciente = Paciente::find($id);
         $paciente->nombre = $request->get('nombre');
         $paciente->ap_paterno = $request->get('ap_paterno');
@@ -137,6 +141,7 @@ class PacientesController extends Controller
      */
     public function destroy($id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin', 'Admin']);
         $pacientes = Paciente::find($id);
         $ok = $pacientes->delete();
 

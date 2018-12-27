@@ -34,6 +34,7 @@ class EstatusController extends Controller
      */
     public function create()
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
         return view('estatus.create');
     }
 
@@ -45,6 +46,7 @@ class EstatusController extends Controller
      */
     public function store(Request $request)
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
 
         $estatus = new Estatus;
         $estatus->nombre = $request->nombre;
@@ -69,6 +71,8 @@ class EstatusController extends Controller
      */
     public function edit($id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
+
         $estatus = Estatus::find($id);
         return view('estatus.edit', ['estatus' => $estatus]);
     }
@@ -82,6 +86,8 @@ class EstatusController extends Controller
      */
     public function update(Request $request, $id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
+
         $estatus= Estatus::find($id);
         $estatus->nombre = $request->get('nombre');
         $estatus->descripcion = $request->get('descripcion');
@@ -105,6 +111,8 @@ class EstatusController extends Controller
      */
     public function destroy($id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
+        
         $estatus = Estatus::find($id);
         $ok = $estatus->delete();
 

@@ -34,6 +34,7 @@ class ColoresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(){
+        \Auth::user()->authorizeRoles(['Super Admin']);
         return view('colores.create');
     }
 
@@ -45,6 +46,7 @@ class ColoresController extends Controller
      */
     public function store(Request $request)
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
         $color = new Color;
         $color->textColor = $request->textColor;
         $color->bgColor = $request->bgColor;
@@ -67,6 +69,7 @@ class ColoresController extends Controller
      */
     public function edit($id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
         $colores = Color::find($id);
         return view('colores.edit', ['colores' => $colores]);
     }
@@ -80,6 +83,8 @@ class ColoresController extends Controller
      */
     public function update(Request $request, $id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
+
         $color = Color::find($id);
         $color->textColor = $request->get('textColor');
         $color->bgColor = $request->get('bgColor');
@@ -103,6 +108,7 @@ class ColoresController extends Controller
      */
     public function destroy($id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
         $color = Color::find($id);
         $ok = $color->delete();
 

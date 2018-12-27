@@ -37,6 +37,7 @@ class EspecialidadesController extends Controller
      */
     public function create()
     {
+        \Auth::user()->authorizeRoles(['Super Admin', 'Admin']);
         return view('especialidades.create');
     }
 
@@ -48,6 +49,7 @@ class EspecialidadesController extends Controller
      */
     public function store(Request $request)
     {
+        \Auth::user()->authorizeRoles(['Super Admin', 'Admin']);
         $especialidad = new Especialidad;
         $especialidad->nombre = $request->nombre;
         $especialidad->descripcion = $request->descripcion;
@@ -71,6 +73,7 @@ class EspecialidadesController extends Controller
      */
     public function edit($id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin', 'Admin']);
         $especialidades = Especialidad::find($id);
         return view('especialidades.edit', ['especialidad' => $especialidades]);
     }
@@ -84,6 +87,7 @@ class EspecialidadesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin', 'Admin']);
         $especialidad= Especialidad::find($id);
         $especialidad->nombre = $request->get('nombre');
         $especialidad->descripcion = $request->get('descripcion');
@@ -107,6 +111,7 @@ class EspecialidadesController extends Controller
      */
     public function destroy($id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin','Admin']);
         $especialidades = Especialidad::find($id);
         $ok = $especialidades->delete();
 

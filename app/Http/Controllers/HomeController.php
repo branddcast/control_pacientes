@@ -32,6 +32,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        //\Auth::user()->authorizeRoles(['Admin']);
+        
         //Pacientes
         $pacientes = Paciente::all();
         $total_pacientes = $pacientes->count();

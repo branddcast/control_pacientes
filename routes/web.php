@@ -16,15 +16,15 @@ Route::get('/', function () {
 });
 
 //Rutas de Controladores
-Route::resource('pacientes'		, 'PacientesController');
-Route::resource('estatus'		, 'EstatusController');
-Route::resource('especialistas' , 'EspecialistasController');
-Route::resource('especialidades', 'EspecialidadesController');
-Route::resource('roles'			, 'RolesController');
-Route::resource('citas'			, 'CitasController');
-Route::resource('colores'		, 'ColoresController');
-Route::resource('usuarios'		, 'UsuariosController');
-Route::resource('notificaciones', 'NotificacionesController');
+Route::resource('pacientes'		, 'PacientesController')->middleware('auth', 'rol:Super Admin, Admin');
+Route::resource('estatus'		, 'EstatusController')->middleware('auth', 'rol:Super Admin, Admin');
+Route::resource('especialistas' , 'EspecialistasController')->middleware('auth', 'rol:Super Admin, Admin');
+Route::resource('especialidades', 'EspecialidadesController')->middleware('auth', 'rol:Super Admin, Admin');
+Route::resource('roles'			, 'RolesController')->middleware('auth', 'rol:Super Admin, Admin');
+Route::resource('citas'			, 'CitasController')->middleware('auth', 'rol:Super Admin, Admin');
+Route::resource('colores'		, 'ColoresController')->middleware('auth', 'rol:Super Admin, Admin');
+Route::resource('usuarios'		, 'UsuariosController')->middleware('auth', 'rol:Super Admin, Admin');
+Route::resource('notificaciones', 'NotificacionesController')->middleware('auth', 'rol:Super Admin, Admin');
 
 //Rutas de Citas
 Route::get( '/citas_json'		, 'CitasController@citas_json')->name('citas_json');
@@ -39,4 +39,4 @@ Route::get('/seen_notifications', 'NotificacionesController@seen_notifications')
 Auth::routes();
 
 //Ruta Home (Dashboard)
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth', 'rol:*');

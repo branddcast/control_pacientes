@@ -37,6 +37,7 @@ class CitasController extends Controller
      */
     public function store(Request $request)
     {
+        \Auth::user()->authorizeRoles(['Super Admin','Admin']);
         $cita = new Cita;
 
         $exists = DB::table('citas')
@@ -84,6 +85,7 @@ class CitasController extends Controller
      */
     public function destroy()
     {
+        \Auth::user()->authorizeRoles(['Super Admin', 'Admin']);
         $data = Input::all();
         $cita = Cita::find($data['id']);
 
@@ -127,6 +129,8 @@ class CitasController extends Controller
 
     public function modificar()
     {
+        \Auth::user()->authorizeRoles(['Super Admin', 'Admin']);
+        
         $data = Input::all();
 
         $cita = Cita::find($data['id']);

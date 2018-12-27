@@ -17,6 +17,7 @@ class RolesController extends Controller
      */
     public function index()
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
         if(Input::get('q') != ''){
             $q = Input::get('q');
             $roles = Rol::where('Nombre', 'LIKE', '%'.$q.'%')
@@ -36,6 +37,7 @@ class RolesController extends Controller
      */
     public function create()
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
         return view('roles.create');
     }
 
@@ -47,6 +49,7 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
         $rol = new Rol;
         $rol->nombre = $request->nombre;
         $rol->descripcion = $request->descripcion;
@@ -70,6 +73,7 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
         $roles = Rol::find($id);
         return view('roles.edit', ['rol' => $roles]);
     }
@@ -83,6 +87,7 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
         $roles= Rol::find($id);
         $roles->nombre = $request->get('nombre');
         $roles->descripcion = $request->get('descripcion');
@@ -106,6 +111,7 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
+        \Auth::user()->authorizeRoles(['Super Admin']);
         if(isset($id)){
             $notificar = PushNotify::push('eliminó un rol', \Auth::user()->usuario, 0);
             return redirect('roles')->with('error','¡Error al intentar borrar el rol!');

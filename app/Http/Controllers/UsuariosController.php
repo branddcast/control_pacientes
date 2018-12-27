@@ -16,7 +16,7 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-
+        \Auth::user()->authorizeRoles(['Super Admin', 'Admin']);
         if(Input::get('q') != ''){
             $usuarios = User::where('usuario', 'LIKE', '%'.Input::get('q').'%')
                 ->orWhere('name', 'LIKE', '%'.Input::get('q').'%')
@@ -38,7 +38,7 @@ class UsuariosController extends Controller
      */
     public function create()
     {
-        //
+        \Auth::user()->authorizeRoles(['Super Admin']);
     }
 
     /**
@@ -49,7 +49,7 @@ class UsuariosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        \Auth::user()->authorizeRoles(['Super Admin']);
     }
 
     /**
@@ -60,7 +60,7 @@ class UsuariosController extends Controller
      */
     public function show($id)
     {
-        //
+        \Auth::user()->authorizeRoles(['Super Admin', 'Admin']);
     }
 
     /**
@@ -71,7 +71,7 @@ class UsuariosController extends Controller
      */
     public function edit($id)
     {
-        //
+        \Auth::user()->authorizeRoles(['Super Admin']);
     }
 
     /**
@@ -83,7 +83,7 @@ class UsuariosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        \Auth::user()->authorizeRoles(['Super Admin']);
     }
 
     /**
@@ -94,6 +94,6 @@ class UsuariosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        \Auth::user()->authorizeRoles(['Super Admin']);
     }
 }
