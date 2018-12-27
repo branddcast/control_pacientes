@@ -40,6 +40,7 @@
             </header>
     @else
         <body class="app sidebar-mini rtl">
+          
             <!-- Navbar-->
             <header class="app-header shadow-sm"><a class="app-header__logo" href="{{ url('/home') }}"><i class="fas fa-h-square"></i>&nbsp; Clínica</a>
                 <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"><i class="fas fa-bars"></i></a>
@@ -47,44 +48,14 @@
                   <ul class="app-nav">
                     
                     <!--Notification Menu-->
-                    <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><i class="far fa-bell fa-lg"></i><sup class="badge badge-danger">4</sup></a>
+                    <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Show notifications"><i class="far fa-bell fa-lg"></i><sup id="total_notif" class="badge badge-pill badge-danger" style="padding: 3px 4px 2px 4px !important; margin: 0px 0px 0px -8px; font-size: 7pt" onclick="javascript: seen_notifications(0);"></sup></a>
                       <ul class="app-notification dropdown-menu dropdown-menu-right">
-                        <li class="app-notification__title">You have 4 new notifications.</li>
+                        <li class="app-notification__title" onclick="javascript: seen_notifications(0);" style="cursor: pointer;"></li>
                         <div class="app-notification__content">
-                          <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                              <div>
-                                <p class="app-notification__message">Lisa sent you a mail</p>
-                                <p class="app-notification__meta">2 min ago</p>
-                              </div></a></li>
-                          <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-danger"></i><i class="fa fa-hdd-o fa-stack-1x fa-inverse"></i></span></span>
-                              <div>
-                                <p class="app-notification__message">Mail server not working</p>
-                                <p class="app-notification__meta">5 min ago</p>
-                              </div></a></li>
-                          <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-success"></i><i class="fa fa-money fa-stack-1x fa-inverse"></i></span></span>
-                              <div>
-                                <p class="app-notification__message">Transaction complete</p>
-                                <p class="app-notification__meta">2 days ago</p>
-                              </div></a></li>
-                          <div class="app-notification__content">
-                            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-envelope fa-stack-1x fa-inverse"></i></span></span>
-                                <div>
-                                  <p class="app-notification__message">Lisa sent you a mail</p>
-                                  <p class="app-notification__meta">2 min ago</p>
-                                </div></a></li>
-                            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-danger"></i><i class="fa fa-hdd-o fa-stack-1x fa-inverse"></i></span></span>
-                                <div>
-                                  <p class="app-notification__message">Mail server not working</p>
-                                  <p class="app-notification__meta">5 min ago</p>
-                                </div></a></li>
-                            <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-success"></i><i class="fa fa-money fa-stack-1x fa-inverse"></i></span></span>
-                                <div>
-                                  <p class="app-notification__message">Transaction complete</p>
-                                  <p class="app-notification__meta">2 days ago</p>
-                                </div></a></li>
+                          
                           </div>
                         </div>
-                        <li class="app-notification__footer"><a href="#">See all notifications.</a></li>
+                        <li class="app-notification__footer"><a href="{{ url('/notificaciones') }}">Todas las notificaciones</a></li>
                       </ul>
                     </li>
                     <!-- User Menu-->
@@ -172,6 +143,69 @@
     
     <!-- The javascript plugin to display page loading on top-->
     <script src="{{ asset('js/plugins/pace.min.js') }}"></script>
+
+    <!-- Script Notificaciones -->
+
+          <script type="text/javascript">
+
+            function seen_notifications(){
+
+              $.ajax({
+                type: 'get',
+                url: '{{ url('/seen_notifications') }}',
+                success: function(msg){
+                    console.log(msg);
+                    get_notifications();
+                },
+                error: function(msg){
+                  alert('Error al ver la notificación');
+                  console.log(msg.responseText);
+                }
+              });
+            }
+
+            function get_notifications(){
+              $.ajax({
+                type: 'get',
+                url: '{{ url('/get_notifications') }}',
+                dataType: "json",
+                success: function(data){
+                  if(data){
+                    $('.app-notification__content').empty();
+                    $.each(data[0], function(i, item) {
+                      $('.app-notification__content').append('<li>'+
+                              '<a class="app-notification__item" href="#">'+
+                                '<div>'+
+                                  '<p class="app-notification__message">'+item.Usuario+' '+item.Notificacion+'</p>'+
+                                  '<p class="app-notification__meta"><small>'+item.Fecha+'</small></p>'+
+                                '</div>'+
+                              '</a>'+
+                            '</li>');
+                    });
+                    if(data[1]>0){
+                      $('#total_notif').text(data[1]);
+                      $('.app-notification__title').text('Tiene '+data[1]+' notificaciones nuevas');
+                    }else{
+                      $('#total_notif').hide();
+                      $('.app-notification__title').text('Tiene '+data[1]+' notificaciones nuevas');
+                    }
+                    
+                    console.log('Total de notificaciones '+data[1]);
+                  }else{
+                    console.log(data);
+                  }
+                },
+                error: function(data){
+                  console.log('Error al extraer las notificaciones');
+                  console.log(data.responseText);
+                }
+              });
+            }
+
+            get_notifications();
+
+            setInterval(get_notifications, 50000);
+          </script>
     <!-- Page specific javascripts-->
     
     <script type="text/javascript">

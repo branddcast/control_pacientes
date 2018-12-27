@@ -12,6 +12,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use App\Models\Color;
+use App\Facades\PushNotify;
 
 class CitasController extends Controller
 {
@@ -78,6 +79,7 @@ class CitasController extends Controller
         $cita->updated_at = null;
 
         if($cita->save()){
+            $notificar = PushNotify::push('agregó una nueva cita', \Auth::user()->usuario, 0);
             return response()->json(array('msg'=> true));
         }else{
             return response()->json(array('msg'=> false));
