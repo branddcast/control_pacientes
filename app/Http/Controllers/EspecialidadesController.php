@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Especialidad;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
+use App\Facades\PushNotify;
 
 
 class EspecialidadesController extends Controller
@@ -55,21 +56,11 @@ class EspecialidadesController extends Controller
         $ok = $especialidad->save();
 
         if($ok){
+            $notificar = PushNotify::push('agregó una nueva especialidad', \Auth::user()->usuario, 0);
             return redirect('especialidades')->with('success', '¡Especialidad agregada correctamente!');
         }else{
             return redirect('especialidades/create')->with('error', '¡Error al agregar la especialidad! Intente de nuevo.');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -101,6 +92,7 @@ class EspecialidadesController extends Controller
         $ok = $especialidad->save();
 
         if($ok){
+            $notificar = PushNotify::push('modificó una especialidad', \Auth::user()->usuario, 0);
             return redirect('especialidades')->with('success','¡Especialidad actualizado correctamente!');
         }else{
             return redirect('especialidades')->with('error','¡Error al intentar modificar la especialidad!');
@@ -119,6 +111,7 @@ class EspecialidadesController extends Controller
         $ok = $especialidades->delete();
 
         if($ok){
+            $notificar = PushNotify::push('eliminó una especialidad', \Auth::user()->usuario, 0);
             return redirect('especialidades')->with('success','¡Especialidad eliminada correctamente!');
         }else{
             return redirect('especialidades')->with('error','¡Error al intentar eliminar la especialidad!');

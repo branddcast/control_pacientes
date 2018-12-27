@@ -83,7 +83,7 @@
 									  	<div class="input-group-prepend">
 									    	<span class="input-group-text" style="height: 80px"><i class="fas fa-pencil-alt"></i></span>
 									  	</div>
-									  	<textarea id="direccion_paciente" class="form-control" name="direccion" style="height: 80px; min-height: 80px; max-height: 80px;" placeholder="Dirección">@if(isset($especialista)){{ $especialista->Direccion }}@endif</textarea>
+									  	<textarea id="direccion_paciente" class="form-control" name="direccion" style="height: 80px; min-height: 80px; max-height: 80px;" placeholder="Dirección" disabled>@if(isset($especialista)){{ $especialista->Direccion }}@endif</textarea>
 									</div>
 									<div class="col-md-4">
 										<div class="row">
@@ -108,13 +108,16 @@
 												<div class="input-group-prepend">
 													<span class="input-group-text" id="basic-addon1"><i class="far fa-flag"></i></span>
 												</div>
-												<select class="custom-select custom-select-sm" name="color" style="height: 31px" required>
-													<option selected disabled>Color</option>
-													@foreach ($colores as $color)
-														<option style="color: {{$color->textColor}}; background: {{$color->bgColor}};" value="{{$color->Id_Color}}" @isset($color)@if ($color->Id_Color == $color->Id_Color)
-															{{ 'selected'}}
+												<input type="hidden" name="color_oculto" 
+														@if(isset($especialista))
+															{{"value=".$especialista->Id_Color.""}}
 														@endif
-														@endisset><span>{{$color->bgColor}}</span></option>
+													/>
+												<select class="custom-select custom-select-sm" name="color" style="height: 31px">
+
+													<option selected disabled value="0">Color</option>
+													@foreach ($colores as $color)
+														<option style="color: {{$color->textColor}}; background: {{$color->bgColor}};" value="{{$color->Id_Color}}"><span>{{$color->bgColor}}</span></option>
 													@endforeach
 												</select>
 					                		</div>

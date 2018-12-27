@@ -202,9 +202,11 @@
               });
             }
 
-            get_notifications();
+            $(document).ready(function(){
+              get_notifications();
+              setInterval(get_notifications, 10000);
+            });
 
-            setInterval(get_notifications, 50000);
           </script>
     <!-- Page specific javascripts-->
     

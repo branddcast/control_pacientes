@@ -7,6 +7,7 @@ use App\Models\Paciente;
 use App\Models\Estatus;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
+use App\Facades\PushNotify;
 
 class PacientesController extends Controller
 {
@@ -66,6 +67,7 @@ class PacientesController extends Controller
         $ok = $paciente->save();
 
         if($ok){
+            $notificar = PushNotify::push('agregó un nuevo paciente', \Auth::user()->usuario, 0);
             return redirect('pacientes')->with('success', '¡Paciente agregado correctamente!');
         }else{
             return redirect('pacientes/create')->with('error', '¡Error al agregar el paciente! Intente de nuevo.');
@@ -120,6 +122,7 @@ class PacientesController extends Controller
         $ok = $paciente->save();
 
         if($ok){
+            $notificar = PushNotify::push('modificó un paciente', \Auth::user()->usuario, 0);
             return redirect('pacientes')->with('success', '¡Paciente modificado correctamente!');
         }else{
             return redirect('pacientes')->with('error', '¡Error al modificar el paciente! Intente de nuevo.');
@@ -138,6 +141,7 @@ class PacientesController extends Controller
         $ok = $pacientes->delete();
 
         if($ok){
+            $notificar = PushNotify::push('eliminó un paciente', \Auth::user()->usuario, 0);
             return redirect('pacientes')->with('success','¡Paciente eliminado correctamente!');
         }else{
             return redirect('pacientes')->with('error','¡Error al intentar eliminar el paciente!');

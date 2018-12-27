@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Color;
 use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
+use App\Facades\PushNotify;
 
 class ColoresController extends Controller
 {
@@ -32,8 +33,7 @@ class ColoresController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
         return view('colores.create');
     }
 
@@ -52,21 +52,11 @@ class ColoresController extends Controller
         $color->updated_at = null;
 
         if($color->save()){
+            $notificar = PushNotify::push('agregó un nuevo color', \Auth::user()->usuario, 0);
             return redirect('colores')->with('success', 'Color agregado correctamente!');
         }else{
             return redirect('colores/create')->with('error', '¡Error al agregar el color! Intente de nuevo.');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -98,6 +88,7 @@ class ColoresController extends Controller
         $ok = $color->save();
 
         if($ok){
+            $notificar = PushNotify::push('modificó un color', \Auth::user()->usuario, 0);
             return redirect('colores')->with('success','¡Color actualizado correctamente!');
         }else{
             return redirect('colores')->with('error','¡Error al intentar modificar el color!');
@@ -116,6 +107,7 @@ class ColoresController extends Controller
         $ok = $color->delete();
 
         if($ok){
+            $notificar = PushNotify::push('eliminó un color', \Auth::user()->usuario, 0);
             return redirect('colores')->with('success','¡Color eliminado correctamente!');
         }else{
             return redirect('colores')->with('error','¡Error al intentar eliminar el color!');

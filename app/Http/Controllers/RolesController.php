@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use App\Models\Rol;
+use App\Facades\PushNotify;
 
 class RolesController extends Controller
 {
@@ -54,21 +55,11 @@ class RolesController extends Controller
         $ok = $rol->save();
 
         if($ok){
+            $notificar = PushNotify::push('agregó un nuevo rol', \Auth::user()->usuario, 0);
             return redirect('roles')->with('success', '¡Rol agregado correctamente!');
         }else{
             return redirect('roles/create')->with('error', '¡Error al agregar el rol! Intente de nuevo.');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -100,6 +91,7 @@ class RolesController extends Controller
         $ok = $roles->save();
 
         if($ok){
+            $notificar = PushNotify::push('modificó un rol', \Auth::user()->usuario, 0);
             return redirect('roles')->with('success','¡Rol actualizado correctamente!');
         }else{
             return redirect('roles')->with('error','¡Error al intentar modificar el rol!');
@@ -115,6 +107,7 @@ class RolesController extends Controller
     public function destroy($id)
     {
         if(isset($id)){
+            $notificar = PushNotify::push('eliminó un rol', \Auth::user()->usuario, 0);
             return redirect('roles')->with('error','¡Error al intentar borrar el rol!');
         }
 

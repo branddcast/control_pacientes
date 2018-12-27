@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Input;
+use App\Facades\PushNotify;
 
 class UsuariosController extends Controller
 {

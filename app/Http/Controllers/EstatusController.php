@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Estatus;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
+use App\Facades\PushNotify;
 
 class EstatusController extends Controller
 {
@@ -53,21 +54,11 @@ class EstatusController extends Controller
         $ok = $estatus->save();
 
         if($ok){
+            $notificar = PushNotify::push('agregó un nuevo estatus', \Auth::user()->usuario, 0);
             return redirect('estatus')->with('success', '¡Estatus agregado correctamente!');
         }else{
             return redirect('estatus/create')->with('error', '¡Error al agregar el estatus! Intente de nuevo.');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        echo $id;
     }
 
     /**
@@ -99,6 +90,7 @@ class EstatusController extends Controller
         $ok = $estatus->save();
 
         if($ok){
+            $notificar = PushNotify::push('modificó un estatus', \Auth::user()->usuario, 0);
             return redirect('estatus')->with('success','¡Estatus actualizado correctamente!');
         }else{
             return redirect('estatus')->with('error','¡Error al intentar modificar el estatus!');
@@ -117,6 +109,7 @@ class EstatusController extends Controller
         $ok = $estatus->delete();
 
         if($ok){
+            $notificar = PushNotify::push('eliminó un estatus', \Auth::user()->usuario, 0);
             return redirect('estatus')->with('success','¡Estatus eliminado correctamente!');
         }else{
             return redirect('estatus')->with('error','¡Error al intentar eliminar el estatus!');

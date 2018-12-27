@@ -11,6 +11,7 @@ use App\Models\Cita;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
+use App\Facades\PushNotify;
 
 class EspecialistasController extends Controller
 {
@@ -81,23 +82,13 @@ class EspecialistasController extends Controller
         $ok = $especialista->save();
 
         if($ok){
+            $notificar = PushNotify::push('agregó un nuevo especialista', \Auth::user()->usuario, 0);
             return redirect('especialistas')->with('success', '¡Especialista agregado correctamente!');
         }else{
             return redirect('especialistas/create')->with('error', '¡Error al agregar el especialista! Intente de nuevo.');
         }
 
          return redirect('especialistas');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -127,13 +118,23 @@ class EspecialistasController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $hexadecimal = null;
+
         $especialista = Especialista::find($id);
         $especialista->nombre = $request->nombre;
         $especialista->ap_paterno = $request->ap_paterno;
         $especialista->ap_materno = $request->ap_materno;
         $especialista->edad = $request->edad;
         $especialista->telefono = $request->telefono;
-        $especialista->id_color = $request->color;
+
+        if($request->color == 0){
+            $hexadecimal = $request->color_oculto;
+        }else{
+            $hexadecimal = $request->color;
+        }
+
+        $especialista->id_color = $hexadecimal;
+        
         //$especialista->direccion = $request->direccion;
         $especialista->id_estatus = $request->estatus;
         $especialista->id_especialidad = $request->especialidad;
@@ -146,7 +147,8 @@ class EspecialistasController extends Controller
 
             if($citas->count() != 0){
             
-                if($citas->update(['Id_Color' => $request->color])){
+                if($citas->update(['Id_Color' => $hexadecimal])){
+                    $notificar = PushNotify::push('modificó un nuevo especialista', \Auth::user()->usuario, 0);
                     return redirect('especialistas')->with('success', '¡Especialista modificado correctamente!');
                 }else{
                     return redirect('especialistas')->with('error', '¡Error al modificar el color de la cita! Intente de nuevo.');
@@ -171,6 +173,7 @@ class EspecialistasController extends Controller
         $ok = $especialista->delete();
 
         if($ok){
+            $notificar = PushNotify::push('eliminó un especialista', \Auth::user()->usuario, 0);
             return redirect('especialistas')->with('success','¡Especialista eliminado correctamente!');
         }else{
             return redirect('especialistas')->with('error','¡Error al intentar eliminar al especialista!');
