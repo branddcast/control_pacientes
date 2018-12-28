@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -28,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    //protected $redirectTo = '/logout';
 
     /**
      * Create a new controller instance.
@@ -63,13 +66,31 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'usuario' => $data['user'],
-            'id_rol' => 1,
-            'id_estatus' => 1
-        ]);
+            return User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'usuario' => str_replace('.', '_', substr($data['email'],0, strpos($data['email'],'@')) ),
+                'Id_Rol' => 2,
+                'Id_Estatus' => 3,
+            ]);
+
     }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        
+        event(new Registered($user = $this->create($request->all())));
+
+        //$this->guard()->login($user);
+
+        return $this->registered($request, $user)
+                        ?: redirect('register')->with('success', '¡Registro exitoso! Ingrese a su correo electrónico para activar la cuenta y poder iniciar sesión en la plataforma.');
+    }
+
+    /*protected function registered(Request $request, $user)
+    {
+        return redirect('register')->with('danger', '¡Registro no exitoso! Email registrado intente con un nuevo correo.');
+    }*/
 }

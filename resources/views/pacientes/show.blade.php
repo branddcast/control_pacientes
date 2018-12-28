@@ -33,7 +33,7 @@
 		                			{{ session('error') }}
 		                		</div>
 		                	@endif
-		                		</div>
+		                </div>
                 		<div class="col-md-2 offset-md-1 text-right">
                 			<a class="btn btn-warning btn-sm" href="{{ route('pacientes.create') }}"><i class="fas fa-plus"></i> Nuevo</a>
                 		</div>

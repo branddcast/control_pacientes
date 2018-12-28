@@ -8,6 +8,16 @@
                 <div class="card-header">{{ __('Inicio de Sesión') }}</div>
 
                 <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                    @if (session('warning'))
+                        <div class="alert alert-warning">
+                            {{ session('warning') }}
+                        </div>
+                    @endif
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -40,7 +50,7 @@
                         </div>
 
                         <div class="row justify-content-center">
-                                <div class="col-md-3">
+                                <div class="col-md-3 align-self-center">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
@@ -48,6 +58,10 @@
                                             {{ __('Recordarme') }}
                                         </label>
                                     </div>
+
+                                    <a class="btn btn-link" style="margin: 30px 0 0 -15px !important" href="{{ route('register') }}">
+                                        <i class="fas fa-user-plus"></i> {{ __('Registrar nueva cuenta') }}
+                                    </a>
                                 </div>
 
                                 <div class="col-md-3">
@@ -56,8 +70,8 @@
                                     </button>
 
                                     @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            {{ __('Olvidaste la contraseña?') }}
+                                        <a class="btn btn-link" style="margin: 15px 0 0 -15px !important" href="{{ route('password.request') }}">
+                                            <i class="fas fa-question"></i> {{ __('Olvidaste la contraseña?') }}
                                         </a>
                                     @endif
                                 </div>
