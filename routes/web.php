@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Verificar email
+Auth::routes(['verify' => true]);
+Route::get('verificarcuenta/{token}/{id}'	, 'UsuariosController@verificarEmail')->name('verificarcuenta');
+
 //Rutas de Controladores
 Route::resource('pacientes'		, 'PacientesController')->middleware('auth', 'rol:Super Admin, Admin');
 Route::resource('estatus'		, 'EstatusController')->middleware('auth', 'rol:Super Admin, Admin');

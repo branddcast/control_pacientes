@@ -13973,6 +13973,13 @@ be a descendant of the grid when it is being dragged.
     width: 30px;
     height: 30px;
   }
+
+  .sidebar-mini.sidenav-toggled .app-sidebar__user sub{
+    margin: 18px 0 0 -25px !important;
+    font-size: 6pt !important;
+    border-style: none;
+    border-width: 0;
+  }
   .sidebar-mini.sidenav-toggled .app-content {
     margin-left: 50px;
   }

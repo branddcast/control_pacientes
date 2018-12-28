@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
+use App\Mail\verificarEmail;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -66,24 +69,30 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-            return User::create([
+            $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'usuario' => str_replace('.', '_', substr($data['email'],0, strpos($data['email'],'@')) ),
                 'Id_Rol' => 2,
                 'Id_Estatus' => 3,
+                'codigo_verificacion' => str_random(10)
             ]);
+
+            Mail::to($user->email)->send(new verificarEmail($user));
+
+            return $user;
 
     }
 
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
-        
+
         event(new Registered($user = $this->create($request->all())));
 
         //$this->guard()->login($user);
+        $this->guard()->logout();
 
         return $this->registered($request, $user)
                         ?: redirect('register')->with('success', '¡Registro exitoso! Ingrese a su correo electrónico para activar la cuenta y poder iniciar sesión en la plataforma.');
@@ -91,6 +100,7 @@ class RegisterController extends Controller
 
     /*protected function registered(Request $request, $user)
     {
-        return redirect('register')->with('danger', '¡Registro no exitoso! Email registrado intente con un nuevo correo.');
+        $this->guard()->logout();
+        return redirect('/login')->with('status', '¡Registro exitoso! Ingrese a su correo electrónico para activar la cuenta y poder iniciar sesión en la plataforma.');
     }*/
 }

@@ -8,16 +8,19 @@
                 <div class="card-header">{{ __('Inicio de Sesión') }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 text-center">
+                            @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @elseif(session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
                         </div>
-                    @endif
-                    @if (session('warning'))
-                        <div class="alert alert-warning">
-                            {{ session('warning') }}
-                        </div>
-                    @endif
+                    </div>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 

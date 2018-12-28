@@ -79,7 +79,7 @@
                 <!-- Sidebar menu-->
                 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
                 <aside class="app-sidebar">
-                  <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" style="max-width: 50px" src="{{ url('img/user.png') }}" alt="{{ Auth::user()->usuario}}">
+                  <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" style="max-width: 50px" src="{{ url('img/user.png') }}" alt="{{ Auth::user()->usuario}}"><sub style="margin: 25px 25px 0 -30px; font-size: 11pt"><i class="fas fa-circle" style="color: #21E000FF; border: 2px solid rgb(34, 45, 50); border-radius: 180px; background: #21E000FF; width: 100%; height: 80%"></i></sub>
                     <div>
                       <p class="app-sidebar__user-name">{{ Auth::user()->usuario}}</p>
                       <p class="app-sidebar__user-designation"><small>{{ Auth::user()->rol->Nombre}}</small></p>
@@ -148,7 +148,7 @@
     <script src="{{ asset('js/main.js') }}"></script>
     
     <!-- The javascript plugin to display page loading on top-->
-    <script src="{{ asset('js/plugins/pace.min.js') }}"></script>
+    <script data-pace-options='{ "ajax": false }' src="{{ asset('js/plugins/pace.min.js') }}"></script>
 
     <!-- Script Notificaciones -->
 
@@ -210,7 +210,7 @@
 
             $(document).ready(function(){
               get_notifications();
-              setInterval(get_notifications, 10000);
+              setInterval(get_notifications, 1000);
             });
 
           </script>

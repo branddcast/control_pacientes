@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Input;
 use App\Facades\PushNotify;
+use Carbon\Carbon;
 
 class UsuariosController extends Controller
 {
@@ -95,5 +96,30 @@ class UsuariosController extends Controller
     public function destroy($id)
     {
         \Auth::user()->authorizeRoles(['Super Admin']);
+    }
+
+    public function verificarEmail($token, $id)
+    {
+        $verifyUser = User::where('codigo_verificacion', $token)->
+            where('id', $id)->first();
+
+        $error_1 = "Cuenta ya verificada.";
+        $error_2 = "Correo electrónico no identificado.";
+        $success = "Correo verificado. Ya puede ingresar a la plataforma.";
+    
+        if(isset($verifyUser) ){
+            if($verifyUser->codigo_verificacion != null){
+                $verifyUser->email_verified_at = Carbon::now();
+                $verifyUser->codigo_verificacion = null;
+                $verifyUser->Id_Estatus = 1;
+                $verifyUser->save();
+            }else{
+                return redirect('login')->with('error', $error_1);
+            }
+        }else{
+            return redirect('login')->with('error', $error_2);
+        }
+ 
+        return redirect('login')->with('success', $success);
     }
 }

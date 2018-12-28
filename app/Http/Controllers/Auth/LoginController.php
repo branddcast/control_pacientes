@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\verificarEmail;
 
 class LoginController extends Controller
 {
@@ -54,6 +57,7 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
+        $this->guard()->logout();
         $this->validateLogin($request);
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -129,9 +133,11 @@ class LoginController extends Controller
 
     public function authenticated(Request $request, $user)
     {
-        if ($user->email_verified_at == null) {
-            auth()->logout();
-            return back()->with('status', 'Necesita confirmar su cuenta. Hemos enviado un correo de activación, favor de checar su correo.');
+        if ($user->email_verified_at == null && $user->codigo_verificacion != null) {
+            //auth()->logout();
+            $this->guard()->logout();
+            Mail::to($user->email)->send(new verificarEmail($user));
+            return back()->with('error', 'Necesita confirmar su cuenta. Hemos enviado un correo de activación, favor de checar su correo.');
         }
         return redirect()->intended($this->redirectPath());
     }
