@@ -112,8 +112,16 @@ class EstatusController extends Controller
     public function destroy($id)
     {
         \Auth::user()->authorizeRoles(['Super Admin']);
-        
+
         $estatus = Estatus::find($id);
+
+        if($estatus->Nombre == 'Alta'){
+            return redirect('estatus')->with('error','¡Error al intentar eliminar el estatus! \'Alta\' no está permitido eliminarlo');
+        }else if($estatus->Nombre == 'Baja'){
+            return redirect('estatus')->with('error','¡Error al intentar eliminar el estatus! \'Baja\' no está permitido eliminarlo');
+        }else if($estatus->Nombre == 'Suspensión'){
+            return redirect('estatus')->with('error','¡Error al intentar eliminar el estatus! \'Suspensión\' no está permitido eliminarlo');
+        }
         $ok = $estatus->delete();
 
         if($ok){

@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use App\Models\Color;
 use App\Facades\PushNotify;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\verificarCita;
 
 class CitasController extends Controller
 {
@@ -23,8 +25,8 @@ class CitasController extends Controller
      */
     public function index()
     {
-        $especialistas = Especialista::all();
-        $pacientes = Paciente::all();
+        $especialistas = Especialista::where('Id_Estatus', 1)->get();
+        $pacientes = Paciente::where('Id_Estatus', 1)->get();
 
         return view('citas.show', ['pacientes' => $pacientes, 'especialistas' => $especialistas]);
     }
@@ -70,6 +72,7 @@ class CitasController extends Controller
         $cita->updated_at = null;
 
         if($cita->save()){
+            Mail::to($especialista->Email)->send(new verificarCita($especialista, $cita));
             $notificar = PushNotify::push('agregó una nueva cita', \Auth::user()->usuario, 0);
             return response()->json(array('msg'=> true));
         }else{
@@ -150,6 +153,9 @@ class CitasController extends Controller
         $cita->updated_at = Carbon::now();
 
         if($cita->update()){
+            if(date_create($cita->Fecha_Cita) > date_create(date("Y-m-d H:i:00",time()))){
+                Mail::to($especialista->Email)->send(new verificarCita($especialista, $cita));
+            }
             $notificar = PushNotify::push('modificó una cita', \Auth::user()->usuario, 0);
             return response()->json(array('msg'=> true));
         }else{

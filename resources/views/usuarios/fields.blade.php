@@ -96,11 +96,14 @@
 			                		    </div>
 			                		@endempty
 
-			                		@if ($usuario->codigo_verificacion != null)
+			                		@isset ($usuario)
+			                		    @if ($usuario->codigo_verificacion != null)
 			                			<div class="col-md-12 mb-1">
 			                		    	<small class="text-danger">El usuario debe activar la cuenta para asignar Rol y Estatus.</small>
 			                		    </div>
-			                		@endif
+			                			@endif
+			                		@endisset
+			                		
 			                		<!-- Input Rol -->
 			                		<div class="col-md-6 input-group input-group-sm mb-3">
 										<div class="input-group-prepend">
@@ -109,9 +112,11 @@
 										<select name="rol" class="custom-select custom-select-sm" @empty ($usuario)
 											{{ 'disabled' }}
 										@endempty
-										@if ($usuario->codigo_verificacion != null)
-											{{'disabled'}}
-										@endif>
+										@isset ($usuario)
+											@if ($usuario->codigo_verificacion != null)
+												{{'disabled'}}
+											@endif>
+										@endisset
 											<option selected disabled>Rol</option>
 											@foreach ($roles as $rol)
 												<option value="{{$rol->Id_Rol}}" 
@@ -134,10 +139,11 @@
 										<select name="estatus" class="custom-select custom-select-sm" @empty ($usuario)
 											{{ 'disabled' }}
 										@endempty
-										@if ($usuario->codigo_verificacion != null)
-											{{ 'disabled' }}
-										@endif>
-
+										@isset ($usuario)
+											@if ($usuario->codigo_verificacion != null)
+												{{ 'disabled' }}
+											@endif>
+										@endisset
 											<option selected disabled>Estatus</option>
 											@foreach ($estatus as $estatus_)
 												<option value="{{$estatus_->Id_Estatus}}"

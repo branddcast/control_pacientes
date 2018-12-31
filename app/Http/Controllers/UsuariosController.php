@@ -174,7 +174,9 @@ class UsuariosController extends Controller
 
         $user->name = $request->nombre;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password);
+        if(isset($request->password)){
+            $user->password = Hash::make($request->password);
+        }
         $user->usuario = $nombre_usuario;
 
             if($user->save()){

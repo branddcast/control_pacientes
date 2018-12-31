@@ -21,7 +21,11 @@
 							@endif p-0" style="padding-left: 10px !important; padding-right: 10px !important">
 								<div class="row mt-1">
 									<div class="col-md-12">
+										@if ($notificaciones[$i]['Usuario'] == null)
+											<strong>{{'Usuario no identificado: '}}</strong>
+										@else
 										<strong>{{ $notificaciones[$i]['Usuario'] }}:</strong>
+										@endif
 									</div>
 								</div>
 

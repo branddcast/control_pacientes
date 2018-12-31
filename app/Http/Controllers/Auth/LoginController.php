@@ -135,6 +135,11 @@ class LoginController extends Controller
 
     public function authenticated(Request $request, $user)
     {
+        if($user->Id_Estatus == 2 || $user->Id_Estatus == 3){
+            $this->guard()->logout();
+            return back()->with('error', '¡No tiene acceso al sistema! Su cuenta está suspendida, contacte con algún administrador para la activación.');
+            }
+
         if ($user->email_verified_at == null && $user->codigo_verificacion != null) {
             //auth()->logout();
             $this->guard()->logout();

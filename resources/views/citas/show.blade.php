@@ -378,7 +378,7 @@
 			especialista: $('#especialista_cita').val(),
 			color: '',
 			textColor: '',
-			usuario: '',
+			usuario: '{{Auth::user()->id}}',
 			_token: '<?php echo csrf_token() ?>'
 		}; 
 	}

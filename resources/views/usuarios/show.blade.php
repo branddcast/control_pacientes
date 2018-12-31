@@ -64,6 +64,8 @@
 									<!-- Email -->
 									<td>{{$usuario->email}}</td>
 									<!-- Estatus -->
+									@if ($usuario->Id_Estatus != null)
+										
 									@if ($usuario->estatus->Icono != '')
 						  				<td class="text-center">
 						  					<span class="badge badge-{{ $usuario->estatus->Icono }}" style="width:80px">
@@ -71,7 +73,16 @@
 						  					</span>
 						  				</td>
 						  			@else
-						  				<td class="text-center"></td>
+						  				<td class="text-center">
+						  					<span class="badge badge-primary" style="width:80px">
+						  						{{ $usuario->estatus->Nombre }}
+						  					</span>
+						  				</td>
+						  			@endif
+						  			@else
+						  				<td class="text-center">
+						  					
+						  				</td>
 						  			@endif
 									<!-- Rol -->
 									<td>{{$usuario->rol->Nombre}}</td>

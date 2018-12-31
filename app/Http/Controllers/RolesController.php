@@ -112,8 +112,17 @@ class RolesController extends Controller
     public function destroy($id)
     {
         \Auth::user()->authorizeRoles(['Super Admin']);
-        if(isset($id)){
+
+        $rol = Rol::find($id);
+
+        if($rol->Nombre == 'Super Admin' || $rol->Nombre == 'Admin'){
+            return redirect('roles')->with('error','¡Error al intentar borrar el rol! \''.$rol->Nombre.'\' no está permitido eliminarlo.');
+        }
+        
+        if($rol->delete()){
             $notificar = PushNotify::push('eliminó un rol', \Auth::user()->usuario, 0);
+            return redirect('roles')->with('error','¡Rol eliminado correctamente!');
+        }else{
             return redirect('roles')->with('error','¡Error al intentar borrar el rol!');
         }
 

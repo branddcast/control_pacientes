@@ -20,9 +20,11 @@ class NotificacionesController extends Controller
         $array = array();
 
         for ($i=0; $i < count($notificaciones); $i++) { 
+
+            $usuario = ($notificaciones[$i]->Id_Usuario != null) ? $notificaciones[$i]->usuario->usuario : null;
             $array[$i] = [
                 'Notificacion' => $notificaciones[$i]->Notificacion,
-                'Usuario' => $notificaciones[$i]->usuario->usuario,
+                'Usuario' => $usuario,                
                 'Estado' => $notificaciones[$i]->Estado,
                 'Fecha' => $notificaciones[$i]->created_at,
             ];
