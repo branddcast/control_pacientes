@@ -45,7 +45,7 @@
 								</div>
 								<div class="row">
 									<!-- Input Edad -->
-									<div class="col-md-3 input-group input-group-sm mb-3">
+									<div class="col-md-2 input-group input-group-sm mb-3">
 									  	<div class="input-group-prepend">
 									    	<span class="input-group-text"><i class="fas fa-sort-numeric-up"></i></span>
 									  	</div>
@@ -55,12 +55,22 @@
 									  	</div>
 									</div>
 									<!-- Input Teléfono -->
-			                		<div class="col-md-4 offset-md-1 input-group input-group-sm mb-3">
+			                		<div class="col-md-2 input-group input-group-sm mb-3">
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="basic-addon1"><i class="fas fa-phone"></i></span>
 										</div>
 			                			<input id="telefono_paciente" class="form-control form-control-sm" type="text" name="telefono" placeholder="Teléfono" @isset($especialista) value="{{ $especialista->Telefono }}" @endisset required>
 			                		</div>
+
+			                		<!-- Input Email -->
+			                		<div class="col-md-4 input-group input-group-sm mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="basic-addon1"><i class="fas fa-at"></i></span>
+										</div>
+			                			<input id="email_paciente" class="form-control form-control-sm" type="email" name="email" placeholder="Correo Electrónico" @isset($especialista) value="{{ $especialista->Email }}" @endisset required>
+			                		</div>
+
+
 			                		<!-- Input Estatus -->
 			                		<div class="col-md-4 input-group input-group-sm mb-3">
 										<div class="input-group-prepend">
@@ -83,7 +93,7 @@
 									  	<div class="input-group-prepend">
 									    	<span class="input-group-text" style="height: 80px"><i class="fas fa-pencil-alt"></i></span>
 									  	</div>
-									  	<textarea id="direccion_paciente" class="form-control" name="direccion" style="height: 80px; min-height: 80px; max-height: 80px;" placeholder="Dirección" disabled>@if(isset($especialista)){{ $especialista->Direccion }}@endif</textarea>
+									  	<textarea id="direccion_paciente" class="form-control" name="direccion" style="height: 80px; min-height: 80px; max-height: 80px;" placeholder="Dirección">@if(isset($especialista)){{ $especialista->Direccion }}@endif</textarea>
 									</div>
 									<div class="col-md-4">
 										<div class="row">

@@ -121,7 +121,7 @@ class RolesController extends Controller
         
         if($rol->delete()){
             $notificar = PushNotify::push('eliminó un rol', \Auth::user()->usuario, 0);
-            return redirect('roles')->with('error','¡Rol eliminado correctamente!');
+            return redirect('roles')->with('success','¡Rol eliminado correctamente!');
         }else{
             return redirect('roles')->with('error','¡Error al intentar borrar el rol!');
         }

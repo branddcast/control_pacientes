@@ -245,8 +245,8 @@
  
 <body class="text-center">
 	<div class="container">
-		<div class="row justify-content-center mt-3">
         @isset($especialista)	
+        <div class="row justify-content-center mt-3">
         	<div class="col-md-6">
 				<div class="alert alert-warning" role="alert">
 					<h3>Acción Requerida</h3>
@@ -271,6 +271,6 @@
 			</div>			
 		</div>
 		@endisset
+	</div>
 </body>
- 
 </html>

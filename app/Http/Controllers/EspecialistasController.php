@@ -73,8 +73,9 @@ class EspecialistasController extends Controller
         $especialista->ap_materno = $request->ap_materno;
         $especialista->edad = $request->edad;
         $especialista->telefono = $request->telefono;
+        $especoalista->email = $request->email;
         $especialista->id_color = $request->color;
-        //$especialista->direccion = $request->direccion;
+        $especialista->direccion = $request->direccion;
         $especialista->id_estatus = $request->estatus;
         $especialista->id_especialidad = $request->especialidad;
         $especialista->created_at = Carbon::now();
@@ -126,6 +127,7 @@ class EspecialistasController extends Controller
         $especialista->ap_materno = $request->ap_materno;
         $especialista->edad = $request->edad;
         $especialista->telefono = $request->telefono;
+        $especialista->email = $request->email;
 
         if($request->color == 0){
             $hexadecimal = $request->color_oculto;
@@ -135,7 +137,7 @@ class EspecialistasController extends Controller
 
         $especialista->id_color = $hexadecimal;
         
-        //$especialista->direccion = $request->direccion;
+        $especialista->direccion = $request->direccion;
         $especialista->id_estatus = $request->estatus;
         $especialista->id_especialidad = $request->especialidad;
         $especialista->created_at = Carbon::now();
@@ -148,12 +150,13 @@ class EspecialistasController extends Controller
             if($citas->count() != 0){
             
                 if($citas->update(['Id_Color' => $hexadecimal])){
-                    $notificar = PushNotify::push('modificó un nuevo especialista', \Auth::user()->usuario, 0);
+                    $notificar = PushNotify::push('modificó un especialista', \Auth::user()->usuario, 0);
                     return redirect('especialistas')->with('success', '¡Especialista modificado correctamente!');
                 }else{
                     return redirect('especialistas')->with('error', '¡Error al modificar el color de la cita! Intente de nuevo.');
                 }
             }else{
+                $notificar = PushNotify::push('modificó un especialista', \Auth::user()->usuario, 0);
                 return redirect('especialistas')->with('success', '¡Especialista modificado correctamente!');
             }
         }else{

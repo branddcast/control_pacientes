@@ -49,7 +49,9 @@
 						      		<th scope="col">Especialidad</th>
 						      		<th scope="col">Nombre</th>
 						      		<th scope="col">Edad</th>
+						      		<th scope="col">Email</th>
 						      		<th scope="col">Teléfono</th>
+						      		<th scope="col">Dirección</th>
 						      		<th scope="col">Acciones</th>
 						    	</tr>
 						  	</thead>
@@ -83,7 +85,9 @@
 						  			@endif
 									<td>{{$especialista->Nombre." ".$especialista->Ap_Paterno." ".$especialista->Ap_Materno}}</td>
 									<td>{{$especialista->Edad}}</td>
+									<td>{{$especialista->Email}}</td>
 									<td>{{$especialista->Telefono}}</td>
+									<td>{{substr($especialista->Direccion, 0, 50)}}...</td>
 									<td class="text-center">
 										<form id="especialista_delete" action="{{route('especialistas.destroy', $especialista->Id_Especialista)}}" method="post">
 								            <a href="{{ route('especialistas.edit', ['id' => $especialista->Id_Especialista]) }}" class="btn btn-info btn-sm"><i class="far fa-edit"></i></a>

@@ -29,6 +29,7 @@ Route::resource('citas'			, 'CitasController')->middleware('auth', 'rol:Super Ad
 Route::resource('colores'		, 'ColoresController')->middleware('auth', 'rol:Super Admin, Admin');
 Route::resource('usuarios'		, 'UsuariosController')->middleware('auth', 'rol:Super Admin, Admin');
 Route::resource('notificaciones', 'NotificacionesController')->middleware('auth', 'rol:Super Admin, Admin');
+Route::get('historia_clinica/create/{id}', 'HistoriasClinicasController@create')->middleware('auth', 'rol:Super Admin, Admin');
 
 //Rutas de Citas
 Route::get( '/citas_json'		, 'CitasController@citas_json')->name('citas_json');

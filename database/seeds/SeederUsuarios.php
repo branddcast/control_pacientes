@@ -17,6 +17,7 @@ class SeederUsuarios extends Seeder
         	'name'  => 'Super Administrador de Sistema',
         	'email'   => 'jcastillo.brandon@gmail.com',
         	'password'=> bcrypt('admin'),
+            'email_verified_at' => Carbon::now(),
         	'Id_Rol'  => 1,
         	'Id_Estatus' => 1,
         	'created_at' => Carbon::now(new DateTimeZone('America/Monterrey'))

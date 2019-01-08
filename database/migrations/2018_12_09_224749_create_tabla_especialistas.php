@@ -21,6 +21,7 @@ class CreateTablaEspecialistas extends Migration
             $table->string('Ap_Materno', 30)->nullable();
             $table->integer('Edad');
             $table->string('Telefono', 20);
+            $table->string('Direccion', 200);
             $table->timestamps();
             $table->charset = 'utf8';
             $table->collation = 'utf8_general_ci';
