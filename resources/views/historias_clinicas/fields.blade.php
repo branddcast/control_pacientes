@@ -1790,6 +1790,343 @@
 					      	</div>
 					    </div>
 
+					    <!-- Antecedentes Gineco-Obstetricos  -->
+
+					  	<div class="card">
+					    	<div class="card-header" id="headingTwo">
+					      		<h2 class="mb-0">
+					        		<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#Antecedentes_Gineco-Obstetricos" aria-expanded="false" aria-controls="Antecedentes_Gineco-Obstetricos">
+					          			Antecedentes Gineco-Obstétricos
+					        		</button>
+					      		</h2>
+					    	</div>
+					    	<div id="Antecedentes_Gineco-Obstetricos" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+					      		<div class="card-body">
+
+					        		<div class="row align-items-center mb-2">
+
+					        			<!-- Menarca -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Menarca</span>
+					        			</div>
+
+					        			<div class="col-md-2">
+							        		<input class="form-control form-control-sm" type="text" name="menarca">
+						        		</div>
+
+						        		<!-- Ritmo -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Ritmo</span>
+					        			</div>
+
+					        			<div class="col-md-2">
+							        		<input class="form-control form-control-sm" type="text" name="ritmo">
+						        		</div>
+
+						        		<!-- Ult. Menstruación -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Últ. Menstruación</span>
+					        			</div>
+
+					        			<div class="col-md-2">
+							        		<input class="form-control form-control-sm" type="text" name="ult_menstruacion" placeholder="Fecha">
+						        		</div>
+					        		</div>
+
+					        		<div class="row align-items-center mb-2">
+
+					        			<!-- Parejas Sexuales -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Parejas Sexuales</span>
+					        			</div>
+
+					        			<div class="col-md-2">
+							        		<input class="form-control form-control-sm" type="text" name="parejas_sexuales" placeholder="Cantidad">
+						        		</div>
+
+						        		<!-- Dismenorrea -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Dismenorrea</span>
+					        			</div>
+
+					        			<div class="col-md-2 text-center">
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="si_dismenorrea" type="radio" name="dismenorrea" value="1">
+					        					<label class="form-check-label" for="si_dismenorrea">Sí</label>
+					        				</div>
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="no_dismenorrea" type="radio" name="dismenorrea" value="2">
+						        				<label class="form-check-label" for="no_dismenorrea">No</label>
+						        			</div>
+					        			</div>
+
+						        		<!-- Tratamiento -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Tratamiento</span>
+					        			</div>
+
+					        			<div class="col-md-2">
+							        		<input class="form-control form-control-sm" type="text" name="tratamiento_dismenorrea">
+						        		</div>
+					        		</div>
+
+					        		<div class="row align-items-center mb-2">
+					        			<!-- Vida sexual activa -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Vida sexual activa</span>
+					        			</div>
+
+					        			<div class="col-md-2">
+							        		<input class="form-control form-control-sm" type="text" name="vida_sexual" placeholder="Inicio">
+						        		</div>
+
+						        		<!-- Embarazos -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Embarazos</span>
+					        			</div>
+
+					        			<div class="col-md-2">
+							        		<input class="form-control form-control-sm" type="text" name="embarazos" placeholder="Cantidad">
+						        		</div>
+
+						        		<!-- Partos -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Partos</span>
+					        			</div>
+
+					        			<div class="col-md-2">
+							        		<input class="form-control form-control-sm" type="text" name="partos" placeholder="Cantidad">
+						        		</div>
+					        		</div>
+
+					        		<div class="row align-items-center mb-2">
+
+						        		<!-- Cesáreas -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Cesáreas</span>
+					        			</div>
+
+					        			<div class="col-md-2">
+							        		<input class="form-control form-control-sm" type="text" name="cesareas" placeholder="Cantidad">
+						        		</div>
+
+						        		<!-- Abortos -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Abortos</span>
+					        			</div>
+
+					        			<div class="col-md-2">
+							        		<input class="form-control form-control-sm" type="text" name="abortos" placeholder="Cantidad">
+						        		</div>
+
+						        		<!-- Control Natal -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Control Natal</span>
+					        			</div>
+
+					        			<div class="col-md-2 text-center">
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="si_control_natal" type="radio" name="control_natal" value="1">
+					        					<label class="form-check-label" for="si_control_natal">Sí</label>
+					        				</div>
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="no_control_natal" type="radio" name="control_natal" value="2">
+						        				<label class="form-check-label" for="no_control_natal">No</label>
+						        			</div>
+					        			</div>
+					        		</div>
+
+					        		<div class="row align-items-center mb-2">
+
+						        		<!-- Dispareunia -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Dispareunia</span>
+					        			</div>
+
+					        			<div class="col-md-2 p-0 text-center">
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="si_dispareunia" type="radio" name="dispareunia" value="1">
+					        					<label class="form-check-label" for="si_dispareunia">Sí</label>
+					        				</div>
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="no_dispareunia" type="radio" name="dispareunia" value="2">
+						        				<label class="form-check-label" for="no_dispareunia">No</label>
+						        			</div>
+					        			</div>
+
+					        			<!-- Mastografía -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Mastografía</span>
+					        			</div>
+
+					        			<div class="col-md-2 text-center">
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="si_mastografia" type="radio" name="mastografia" value="1">
+					        					<label class="form-check-label" for="si_mastografia">Sí</label>
+					        				</div>
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="no_mastografia" type="radio" name="mastografia" value="2">
+						        				<label class="form-check-label" for="no_mastografia">No</label>
+						        			</div>
+					        			</div>
+
+						        		<!-- Fecha -->
+
+					        			<div class="col-md-1 text-right">
+					        				<span>Fecha</span>
+					        			</div>
+
+					        			<div class="col-md-3">
+							        		<input class="form-control form-control-sm" type="text" name="fecha_mastografia">
+						        		</div>
+					        		</div>
+
+					        		<div class="row align-items-center mb-2">
+
+						        		<!-- Ultrasonido Mamario -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Ultrasonido Mamario</span>
+					        			</div>
+
+					        			<div class="col-md-2 p-0 text-center">
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="si_ultrasonido_mamario" type="radio" name="ultrasonido_mamario" value="1">
+					        					<label class="form-check-label" for="si_ultrasonido_mamario">Sí</label>
+					        				</div>
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="no_ultrasonido_mamario" type="radio" name="ultrasonido_mamario" value="2">
+						        				<label class="form-check-label" for="no_ultrasonido_mamario">No</label>
+						        			</div>
+					        			</div>
+
+					        			<!-- Fecha -->
+
+					        			<div class="col-md-1 text-right">
+					        				<span>Fecha</span>
+					        			</div>
+
+					        			<div class="col-md-3">
+							        		<input class="form-control form-control-sm" type="text" name="fecha_ultrasonido_mamario">
+						        		</div>
+
+					        			<!-- Mastografía -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Autoexploración Mamaria</span>
+					        			</div>
+
+					        			<div class="col-md-2 text-center">
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="si_autoexploracion" type="radio" name="autoexploracion" value="1">
+					        					<label class="form-check-label" for="si_autoexploracion">Sí</label>
+					        				</div>
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="no_autoexploracion" type="radio" name="autoexploracion" value="2">
+						        				<label class="form-check-label" for="no_autoexploracion">No</label>
+						        			</div>
+					        			</div>
+					        		</div>
+
+					        		<div class="row align-items-center mb-2">
+
+						        		<!-- Numero de Ultrasonidos -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>No. Ultrasonidos</span>
+					        			</div>
+
+					        			<div class="col-md-2 text-center">
+					        				<input class="form-control form-control-sm" type="text" name="cantidad_ultrasonidos" placeholder="Cantidad">
+					        			</div>
+
+					        			<!-- Fecha -->
+
+					        			<div class="col-md-1 text-right">
+					        				<span>Fecha</span>
+					        			</div>
+
+					        			<div class="col-md-3">
+							        		<input class="form-control form-control-sm" type="text" name="fecha_ultrasonido" placeholder="Último">
+						        		</div>
+
+					        			<!-- Resultado -->
+
+					        			<div class="col-md-1 p-0 text-right">
+					        				<span>Resultado</span>
+					        			</div>
+
+					        			<div class="col-md-3 text-center">
+					        				<input class="form-control form-control-sm" type="text" name="resultado_ultrasonido">
+					        			</div>
+					        		</div>
+
+					        		<div class="row align-items-center mb-2">
+
+						        		<!-- Colposcopia Papanicolaou -->
+
+					        			<div class="col-md-2 text-right">
+					        				<span>Colposcopía y Papanicolaou</span>
+					        			</div>
+
+					        			<div class="col-md-2 p-0 text-center">
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="si_colposcopia" type="radio" name="colposcopia" value="1">
+					        					<label class="form-check-label" for="si_colposcopia">Sí</label>
+					        				</div>
+					        				<div class="form-check form-check-inline">
+					        					<input class="form-check-input" id="no_colposcopia" type="radio" name="colposcopia" value="2">
+						        				<label class="form-check-label" for="no_colposcopia">No</label>
+						        			</div>
+					        			</div>
+
+					        			<!-- Fecha -->
+
+					        			<div class="col-md-1 text-right">
+					        				<span>Fecha</span>
+					        			</div>
+
+					        			<div class="col-md-3">
+							        		<input class="form-control form-control-sm" type="text" name="fecha_colposcopia">
+						        		</div>
+
+					        			<!-- Resultado -->
+
+					        			<div class="col-md-1 p-0 text-right">
+					        				<span>Resultado</span>
+					        			</div>
+
+					        			<div class="col-md-3 text-center">
+					        				<input class="form-control form-control-sm" type="text" name="resultado_colposcopia">
+					        			</div>
+					        		</div>
+
+					        		<div class="row align-items-center">
+					        			<div class="col-md-3 text-right">
+					        				<span>Tipo de Planificación Familiar</span>
+					        			</div>
+					        			<div class="col-md-9">
+					        				<input class="form-control form-control-sm" type="text" name="tipo_planificacion">
+					        			</div>
+					        		</div>
+					      		</div>
+					      	</div>
+					    </div>
+
 					</div>
                 </div>
             </div>
