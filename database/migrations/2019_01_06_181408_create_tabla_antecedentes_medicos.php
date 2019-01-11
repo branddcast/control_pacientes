@@ -35,7 +35,7 @@ class CreateTablaAntecedentesMedicos extends Migration
             $table->string('Epilepsia', 100);
             $table->string('Cancer', 100);
             $table->string('Transfusiones', 100);
-            $table->string('Otras', 200);
+            $table->string('Otras', 200)->nullable();
             $table->timestamps();
             $table->charset = 'utf8';
             $table->collation = 'utf8_general_ci';

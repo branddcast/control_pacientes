@@ -32,6 +32,9 @@
     <!-- Styles -->
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 
+    <!-- To file uploader -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 </head>
@@ -143,6 +146,7 @@
     <main class="app-content">
           @yield('content')  
     </main>
+    
     <!-- Essential javascripts for application to work-->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="{{ asset('js/main.js') }}"></script>
@@ -247,6 +251,10 @@
         ga('send', 'pageview');
       }
     </script>
+
+    
+
+
 
     <script src='{{ asset('js/moment.min.js') }}'></script>
     <script src='{{ asset('js/fullcalendar.js') }}'></script>

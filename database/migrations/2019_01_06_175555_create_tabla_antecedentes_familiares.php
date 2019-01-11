@@ -28,7 +28,7 @@ class CreateTablaAntecedentesFamiliares extends Migration
             $table->string('Padre_Vivo', 20);
             $table->string('Madre_Viva', 20);
             $table->string('Obesidad', 100);
-            $table->string('Otras', 200);
+            $table->string('Otras', 200)->nullable();
             $table->timestamps();
             $table->charset = 'utf8';
             $table->collation = 'utf8_general_ci';

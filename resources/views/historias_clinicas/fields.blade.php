@@ -20,7 +20,7 @@
                     date_default_timezone_set('America/Monterrey'); 
                     setlocale(LC_TIME, 'spanish');
                 ?>
-
+                	
                 <div class="card-body">
                 	<div class="row justify-content-end mb-2">
                 		<div class="col-md-3 text-right">
@@ -30,6 +30,11 @@
                 	
                 	<div class="accordion" id="accordionExample">
 
+                		<form id="historia_clinica_form" method="post" enctype="multipart/form-data" action="{{ route('historia_clinica.store') }}" >
+                			@csrf
+                		<input type="hidden" name="paciente" value="@isset ($paciente)
+                		    {{$paciente->Id_Paciente}}
+                		@endisset">
                 		<!-- Datos Personales -->
 
 					  	<div class="card">
@@ -1726,7 +1731,7 @@
 							        				<span>¿Cuál?</span>
 							        			</div>
 							        			<div class="col-md-10 pl-0">
-							        				<input class="form-control form-control-sm" type="text" name="cuanto_aumento">
+							        				<input class="form-control form-control-sm" type="text" name="cual_dieta">
 							        			</div>
 						        			</div>
 						        		</div>
@@ -2120,21 +2125,88 @@
 					        				<span>Tipo de Planificación Familiar</span>
 					        			</div>
 					        			<div class="col-md-9">
-					        				<input class="form-control form-control-sm" type="text" name="tipo_planificacion">
+					        				<input class="form-control form-control-sm" type="text" name="tipo_planificacion" multiple>
 					        			</div>
 					        		</div>
 					      		</div>
 					      	</div>
 					    </div>
 
+					    <!-- Archivos (Labs., Exam., etc.) -->
+
+					    <div class="card">
+					    	<div class="card-header" id="headingTwo">
+					      		<h2 class="mb-0">
+					        		<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#Archivos" aria-expanded="false" aria-controls="Archivos">
+					          			Archivos (Laboratorios, Exámenes, etc.)
+					        		</button>
+					      		</h2>
+					    	</div>
+					    	<div id="Archivos" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+					      		<div class="card-body">
+					      			<div class="row justify-content-center">
+					      				<div class="col-md-6 offset-md-1">
+					      					<input id="input-id" type="file" name="archivos[]" class="file" data-preview-file-type="text" multiple>
+					      					
+					      				</div>
+					      			</div>
+					      		</div>
+					      	</div>
+					    </div>
+
+					    <div class="row justify-content-center mt-4">
+					    	<div class="col-md-3">
+					    		<input type="submit" class="btn btn-block btn-success" value="Generar Historia Clínica">
+					    	</div>
+					    </div>
+
+					   </form>
 					</div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- To file uploader -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/plugins/piexif.min.js" type="text/javascript"></script>
+    <!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview. 
+        This must be loaded before fileinput.min.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/plugins/sortable.min.js" type="text/javascript"></script>
+    <!-- purify.min.js is only needed if you wish to purify HTML content in your preview for 
+        HTML files. This must be loaded before fileinput.min.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/plugins/purify.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/fileinput.min.js"></script>
+    <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/themes/fa/theme.js"></script>
+    <!-- optionally if you need translation for your language then include  locale file as mentioned below -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/locales/(lang).js"></script>
+
 <script>
 	$(function () {
   		$('[data-toggle="popover"]').popover()
-	})
+	});	
+
+	// with plugin options
+	$("#input-id").fileinput({
+		showUpload: true,
+		allowedPreviewTypes: true,
+		maxFileCount: 10,
+        allowedFileExtensions: ['pdf', 'docx', 'doc', 'jpg', 'png'],
+        hideThumbnailContent: true,
+        showPreview: true,
+        showUpload: false,
+        msgProgress: '{files} archivos seleccionados',
+        showRemove: true,
+        dropZoneTitle: 'Arrastra hasta aquí, tus archivos',
+        previewZoomButtonIcons: {
+        	    prev: '<i class="fas fa-chevron-left"></i>',
+			    next: '<i class="fas fa-chevron-right"></i>',
+			    toggleheader: '<i class="fas fa-arrows-alt-v"></i>',
+			    fullscreen: '<i class="fas fa-expand-arrows-alt"></i>',
+			    borderless: '<i class="fas fa-expand"></i>',
+			    close: '<i class="fas fa-times"></i>'
+        }
+	});
+
 </script>
