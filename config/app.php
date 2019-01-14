@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\PushNotifyServiceProvider::class,
+        App\Providers\CleanRowDBServiceProvider::class,
 
     ],
 
@@ -225,6 +226,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Notificar' => App\Facades\PushNotify::class,
+        'Clean' => App\Facades\CleanRowDB::class
     ],
 
 ];

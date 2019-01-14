@@ -30,6 +30,7 @@ Route::resource('colores'		, 'ColoresController')->middleware('auth', 'rol:Super
 Route::resource('usuarios'		, 'UsuariosController')->middleware('auth', 'rol:Super Admin, Admin');
 Route::resource('notificaciones', 'NotificacionesController')->middleware('auth', 'rol:Super Admin, Admin');
 Route::get('historia_clinica/create/{id}', 'HistoriasClinicasController@create')->middleware('auth', 'rol:Super Admin, Admin');
+Route::get('historia_clinica/show/{id}', 'HistoriasClinicasController@show')->name('historia_clinica.show')->middleware('auth', 'rol:Super Admin, Admin');
 Route::post('historia_clinica/store', 'HistoriasClinicasController@store')->name('historia_clinica.store')->middleware('auth', 'rol:Super Admin, Admin');
 
 //Rutas de Citas

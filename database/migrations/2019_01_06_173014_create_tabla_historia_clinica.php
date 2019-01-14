@@ -17,7 +17,7 @@ class CreateTablaHistoriaClinica extends Migration
             $table->increments('Id_Historia_Clinica');
             $table->string('Sexo', 2);
             $table->string('Ocupacion', 200)->nullable();
-            $table->string('Religión', 100)->nullable();
+            $table->string('Religion', 100)->nullable();
             $table->string('Lugar_Nacimiento')->nullable();
             $table->string('Fecha_Nacimiento')->nullable();
             $table->string('Especialista', 100)->nullable();

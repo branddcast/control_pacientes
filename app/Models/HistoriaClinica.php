@@ -19,7 +19,7 @@ class HistoriaClinica extends Model
         return $this->belongsTo('App\Models\AntecedentesFamiliares', 'Id_Antecedentes_Familiares');
     }
 
-    public function ante_gineco-obstetricos()
+    public function ante_ginecoObstetricos()
     {
         return $this->belongsTo('App\Models\AntecedentesGinecoObstetricos', 'Id_Antecedentes_Gineco-Obstetricos');
     }

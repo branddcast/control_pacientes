@@ -77,9 +77,16 @@
 							  	locale: 'es',
 							  	events: '{{ route('citas_json') }}',
 							  	dayClick: function(date, jsEvent, view) {
+							  		
+			        				$('#loader_img').hide();
+			        				$('#middle').hide();
+
 							  		cita_form(date, jsEvent, view);
 								},
 								eventClick: function(calEvent, jsEvent, view){
+
+			        				$('#loader_img').hide();
+			        				$('#middle').hide();
 
 									//Deshabilitar boton agregar
 									$('#agendar').prop('disabled', true);
@@ -108,6 +115,10 @@
 							        addEventButton: {
 							          	text: 'Agendar',
 							          	click: function() {
+
+			        						$('#loader_img').hide();
+			        						$('#middle').hide();
+
 							          		$('#agendar').prop('disabled', false);
 											$('#modificar').prop('disabled', true);
 											$('#borrar').prop('disabled', true);
@@ -139,8 +150,13 @@
 
 <!-- Modal Add/edit/Delete -->
 <div class="modal fade" id="modalEventos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
+  <div class="modal-dialog container_overlay" role="document">
+    <div class="modal-content ">
+    	<div id="loader_img" class="image" style="width:100%"></div>
+		<div id="middle" class="middle">
+			<img src="{{asset('img/loader.gif')}}">
+			<div class="text">Espere, por favor.</div>
+		</div>
       <div class="modal-header">
         <h5 class="modal-title" id="tituloEvento"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -148,7 +164,9 @@
         </button>
       </div>
       <div class="modal-body">
+      	
         <div class="row">
+			
   			<!-- ID hidden -->
   			<input type="hidden" name="id_cita" id="id_cita">
         	<div class="col-md-12">
@@ -160,7 +178,7 @@
 			            	<!-- Input Titulo_Cita -->
 				    		<div class="col-md-12 input-group input-group-sm mb-3">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="basic-addon1"><i class="fas fa-pencil-alt"></i></span>
+									<span class="input-group-text" id="basic-addon1"><i class="fas fa-pencil-alt"> *</i></span>
 								</div>
 				    			<input id="titulo_cita" class="form-control form-control-sm" type="text" name="titulo_cita" placeholder="Título">
 				    		</div>
@@ -189,7 +207,7 @@
 				    		<!-- Select especialista_Cita -->
 				    		<div class="col-md-6 input-group input-group-sm mb-3">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="basic-addon1"><i class="fas fa-pencil-alt"></i></span>
+									<span class="input-group-text" id="basic-addon1"><i class="fas fa-pencil-alt"> *</i></span>
 								</div>
 				    			<select id="especialista_cita" class="custom-select custom-select-sm" name="especialista_cita" style="height: 31px">
 				    				<option selected="true" disabled="true" value="0">Especialista</option>
@@ -211,14 +229,14 @@
 			        		<!-- Input Fecha_Cita -->
 				    		<div class="col-md-6 input-group input-group-sm mb-3">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="basic-addon1">De</span>
+									<span class="input-group-text" id="basic-addon1">De *</span>
 								</div>
 				    			<input id="fecha_cita" class="form-control form-control-sm" type="date" name="fecha_cita" placeholder="Fecha">
 				    		</div>
 				    		<!-- Input Fecha_Cita_Fin -->
 				    		<div class="col-md-6 input-group input-group-sm mb-3">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="basic-addon1">Hasta</span>
+									<span class="input-group-text" id="basic-addon1">Hasta *</span>
 								</div>
 				    			<input id="fecha_cita_fin" class="form-control form-control-sm" type="date" name="fecha_cita_fin" placeholder="Fecha">
 				    		</div>
@@ -229,14 +247,14 @@
 			        		<!-- Input Hora_Cita -->
 				    		<div class="col-md-4 input-group input-group-sm mb-3">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="basic-addon1">Inicio</span>
+									<span class="input-group-text" id="basic-addon1">Inicio *</span>
 								</div>
 				    			<input id="hora_cita" class="form-control form-control-sm" type="time" name="hora_cita" placeholder="Fecha">
 				    		</div>
 				    		<!-- Input Hora_Cita_Fin -->
 				    		<div class="col-md-4 offset-md-2 input-group input-group-sm mb-3">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="basic-addon1">Fin</span>
+									<span class="input-group-text" id="basic-addon1">Fin *</span>
 								</div>
 				    			<input id="hora_cita_fin" class="form-control form-control-sm" type="time" name="hora_cita_fin" placeholder="Fecha">
 				    		</div>
@@ -285,55 +303,118 @@
 <script type="text/javascript">
 	var agendar_cita;
 
+	function validar_campos(){
+		if($('#titulo_cita').val() == ""){
+			return false;
+		}
+
+		if($("#especialista_cita option:selected" ).val() == 0 ){
+			return false;
+		}
+
+		if($('#fecha_cita').val() == "" || $('#fecha_cita_fin').val() == ""){
+			return false;
+		}
+
+		if($('#hora_cita').val() == ""  || $('#hora_cita_fin').val() == ""){
+			return false;
+		}
+
+		return true;
+	}
+
 	$(document).ready(function(){
+
+		//Seting div de overlay como oculto
+		$('#loader_img').hide();
+		$('#middle').hide();
+
 		$('#hora_cita').bootstrapMaterialDatePicker({ date: false,  switchOnClick: true, shortTime: false, format: 'HH:mm'});
 		$('#hora_cita_fin').bootstrapMaterialDatePicker({ date: false,  switchOnClick: true, shortTime: false, format: 'HH:mm'});
 
 		//Evento para agregar citas
 		$('#agendar').click(function(){
-			getDatos();
-			$.ajax({
-				type: 'POST',
-				url: '{{ route('citas.store') }}',
-				data: agendar_cita,
-				dataType: "json",
-				success: function(data){
-					if(data.msg){
-						$('#calendar').fullCalendar('refetchEvents', agendar_cita);
-						$('#modalEventos').modal('toggle');
-					}else{
-						console.log(data.msg);
-						alert(data.text);
+			var flag_validar = validar_campos();
+
+			if(flag_validar){
+				getDatos();
+				$.ajax({
+					type: 'POST',
+					url: '{{ route('citas.store') }}',
+					data: agendar_cita,
+					dataType: "json",
+					beforeSend: function() {
+				        $('#loader_img').show();
+				        $('#middle').show();
+				    },
+					success: function(data){
+						if(data.msg){
+							$('#calendar').fullCalendar('refetchEvents', agendar_cita);
+							$('#modalEventos').modal('toggle');
+
+				        	$('#loader_img').hide();
+				        	$('#middle').hide();
+
+						}else{
+							console.log(data.msg);
+							alert(data.text);
+
+							$('#loader_img').hide();
+				        	$('#middle').hide();
+						}
+					},
+					error: function(data){
+						alert('Error al guardar cita');
+						console.log(data.responseText);
+
+						$('#loader_img').hide();
+				        $('#middle').hide();
+
 					}
-				},
-				error: function(data){
-					alert('Error al guardar cita');
-					console.log(data.responseText);
-				}
-			});
+				});
+			}else{
+				alert('Los campos marcados con un * (asterisco) no deben estar vacíos');
+			}
 		});
 
 		//Modificar cita
 		$('#modificar').click(function(){
+			$('#loader_img').hide();
+			$('#middle').hide();
 
-			getDatos();
-			$.ajax({
-				type: 'POST',
-				url: '{{ route('modificar') }}',
-				data: agendar_cita,
-				success: function(msg){
-					if(msg){
-						$('#calendar').fullCalendar('refetchEvents', agendar_cita);
-						$('#modalEventos').modal('toggle');
-					}else{
-						console.log(msg);
+			var flag_validar = validar_campos();
+
+			if(flag_validar){
+				getDatos();
+				$.ajax({
+					type: 'POST',
+					url: '{{ route('modificar') }}',
+					data: agendar_cita,
+					beforeSend: function() {
+				        $('#loader_img').show();
+				        $('#middle').show();
+				    },
+					success: function(msg){
+						if(msg){
+							$('#calendar').fullCalendar('refetchEvents', agendar_cita);
+							$('#modalEventos').modal('toggle');
+
+					        $('#loader_img').hide();
+					        $('#middle').hide();
+
+						}else{
+							console.log(msg);
+						}
+					},
+					error: function(msg){
+						alert('Error al modificar la cita');
+						console.log(msg.responseText);
+
+						$('#loader_img').hide();
+				        $('#middle').hide();
 					}
-				},
-				error: function(msg){
-					alert('Error al modificar la cita');
-					console.log(msg.responseText);
-				}
-			});
+				});
+			}
 		});
 
 		//Borrar cita
@@ -342,6 +423,9 @@
 			var borrar = confirm('¿Seguro que deseas eliminarla?');
 
 			if(borrar == true){
+
+				$('#loader_img').hide();
+			    $('#middle').hide();
 
 				getDatos();
 				$.ajax({
@@ -352,6 +436,10 @@
 						if(msg){
 							$('#calendar').fullCalendar('refetchEvents', agendar_cita);
 							$('#modalEventos').modal('toggle');
+
+			        		$('#loader_img').hide();
+			        		$('#middle').hide();
+
 						}else{
 							console.log(msg);
 						}
@@ -359,6 +447,9 @@
 					error: function(msg){
 						alert('Error al eliminar la cita');
 						console.log(msg.responseText);
+
+						$('#loader_img').hide();
+			        	$('#middle').hide();
 					}
 				});
 			}

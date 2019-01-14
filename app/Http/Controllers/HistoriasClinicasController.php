@@ -12,6 +12,8 @@ use App\Models\AntecedentesMedicos;
 use App\Models\AntecedentesPsicologicos;
 use App\Models\ValoracionFuncional;
 use App\Models\AntecedentesNutricionales;
+use App\Models\AntecedentesGinecoObstetricos;
+use App\Facades\PushNotify;
 
 class HistoriasClinicasController extends Controller
 {
@@ -34,9 +36,20 @@ class HistoriasClinicasController extends Controller
     {
         $paciente = Paciente::find($id);
 
+        if(empty($paciente->Id_Paciente)){
+            abort(404);
+        }
+
+        $historia_clinica = HistoriaClinica::where('Id_Paciente', $id)->get();
+
+        if(isset($historia_clinica->Id_Historia_Clinica)){
+            return redirect('historia_clinica/show/'.$id);
+        }
+
         $citas = DB::table('citas')
-                     ->select(DB::raw('distinct(Id_Especialista)'))
+                     ->join('especialistas', 'citas.Id_Especialista', '=', 'especialistas.Id_Especialista')
                      ->where('Id_Paciente', $id)
+                     ->select(DB::raw('DISTINCT(citas.Id_Especialista), especialistas.Nombre, especialistas.Ap_Paterno'))
                      ->get();
 
         return view('historias_clinicas.edit', ['paciente' => $paciente, 'citas' => $citas]);
@@ -56,6 +69,7 @@ class HistoriasClinicasController extends Controller
         $id_ant_psi = 0;
         $id_val_fun = 0;
         $id_ant_nut = 0;
+        $id_ant_gin = 0;
 
         // ANTECEDENTES FAMILIARES
 
@@ -76,11 +90,11 @@ class HistoriasClinicasController extends Controller
         $ant_fam->Obesidad = $request->obesidad."|".$request->obesidad_parentesco;
         $ant_fam->Otras = $request->otras;
 
-        /*if($ant_fam->save()){
-            $id_ant_fam = DB::table('antecedentes_familiares')->select(DB::raw('LAST_INSERT_ID()'))->get();
+        if($ant_fam->save()){
+            $id_ant_fam = DB::table('antecedentes_familiares')->select(DB::raw('LAST_INSERT_ID() as id'))->get();
         }else{
             return back()->with('error', 'Error al registrar la información. Intente de nuevo más tarde.');
-        }*/
+        }
 
         // ANTECEDENTES PERSONALES
 
@@ -94,11 +108,11 @@ class HistoriasClinicasController extends Controller
         $ant_per->Medicamentos = $request->medicamentos."|".$request->medicamentos_descripcion;
         $ant_per->Vacunas = $request->vacunas."|".$request->vacunas_descripcion;
 
-        /*if($ant_per->save()){
-            $id_ant_per = DB::table('antecedentes_personales')->select(DB::raw('LAST_INSERT_ID()'))->get();
+        if($ant_per->save()){
+            $id_ant_per = DB::table('antecedentes_personales')->select(DB::raw('LAST_INSERT_ID() as id'))->get();
         }else{
             return back()->with('error', 'Error al registrar la información. Intente de nuevo más tarde.');
-        }*/
+        }
 
         // ANTECEDENTES MÉDICOS
 
@@ -126,11 +140,11 @@ class HistoriasClinicasController extends Controller
         $ant_med->Problemas_Piel = $request->piel."|".$request->piel_desde;
         $ant_med->Otras = $request->otras_2;
 
-        /*if($ant_med->save()){
-            $id_ant_med = DB::table('antecedentes_medicos')->select(DB::raw('LAST_INSERT_ID()'))->get();
+        if($ant_med->save()){
+            $id_ant_med = DB::table('antecedentes_medicos')->select(DB::raw('LAST_INSERT_ID() as id'))->get();
         }else{
             return back()->with('error', 'Error al registrar la información. Intente de nuevo más tarde.');
-        }*/
+        }
 
         // ANTECEDENTES PSICOLOGICOS 
 
@@ -147,11 +161,11 @@ class HistoriasClinicasController extends Controller
         $ant_psi->Desmayos = $request->desmayos."|".$request->desmayos_desde;
         $ant_psi->Medicamentos = $request->antidepresivos."|".$request->antidepresivos_desde;
 
-        /*if($ant_psi->save()){
-            $id_ant_psi = DB::table('antecedentes_psicologicos')->select(DB::raw('LAST_INSERT_ID()'))->get();
+        if($ant_psi->save()){
+            $id_ant_psi = DB::table('antecedentes_psicologicos')->select(DB::raw('LAST_INSERT_ID() as id'))->get();
         }else{
             return back()->with('error', 'Error al registrar la información. Intente de nuevo más tarde.');
-        }*/
+        }
 
         // VALORACION FUNCIONAL
 
@@ -160,11 +174,11 @@ class HistoriasClinicasController extends Controller
         $val_fun->Capacidad_Diferente = $request->discapacidad;
         $val_fun->Apoyo_Especial = $request->auditivo."|".$request->motor."|".$request->visual."|".$request->idioma."|".$request->otros_3;
 
-        /*if($val_fun->save()){
-            $id_val_fun = DB::table('valoracion_funcional')->select(DB::raw('LAST_INSERT_ID()'))->get();
+        if($val_fun->save()){
+            $id_val_fun = DB::table('valoracion_funcional')->select(DB::raw('LAST_INSERT_ID() as id'))->get();
         }else{
             return back()->with('error', 'Error al registrar la información. Intente de nuevo más tarde.');
-        }*/
+        }
 
         // ANTECEDENTE NUTRICIONALES
 
@@ -183,17 +197,81 @@ class HistoriasClinicasController extends Controller
         $ant_nut->Reduccion = $request->reduccion;
 
 
-        /*if($ant_nut->save()){
-            $id_ant_nut = DB::table('antecedentes_nutricionales')->select(DB::raw('LAST_INSERT_ID()'))->get();
+        if($ant_nut->save()){
+            $id_ant_nut = DB::table('antecedentes_nutricionales')->select(DB::raw('LAST_INSERT_ID() as id'))->get();
         }else{
             return back()->with('error', 'Error al registrar la información. Intente de nuevo más tarde.');
-        }*/
+        }
 
         // ANTECEDENTES GINECO-OBSTETRICOS
 
         $ant_gin = new AntecedentesGinecoObstetricos;
 
-        echo $id_ant_fam[0]['LAST_INSERT_ID']." ".$id_ant_per[0]['LAST_INSERT_ID']." ".$id_ant_med[0]['LAST_INSERT_ID']; exit;
+        $ant_gin->Menarca = $request->menarca;
+        $ant_gin->Ritmo = $request->ritmo;
+        $ant_gin->Ult_Menstruacion = $request->ult_menstruacion;
+        $ant_gin->Parejas_Sexuales = $request->parejas_sexuales;
+        $ant_gin->Dismenorrea = $request->dismenorrea."|".$request->tratamiento_dismenorrea;
+        $ant_gin->Inicio_Vida_Sexual = $request->vida_sexual;
+        $ant_gin->Embarazos = $request->embarazos;
+        $ant_gin->Partos = $request->partos;
+        $ant_gin->Cesareas = $request->cesareas;
+        $ant_gin->Abortos = $request->abortos;
+        $ant_gin->Control_Natal = $request->control_natal;
+        $ant_gin->Dispareunia = $request->dispareunia;
+        $ant_gin->Mastografia = $request->mastografia."|".$request->fecha_mastografia;
+        $ant_gin->Ultrasonido_Mamario = $request->ultrasonido_mamario."|".$request->fecha_ultrasonido_mamario;
+        $ant_gin->Autoexploracion_Mamaria = $request->autoexploracion;
+        $ant_gin->Numero_Ultrasonidos = $request->cantidad_ultrasonidos."|".$request->fecha_ultrasonido."|".$request->resultado_ultrasonido;
+        $ant_gin->Colposcopia_Papanicolaou = $request->colposcopia."|".$request->fecha_colposcopia."|".$request->resultado_colposcopia;
+        $ant_gin->Planificacion_Familiar = $request->tipo_planificacion;
+
+        if($ant_gin->save()){
+            $id_ant_gin = DB::table('antecedentes_gineco-obstetricos')->select(DB::raw('LAST_INSERT_ID() as id'))->get();
+        }else{
+            return back()->with('error', 'Error al registrar la información. Intente de nuevo más tarde.');
+        }
+
+        // HISTORIA CLINICA
+
+        $historia_clinica = new HistoriaClinica;
+
+        $historia_clinica->Sexo = $request->sexo;
+        $historia_clinica->Ocupacion = $request->ocupacion;
+        $historia_clinica->Religion = $request->religion;
+        $historia_clinica->Lugar_Nacimiento = $request->lugar_nac;
+        $historia_clinica->Fecha_Nacimiento = $request->fec_nac;
+        $historia_clinica->Especialista = $request->Especialistas_Id;
+        $historia_clinica->Padecimiento_Actual = $request->padecimiento_actual;
+        $historia_clinica->Diagnosticos = $request->diagnostico;
+        $historia_clinica->Comentarios = $request->comentarios;
+        $historia_clinica->Id_Paciente = $request->paciente;
+
+        $historia_clinica->Id_Antecedentes_Familiares = $id_ant_fam[0]->id;
+        $historia_clinica->Id_Antecedentes_Personales = $id_ant_per[0]->id;
+        $historia_clinica->Id_Antecedentes_Medicos = $id_ant_med[0]->id;
+        $historia_clinica->Id_Antecedentes_Psicologicos = $id_ant_psi[0]->id;
+        $historia_clinica->Id_Valoracion_Funcional = $id_val_fun[0]->id;
+        $historia_clinica->Id_Antecedentes_Nutricionales = $id_ant_nut[0]->id;
+        $historia_clinica->Id_Antecedentes_Gineco_Obstetricos = $id_ant_gin[0]->id;
+
+        if($historia_clinica->save()){
+            $notificar = PushNotify::push('generó una historia clínica', \Auth::user()->usuario, 0);
+            return redirect('pacientes')->with('success', '¡Historia Clínica generada correctamente!');
+        }else{
+            return back()->with('error', '¡No se pudo generar la historia clínica!');
+        }
+    }
+
+    function show($id){
+
+        $historia_clinica = HistoriaClinica::where('Id_Paciente', $id)->get();
+
+        if($historia_clinica->count() > 0){
+            dd($historia_clinica);
+        }else{
+            return redirect('historia_clinica/create/'.$id);
+        }
     }
 
     /**

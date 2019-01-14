@@ -15,7 +15,7 @@ class CreateTablaRoles extends Migration
     {
         Schema::create('Roles', function (Blueprint $table){
             $table->increments('Id_Rol');
-            $table->string('Nombre', 30);
+            $table->string('Nombre', 30)->unique();
             $table->string('Descripcion')->nullable();
             $table->timestamps();
             $table->charset = 'utf8';

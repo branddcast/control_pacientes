@@ -16,7 +16,7 @@ class CreateTablaEstatus extends Migration
         Schema::create('Estatus', function(Blueprint $table){
             $table->engine = 'InnoDB';
             $table->increments('Id_Estatus');
-            $table->string('Nombre', 45);
+            $table->string('Nombre', 45)->unique();
             $table->string('Descripcion', 100)->nullable();
             $table->string('Icono',50)->nullable();
             $table->timestamps();

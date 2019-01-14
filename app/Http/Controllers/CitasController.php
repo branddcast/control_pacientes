@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use App\Models\Color;
 use App\Facades\PushNotify;
+use App\Facades\CleanRowDB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\verificarCita;
 
@@ -71,10 +72,22 @@ class CitasController extends Controller
         $cita->created_at = Carbon::now();
         $cita->updated_at = null;
 
+        /*$historia_clinica = HistoriaClinica::where('Id_Paciente', $request->paciente)->get();
+        $update_historia_clinica = HistoriaClinica::find($request->paciente);
+        $update_historia_clinica->Especialista = $historia_clinica->Especialista."".$request->especialista."|";*/
+
         if($cita->save()){
-            Mail::to($especialista->Email)->send(new verificarCita($especialista, $cita));
-            $notificar = PushNotify::push('agregó una nueva cita', \Auth::user()->usuario, 0);
-            return response()->json(array('msg'=> true));
+            /*if($update_historia_clinica->save()){
+                Mail::to($especialista->Email)->send(new verificarCita($especialista, $cita));
+                $notificar = PushNotify::push('agregó una nueva cita', \Auth::user()->usuario, 0);
+                return response()->json(array('msg'=> true));
+            }*/
+            if(date_create($cita->Fecha_Cita) > date_create(date("Y-m-d H:i:00",time()))){
+                Mail::to($especialista->Email)->send(new verificarCita($especialista, $cita));
+            }
+                $notificar = PushNotify::push('agregó una nueva cita', \Auth::user()->usuario, 0);
+                return response()->json(array('msg'=> true));
+            
         }else{
             return response()->json(array('msg'=> false));
         }
@@ -151,6 +164,13 @@ class CitasController extends Controller
         $cita->Id_Especialista =$data['especialista'];
         $cita->Id_Paciente =$data['paciente'];
         $cita->updated_at = Carbon::now();
+
+        /*$historia_clinica = HistoriaClinica::where('Id_Paciente', $request->paciente)->get();
+        $update_historia_clinica = HistoriaClinica::find($request->paciente);
+
+        $especialista_his_clin = CleanRowDB::clean($historia_clinica->Especialista);
+
+        $update_historia_clinica->Especialista = $historia_clinica->Especialista."".$request->especialista."|";*/
 
         if($cita->update()){
             if(date_create($cita->Fecha_Cita) > date_create(date("Y-m-d H:i:00",time()))){

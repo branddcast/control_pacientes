@@ -82,6 +82,8 @@
 										<form id="paciente_delete" action="{{route('pacientes.destroy', $paciente->Id_Paciente)}}" method="post">
 								            <a href="{{ route('pacientes.edit', ['id' => $paciente->Id_Paciente]) }}" class="btn btn-info btn-sm"><i class="far fa-edit"></i></a>
 
+								            <a href="{{ route('historia_clinica.show', ['id' => $paciente->Id_Paciente]) }}" class="btn btn-warning btn-sm"><i class="far fa-clipboard"></i></a>
+
 								            @csrf
 								            <input name="_method" type="hidden" value="DELETE">
 								            <button id="paciente_delete_btn" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminarlo?');"><i class="far fa-trash-alt"></i></button>

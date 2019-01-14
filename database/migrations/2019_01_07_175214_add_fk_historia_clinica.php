@@ -22,7 +22,7 @@ class AddFkHistoriaClinica extends Migration
             $table->unsignedInteger('Id_Antecedentes_Psicologicos')->nullable();
             $table->unsignedInteger('Id_Valoracion_Funcional')->nullable();
             $table->unsignedInteger('Id_Antecedentes_Nutricionales')->nullable();
-            $table->unsignedInteger('Id_Antecedentes_Gineco-Obstetricos')->nullable();
+            $table->unsignedInteger('Id_Antecedentes_Gineco_Obstetricos')->nullable();
 
             $table->foreign('Id_Paciente')
                   ->references('Id_Paciente')
@@ -66,8 +66,8 @@ class AddFkHistoriaClinica extends Migration
                   ->onDelete('set null')
                   ->onUpdate('cascade');
 
-            $table->foreign('Id_Antecedentes_Gineco-Obstetricos')
-                  ->references('Id_Antecedentes_Gineco-Obstetricos')
+            $table->foreign('Id_Antecedentes_Gineco_Obstetricos')
+                  ->references('Id_Antecedentes_Gineco_Obstetricos')
                   ->on('antecedentes_gineco-obstetricos')
                   ->onDelete('set null')
                   ->onUpdate('cascade');

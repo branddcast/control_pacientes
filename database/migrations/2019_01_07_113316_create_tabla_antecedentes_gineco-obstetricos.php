@@ -14,25 +14,25 @@ class CreateTablaAntecedentesGinecoObstetricos extends Migration
     public function up()
     {
         Schema::create('antecedentes_gineco-obstetricos', function (Blueprint $table){
-            $table->increments('Id_Antecedentes_Gineco-Obstetricos');
-            $table->string('Menarca', 100);
-            $table->string('Ritmo', 100);
-            $table->date('Ult_Menstruacion');
-            $table->integer('Parejas_Sexuales');
-            $table->string('Dismenorrea', 150);
-            $table->string('Inicio_Vida_Sexual', 100);
-            $table->integer('Embarazos');
-            $table->integer('Partos');
-            $table->integer('Cesareas');
-            $table->integer('Abortos');
-            $table->integer('Control_Natal');
-            $table->integer('Dispareunia');
-            $table->string('Mastografia', 150);
-            $table->string('Ultrasonido_Mamario', 150);
-            $table->integer('Autoexploracion_Mamaria');
-            $table->string('Numero_Ultrasonidos', 200);
-            $table->string('Colposcopia_Papanicolaou', 200);
-            $table->string('Plainificacion_Familiar', 150);
+            $table->increments('Id_Antecedentes_Gineco_Obstetricos');
+            $table->string('Menarca', 100)->nullable();
+            $table->string('Ritmo', 100)->nullable();
+            $table->date('Ult_Menstruacion')->nullable();
+            $table->integer('Parejas_Sexuales')->nullable();
+            $table->string('Dismenorrea', 150)->nullable();
+            $table->string('Inicio_Vida_Sexual', 100)->nullable();
+            $table->integer('Embarazos')->nullable();
+            $table->integer('Partos')->nullable();
+            $table->integer('Cesareas')->nullable();
+            $table->integer('Abortos')->nullable();
+            $table->integer('Control_Natal')->nullable();
+            $table->integer('Dispareunia')->nullable();
+            $table->string('Mastografia', 150)->nullable();
+            $table->string('Ultrasonido_Mamario', 150)->nullable();
+            $table->integer('Autoexploracion_Mamaria')->nullable();
+            $table->string('Numero_Ultrasonidos', 200)->nullable();
+            $table->string('Colposcopia_Papanicolaou', 200)->nullable();
+            $table->string('Planificacion_Familiar', 150)->nullable();
             $table->timestamps();
             $table->charset = 'utf8';
             $table->collation = 'utf8_general_ci';

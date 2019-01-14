@@ -15249,3 +15249,45 @@ be a descendant of the grid when it is being dragged.
   font-weight: bold;
   font-size: 16pt
 }
+
+.image {
+  opacity: 1;
+  width: 150%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0.7;
+  background: #fff !important;
+  position: absolute;
+  z-index: 9999;
+  top: 50%;
+  left: 50%;
+  height: 100%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.container_overlay{
+  background: #fff;
+}
+
+.container_overlay:hover .image {
+  opacity: 0.5;
+}
+
+.container_overlay:hover .middle {
+  opacity: 1;
+}
+
+.text {
+  color: black;
+  font-size: 16px;
+  padding: 16px 32px;
+  width: 100%;
+}

@@ -92,11 +92,11 @@
 					        		<div class="row">
 					        			<div class="col-md-3">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="hombre" type="radio" name="sexo" value="hombre">
+					        					<input class="form-check-input" id="hombre" type="radio" name="sexo" value="H">
 					        					<label class="form-check-label" for="hombre">Masculino</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="mujer" type="radio" name="sexo" value="mujer">
+					        					<input class="form-check-input" id="mujer" type="radio" name="sexo" value="M">
 						        				<label class="form-check-label" for="mujer">Femenino</label>
 						        			</div>
 					        			</div>
@@ -147,9 +147,9 @@
 											  	<div class="input-group-prepend">
 											    	<span class="input-group-text" id="basic-addon1">Especialistas:</span>
 											  	</div>
-											  	<textarea style="max-width: 410px; min-height: 31px; max-height: 100px;" class="form-control form-control-sm" name="especialistas" disabled>@foreach ($citas as $especialista)
-											  		{{$especialista->Nombre." ".$especialista->Ap_Paterno.", "}}
-											  	@endforeach</textarea>
+											  	<textarea style="max-width: 410px; min-height: 31px; max-height: 100px;" class="form-control form-control-sm" name="especialistas" disabled>@foreach ($citas as $cita){{$cita->Nombre." ".$cita->Ap_Paterno.","}}  @endforeach</textarea>
+
+											  	<input type="hidden" name="Especialistas_Id" value="@isset($citas)@foreach ($citas as $cita){{$cita->Id_Especialista."|"}}@endforeach @endisset">
 											</div>
 					        			</div>
 					        			<div class="col-md-1 pt-1 text-center">
@@ -1687,7 +1687,7 @@
 					        				<span>Índice de Masa Corporal (Peso/Estatura<sup><small>2</small></sup>)</span>
 					        			</div>
 					        			<div class="col-md-2 text-left">
-					        				<input class="form-control form-control-sm" onfocus="javascript:imc()" onclick="javascript:imc()" type="number" id="imc" name="imc" step=".01" min="0" max="100.00">
+					        				<input class="form-control form-control-sm" onclick="javascript:Indice_Masa_Corporal();" type="number" id="imc" name="imc" step=".01" min="0" max="100.00">
 					        			</div>
 
 					        			<div class="col-md-1 text-left pt-1">
@@ -1695,14 +1695,6 @@
 					        					<i class="far fa-question-circle fa-lg"></i>
 					        				</a>
 					        			</div>
-
-					        			<script>
-					        				function imc(){
-					        					var imc = $('#peso').val()/($('#estatura').val()*$('#estatura').val());
-
-					        					$('#imc').val(imc.toFixed(2));
-					        				}
-					        			</script>
 					        		</div>
 
 					        		<div class="row align-items-center mt-2">
@@ -1800,7 +1792,7 @@
 					  	<div class="card">
 					    	<div class="card-header" id="headingTwo">
 					      		<h2 class="mb-0">
-					        		<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#Antecedentes_Gineco-Obstetricos" aria-expanded="false" aria-controls="Antecedentes_Gineco-Obstetricos">
+					        		<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#Antecedentes_Gineco-Obstetricos" aria-expanded="false" aria-controls="Antecedentes_Gineco-Obstetricos" id="Antecedentes_Gineco-Obstetricos">
 					          			Antecedentes Gineco-Obstétricos
 					        		</button>
 					      		</h2>
@@ -2132,6 +2124,50 @@
 					      	</div>
 					    </div>
 
+					    <!-- Diagnóstico y Comentarios -->
+
+					  	<div class="card">
+					    	<div class="card-header" id="headingTwo">
+					      		<h2 class="mb-0">
+					        		<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#Informacion_Adicional" aria-expanded="false" aria-controls="Informacion_Adicional">
+					          			Información Adicional
+					        		</button>
+					      		</h2>
+					    	</div>
+					    	<div id="Informacion_Adicional" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+					      		<div class="card-body">
+					      			<div class="row align-items-center">
+					      				<div class="col-md-12">
+					      					<div class="input-group mb-3 input-group-sm">
+											  	<div class="input-group-prepend">
+											    	<span class="input-group-text" id="basic-addon1">Padecimiento Actual</span>
+											  	</div>
+											  	<textarea style="max-width: 100%; min-height: 31px; max-height: 100px; height: 100px" name="padecimiento_actual" class="form-control"></textarea>
+											</div>
+					      				</div>
+
+					      				<div class="col-md-12">
+					      					<div class="input-group mb-3 input-group-sm">
+											  	<div class="input-group-prepend">
+											    	<span class="input-group-text" id="basic-addon1">Diagnósticos</span>
+											  	</div>
+											  	<textarea style="max-width: 100%; min-height: 31px; max-height: 150px; height: 150px" name="diagnostico" class="form-control"></textarea>
+											</div>
+					      				</div>
+
+					      				<div class="col-md-12">
+					      					<div class="input-group mb-3 input-group-sm">
+											  	<div class="input-group-prepend">
+											    	<span class="input-group-text" id="basic-addon1">Comentarios</span>
+											  	</div>
+											  	<textarea style="max-width: 100%; min-height: 31px; max-height: 150px; height: 150px" name="comentarios" class="form-control"></textarea>
+											</div>
+					      				</div>
+					      			</div>
+					      		</div>
+					      	</div>
+					    </div>
+
 					    <!-- Archivos (Labs., Exam., etc.) -->
 
 					    <div class="card">
@@ -2186,6 +2222,29 @@
 	$(function () {
   		$('[data-toggle="popover"]').popover()
 	});	
+
+	if($('#hombre').is(':checked')){
+		$('#Antecedentes_Gineco-Obstetricos').attr('disabled', 'true');
+	}
+	if($('#mujer').is(':checked')){
+		$('#Antecedentes_Gineco-Obstetricos').removeAttr("disabled");
+	}
+
+	function Indice_Masa_Corporal(){
+		var peso 	 = $('#peso').val();
+		var estatura = $('#estatura').val();
+		var imc 	 = peso / (estatura*estatura);
+
+		$('#imc').val(imc.toFixed(2));
+	}
+
+	$('#hombre').click(function (){
+		$('#Antecedentes_Gineco-Obstetricos').attr('disabled', 'true');
+	});
+
+	$('#mujer').click(function (){
+		$('#Antecedentes_Gineco-Obstetricos').removeAttr("disabled");
+	});
 
 	// with plugin options
 	$("#input-id").fileinput({
