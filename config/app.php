@@ -226,7 +226,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Notificar' => App\Facades\PushNotify::class,
-        'Clean' => App\Facades\CleanRowDB::class
+        'CleanRowDB' => App\Facades\CleanRowDB::class,
     ],
 
 ];

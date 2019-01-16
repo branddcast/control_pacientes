@@ -24,7 +24,7 @@ class CreateTablaAntecedentesMedicos extends Migration
             $table->string('Problemas_Pulmonares', 100);
             $table->string('Problemas_Corazon', 100);
             $table->string('Problemas_Circulacion', 100);
-            $table->string('Problemas_Genitourinaros', 100);
+            $table->string('Problemas_Genitourinarios', 100);
             $table->string('Problemas_Piel', 100);
             $table->string('Hipertension', 100);
             $table->string('Migrania', 100);

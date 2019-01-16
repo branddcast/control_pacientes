@@ -8,6 +8,6 @@ class CleanRowDB extends Facade {
  
     protected static function getFacadeAccessor()
     {
-        return 'clean';
+        return 'CleanRowDB';
     }
 }

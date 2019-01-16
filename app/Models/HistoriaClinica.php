@@ -11,7 +11,7 @@ class HistoriaClinica extends Model
 
     public function paciente()
     {
-        return $this->belongsTo('App\Models\Paciente', 'Id_Paciente');
+        return $this->belongsTo('App\Models\Paciente', 'Id_Paciente', 'Id_Paciente');
     }
 
     public function ante_familiares()

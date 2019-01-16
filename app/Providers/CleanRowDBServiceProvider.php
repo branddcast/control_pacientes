@@ -23,7 +23,7 @@ class CleanRowDBServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        \App::bind('clean', function()
+        \App::bind('CleanRowDB', function()
         {
             return new \App\Helpers\CleanRowDB;
         });

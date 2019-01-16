@@ -26,8 +26,7 @@
                 		<div class="col-md-3 text-right">
                 			<span><em>{{strtoupper(strftime("%B %e de %Y", strtotime(date('d-m-Y'))))}}</em></span>
                 		</div>
-                	</div>
-                	
+                	</div>                	
                 	<div class="accordion" id="accordionExample">
 
                 		<form id="historia_clinica_form" method="post" enctype="multipart/form-data" action="{{ route('historia_clinica.store') }}" >
@@ -92,11 +91,19 @@
 					        		<div class="row">
 					        			<div class="col-md-3">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="hombre" type="radio" name="sexo" value="H">
+					        					<input class="form-check-input" id="hombre" type="radio" name="sexo" value="H" @isset ($historia_clinica)
+					        					    @if ($historia_clinica->Sexo == 'H')
+					        					    	{{ 'checked' }}
+					        					    @endif
+					        					@endisset>
 					        					<label class="form-check-label" for="hombre">Masculino</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="mujer" type="radio" name="sexo" value="M">
+					        					<input class="form-check-input" id="mujer" type="radio" name="sexo" value="M" @isset ($historia_clinica)
+					        					    @if ($historia_clinica->Sexo == 'M')
+					        					    	{{ 'checked' }}
+					        					    @endif
+					        					@endisset>
 						        				<label class="form-check-label" for="mujer">Femenino</label>
 						        			</div>
 					        			</div>
@@ -105,7 +112,7 @@
 											  	<div class="input-group-prepend">
 											    	<span class="input-group-text" id="basic-addon1">Ocupación:</span>
 											  	</div>
-											  	<input type="text" class="form-control form-control-sm" name="ocupacion">
+											  	<input type="text" class="form-control form-control-sm" name="ocupacion" value="@isset($historia_clinica){{$historia_clinica->Ocupacion}}@endisset">
 											</div>
 					        			</div>
 					        			<div class="col-md-3">
@@ -113,15 +120,15 @@
 											  	<div class="input-group-prepend">
 											    	<span class="input-group-text" id="basic-addon1">Religión:</span>
 											  	</div>
-											  	<input type="text" class="form-control form-control-sm" name="religion">
+											  	<input type="text" class="form-control form-control-sm" name="religion" value="@isset($historia_clinica){{$historia_clinica->Religion}}@endisset">
 											</div>
-					        			</div>
+					        			</div> 
 					        			<div class="col-md-3">
 					        				<div class="input-group mb-3 input-group-sm">
 											  	<div class="input-group-prepend">
 											    	<span class="input-group-text" id="basic-addon1">Lug. de Nac.:</span>
 											  	</div>
-											  	<input type="text" class="form-control form-control-sm" name="lugar_nac">
+											  	<input type="text" class="form-control form-control-sm" name="lugar_nac" value="@isset($historia_clinica){{$historia_clinica->Lugar_Nacimiento}}@endisset">
 											</div>
 					        			</div>
 					        		</div>
@@ -131,7 +138,7 @@
 											  	<div class="input-group-prepend">
 											    	<span class="input-group-text" id="basic-addon1">Fec. de Nac.:</span>
 											  	</div>
-											  	<input type="date" class="form-control form-control-sm" name="fec_nac">
+											  	<input type="date" class="form-control form-control-sm" name="fec_nac"value="@isset($historia_clinica){{$historia_clinica->Fecha_Nacimiento}}@endisset">
 											</div>
 					        			</div>
 					        			<div class="col-md-4">
@@ -165,6 +172,23 @@
 					  	<!-- Antecedentes Familiares -->
 
 					  	<div class="card">
+
+					  		@php
+		                		//Antecedentes Familiares
+
+							    $diabetes = CleanRowDB::limpiar($historia_clinica->ante_familiares->Diabetes);
+							    $hipertension = CleanRowDB::limpiar($historia_clinica->ante_familiares->Hipertension);
+							    $cancer = CleanRowDB::limpiar($historia_clinica->ante_familiares->Cancer);
+							    $corazon = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Corazon);
+							    $circulacion = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Circulacion);
+							    $pulmonares = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Pulmonares);
+							    $digestivos = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Digestivos);
+							    $epilepsia = CleanRowDB::limpiar($historia_clinica->ante_familiares->Epilepsia);
+							    $psiquiatricos = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Psiquiatricos);
+							    $trombosis = CleanRowDB::limpiar($historia_clinica->ante_familiares->Trom_Embo_Hemo_Cerebrales);
+							    $obesidad = CleanRowDB::limpiar($historia_clinica->ante_familiares->Obesidad);
+							@endphp
+
 					    	<div class="card-header" id="headingTwo">
 					      		<h2 class="mb-0">
 					        		<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#Antecedentes_Familiares" aria-expanded="false" aria-controls="Antecedentes_Familiares">
@@ -188,20 +212,25 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_diabetes" type="radio" name="diabetes" value="1">
+					        					<input class="form-check-input" id="si_diabetes" type="radio" name="diabetes" value="1" @isset ($historia_clinica)@if ($diabetes[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_diabetes">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_diabetes" type="radio" name="diabetes" value="2">
+					        					<input class="form-check-input" id="no_diabetes" type="radio" name="diabetes" value="2" @isset ($historia_clinica)@if ($diabetes[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_diabetes">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_diabetes" type="radio" name="diabetes" value="0">
+					        					<input class="form-check-input" id="no_se_diabetes" type="radio" name="diabetes" value="0"  @isset ($historia_clinica)@if ($diabetes[0] == 3){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_diabetes">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="diabetes_parentesco" placeholder="Parentesco">
+					        				<input class="form-control form-control-sm" type="text" name="diabetes_parentesco" placeholder="Parentesco"  
+					        				@isset($historia_clinica)
+					        					@if(isset($diabetes[1]))
+					        						{!! 'value="'.$diabetes[1].'"' !!}
+					        					@endif 
+					        				@endisset>
 					        			</div>
 
 					        			<!-- Hipertensión -->
@@ -211,20 +240,25 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_hipertension" type="radio" name="hipertension" value="1">
+					        					<input class="form-check-input" id="si_hipertension" type="radio" name="hipertension" value="1"  @isset ($historia_clinica)@if ($hipertension[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_hipertension">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_hipertension" type="radio" name="hipertension" value="2">
+					        					<input class="form-check-input" id="no_hipertension" type="radio" name="hipertension" value="2"  @isset ($historia_clinica)@if ($hipertension[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_hipertension">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_hipertension" type="radio" name="hipertension" value="0">
+					        					<input class="form-check-input" id="no_se_hipertension" type="radio" name="hipertension" value="0"  @isset ($historia_clinica)@if ($hipertension[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_hipertension">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="hipertension_parentesco" placeholder="Parentesco">
+					        				<input class="form-control form-control-sm" type="text" name="hipertension_parentesco" placeholder="Parentesco" 
+					        				@isset ($historia_clinica)
+					        					@if(isset($hipertension[1]))
+					        						{!! 'value="'.$hipertension[1].'"' !!}
+					        					@endif
+					        				@endisset>
 					        			</div>
 					        		</div>
 					        		<div class="row align-items-center">
@@ -236,20 +270,25 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_epilepsia" type="radio" name="epilepsia" value="1">
+					        					<input class="form-check-input" id="si_epilepsia" type="radio" name="epilepsia" value="1"  @isset ($historia_clinica)@if ($epilepsia[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_epilepsia">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_epilepsia" type="radio" name="epilepsia" value="2">
+					        					<input class="form-check-input" id="no_epilepsia" type="radio" name="epilepsia" value="2"  @isset ($historia_clinica)@if ($epilepsia[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_epilepsia">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_epilepsia" type="radio" name="epilepsia" value="0">
+					        					<input class="form-check-input" id="no_se_epilepsia" type="radio" name="epilepsia" value="0"  @isset ($historia_clinica)@if ($epilepsia[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_epilepsia">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="epilepsia_parentesco" placeholder="Parentesco">
+					        				<input class="form-control form-control-sm" type="text" name="epilepsia_parentesco" placeholder="Parentesco"  
+					        				@isset ($historia_clinica)
+					        					@if (isset($epilepsia[1]))
+					        						{!! 'value="'.$epilepsia[1].'"' !!}
+					        					@endif
+					        				@endisset>
 					        			</div>
 
 					        			<!-- Problemas Psiquiatricos -->
@@ -259,20 +298,25 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_psiquiatrico" type="radio" name="psiquiatrico" value="1">
+					        					<input class="form-check-input" id="si_psiquiatrico" type="radio" name="psiquiatrico" value="1"  @isset ($historia_clinica)@if ($psiquiatricos[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_psiquiatrico">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_psiquiatrico" type="radio" name="psiquiatrico" value="2">
+					        					<input class="form-check-input" id="no_psiquiatrico" type="radio" name="psiquiatrico" value="2"  @isset ($historia_clinica)@if ($psiquiatricos[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_psiquiatrico">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_psiquiatrico" type="radio" name="psiquiatrico" value="0">
+					        					<input class="form-check-input" id="no_se_psiquiatrico" type="radio" name="psiquiatrico" value="0"  @isset ($historia_clinica)@if ($psiquiatricos[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_psiquiatrico">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="psiquiatrico_parentesco" placeholder="Parentesco">
+					        				<input class="form-control form-control-sm" type="text" name="psiquiatrico_parentesco" placeholder="Parentesco"
+					        				 @isset ($historia_clinica)
+					        				 	@if (isset($psiquiatricos[1]))
+					        				 		{!! 'value="'.$psiquiatricos[1].'"' !!}
+					        				 	@endif
+					        				@endisset>
 					        			</div>
 					        		</div>
 					        		<div class="row align-items-center">
@@ -284,20 +328,25 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_cancer" type="radio" name="cancer" value="1">
+					        					<input class="form-check-input" id="si_cancer" type="radio" name="cancer" value="1"  @isset ($historia_clinica)@if ($cancer[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_cancer">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_cancer" type="radio" name="cancer" value="2">
+					        					<input class="form-check-input" id="no_cancer" type="radio" name="cancer" value="2"  @isset ($historia_clinica)@if ($cancer[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_cancer">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_cancer" type="radio" name="cancer" value="0">
+					        					<input class="form-check-input" id="no_se_cancer" type="radio" name="cancer" value="0"  @isset ($historia_clinica)@if ($cancer[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_cancer">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="cancer_parentesco" placeholder="Parentesco">
+					        				<input class="form-control form-control-sm" type="text" name="cancer_parentesco" placeholder="Parentesco"
+					        				 @isset ($historia_clinica)
+					        				 	@if (isset($cancer[1]))
+					        				 		{!! 'value="'.$cancer[1].'"' !!}
+					        				 	@endif
+					        				@endisset>
 					        			</div>
 
 					        			<!-- Trombosis, Embolias, etc. -->
@@ -307,20 +356,25 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_trombosis" type="radio" name="trombosis" value="1">
+					        					<input class="form-check-input" id="si_trombosis" type="radio" name="trombosis" value="1"  @isset ($historia_clinica)@if ($trombosis[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_trombosis">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_trombosis" type="radio" name="trombosis" value="2">
+					        					<input class="form-check-input" id="no_trombosis" type="radio" name="trombosis" value="2"  @isset ($historia_clinica)@if ($trombosis[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_trombosis">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_trombosis" type="radio" name="trombosis" value="0">
+					        					<input class="form-check-input" id="no_se_trombosis" type="radio" name="trombosis" value="0"  @isset ($historia_clinica)@if ($trombosis[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_trombosis">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="trombosis_parentesco" placeholder="Parentesco">
+					        				<input class="form-control form-control-sm" type="text" name="trombosis_parentesco" placeholder="Parentesco"
+					        				@isset ($historia_clinica)
+					        				 	@if (isset($trombosis[1]))
+					        				 		{!! 'value="'.$trombosis[1].'"' !!}
+					        				 	@endif 
+					        				@endisset>
 					        			</div>
 					        		</div>
 					        		<div class="row align-items-center">
@@ -332,20 +386,25 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_corazon" type="radio" name="corazon" value="1">
+					        					<input class="form-check-input" id="si_corazon" type="radio" name="corazon" value="1"  @isset ($historia_clinica)@if ($corazon[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_corazon">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_corazon" type="radio" name="corazon" value="2">
+					        					<input class="form-check-input" id="no_corazon" type="radio" name="corazon" value="2"  @isset ($historia_clinica)@if ($corazon[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_corazon">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_corazon" type="radio" name="corazon" value="0">
+					        					<input class="form-check-input" id="no_se_corazon" type="radio" name="corazon" value="0"  @isset ($historia_clinica)@if ($corazon[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_corazon">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="corazon_parentesco" placeholder="Parentesco">
+					        				<input class="form-control form-control-sm" type="text" name="corazon_parentesco" placeholder="Parentesco"
+					        				@isset ($historia_clinica)
+					        				 	@if (isset($corazon[1]))
+					        				 		{!! 'value="'.$corazon[1].'"' !!}
+					        				 	@endif
+					        				@endisset>
 					        			</div>
 
 					        			<!-- Padre vivo -->
@@ -355,15 +414,15 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_padre_vivo" type="radio" name="padre_vivo" value="1">
+					        					<input class="form-check-input" id="si_padre_vivo" type="radio" name="padre_vivo" value="1"  @isset ($historia_clinica)@if ($historia_clinica->ante_familiares->Padre_Vivo == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_padre_vivo">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_padre_vivo" type="radio" name="padre_vivo" value="2">
+					        					<input class="form-check-input" id="no_padre_vivo" type="radio" name="padre_vivo" value="2"  @isset ($historia_clinica)@if ($historia_clinica->ante_familiares->Padre_Vivo == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_padre_vivo">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_padre_vivo" type="radio" name="padre_vivo" value="0">
+					        					<input class="form-check-input" id="no_se_padre_vivo" type="radio" name="padre_vivo" value="0"  @isset ($historia_clinica)@if ($historia_clinica->ante_familiares->Padre_Vivo == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_padre_vivo">No sé</label>
 						        			</div>
 					        			</div>
@@ -380,20 +439,25 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_circulacion" type="radio" name="circulacion" value="1">
+					        					<input class="form-check-input" id="si_circulacion" type="radio" name="circulacion" value="1"  @isset ($historia_clinica)@if ($circulacion[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_circulacion">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_circulacion" type="radio" name="circulacion" value="2">
+					        					<input class="form-check-input" id="no_circulacion" type="radio" name="circulacion" value="2"  @isset ($historia_clinica)@if ($circulacion[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_circulacion">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_circulacion" type="radio" name="circulacion" value="0">
+					        					<input class="form-check-input" id="no_se_circulacion" type="radio" name="circulacion" value="0"  @isset ($historia_clinica)@if ($circulacion[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_circulacion">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="circulacion_parentesco" placeholder="Parentesco">
+					        				<input class="form-control form-control-sm" type="text" name="circulacion_parentesco" placeholder="Parentesco"
+					        				@isset ($historia_clinica)
+					        				 	@if (isset($circulacion[1]))
+					        				 		{!! 'value="'.$circulacion[1].'"' !!}
+					        				 	@endif
+					        				@endisset>
 					        			</div>
 
 					        			<!-- Madre viva -->
@@ -403,15 +467,15 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_madre_viva" type="radio" name="madre_viva" value="1">
+					        					<input class="form-check-input" id="si_madre_viva" type="radio" name="madre_viva" value="1"  @isset ($historia_clinica)@if ($historia_clinica->ante_familiares->Madre_Viva == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_madre_viva">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_madre_viva" type="radio" name="madre_viva" value="2">
+					        					<input class="form-check-input" id="no_madre_viva" type="radio" name="madre_viva" value="2"  @isset ($historia_clinica)@if ($historia_clinica->ante_familiares->Madre_Viva == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_madre_viva">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_madre_viva" type="radio" name="madre_viva" value="0">
+					        					<input class="form-check-input" id="no_se_madre_viva" type="radio" name="madre_viva" value="0"  @isset ($historia_clinica)@if ($historia_clinica->ante_familiares->Madre_Viva == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_madre_viva">No sé</label>
 						        			</div>
 					        			</div>
@@ -428,20 +492,25 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_pulmonares" type="radio" name="pulmonares" value="1">
+					        					<input class="form-check-input" id="si_pulmonares" type="radio" name="pulmonares" value="1"  @isset ($historia_clinica)@if ($pulmonares[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_pulmonares">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_pulmonares" type="radio" name="pulmonares" value="2">
+					        					<input class="form-check-input" id="no_pulmonares" type="radio" name="pulmonares" value="2"  @isset ($historia_clinica)@if ($pulmonares[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_pulmonares">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_pulmonares" type="radio" name="pulmonares" value="0">
+					        					<input class="form-check-input" id="no_se_pulmonares" type="radio" name="pulmonares" value="0"  @isset ($historia_clinica)@if ($pulmonares[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_pulmonares">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="pulmonares_parentesco" placeholder="Parentesco">
+					        				<input class="form-control form-control-sm" type="text" name="pulmonares_parentesco" placeholder="Parentesco"
+					        				@isset ($historia_clinica)
+					        					@if (isset($pulmonares[1]))
+					        						{!! 'value="'.$pulmonares[1].'"' !!}
+					        					@endif
+					        				@endisset>
 					        			</div>
 
 					        			<!-- Obesidad -->
@@ -451,20 +520,25 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_obesidad" type="radio" name="obesidad" value="1">
+					        					<input class="form-check-input" id="si_obesidad" type="radio" name="obesidad" value="1"  @isset ($historia_clinica)@if ($obesidad[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_obesidad">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_obesidad" type="radio" name="obesidad" value="2">
+					        					<input class="form-check-input" id="no_obesidad" type="radio" name="obesidad" value="2"  @isset ($historia_clinica)@if ($obesidad[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_obesidad">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_obesidad" type="radio" name="obesidad" value="0">
+					        					<input class="form-check-input" id="no_se_obesidad" type="radio" name="obesidad" value="0"  @isset ($historia_clinica)@if ($obesidad[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_obesidad">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="obesidad_parentesco" placeholder="Parentesco">
+					        				<input class="form-control form-control-sm" type="text" name="obesidad_parentesco" placeholder="Parentesco"
+					        				@isset ($historia_clinica)
+					        					@if (isset($obesidad[1]))
+					        						{!! 'value="'.$obesidad[1].'"' !!}
+					        					@endif
+					        				@endisset>
 					        			</div>
 					        		</div>
 					        		<div class="row align-items-center mt-1">
@@ -476,20 +550,25 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_digestivo" type="radio" name="digestivo" value="1">
+					        					<input class="form-check-input" id="si_digestivo" type="radio" name="digestivo" value="1"  @isset ($historia_clinica)@if ($digestivos[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_digestivo">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_digestivo" type="radio" name="digestivo" value="2">
+					        					<input class="form-check-input" id="no_digestivo" type="radio" name="digestivo" value="2"  @isset ($historia_clinica)@if ($digestivos[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_digestivo">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_digestivo" type="radio" name="digestivo" value="0">
+					        					<input class="form-check-input" id="no_se_digestivo" type="radio" name="digestivo" value="0"  @isset ($historia_clinica)@if ($digestivos[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_digestivo">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="digestivo_parentesco" placeholder="Parentesco">
+					        				<input class="form-control form-control-sm" type="text" name="digestivo_parentesco" placeholder="Parentesco"  
+					        				@isset ($historia_clinica)
+					        					@if (isset($digestivos[1]))
+					        						{!! 'value="'.$digestivos[1].'"' !!}
+					        					@endif
+					        				@endisset>
 					        			</div>
 
 					        			<!-- Otras -->
@@ -498,7 +577,12 @@
 					        				<span>Otras</span>
 					        			</div>
 					        			<div class="col-md-4 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="otras">
+					        				<input class="form-control form-control-sm" type="text" name="otras" 
+					        					@isset ($historia_clinica)
+					        						@if (isset($historia_clinica->ante_familiares->Otras))
+					        							{!! 'value="'.$historia_clinica->ante_familiares->Otras.'"' !!}
+					        						@endif
+					        					@endisset>
 					        			</div>
 					        		</div>
 					      		</div>
@@ -508,6 +592,19 @@
 						<!-- Antecedentes Personales -->
 
 						<div class="card">
+
+							@php
+								//Antecedentes Personales
+
+								$ejercicio = CleanRowDB::limpiar($historia_clinica->ante_personales->Ejercicio);
+								$fuma = CleanRowDB::limpiar($historia_clinica->ante_personales->Cigarro);
+								$alcohol = CleanRowDB::limpiar($historia_clinica->ante_personales->Alcohol);
+								$sustancias = CleanRowDB::limpiar($historia_clinica->ante_personales->Sustancias);
+								$alergias = CleanRowDB::limpiar($historia_clinica->ante_personales->Alergias);
+								$medicamentos = CleanRowDB::limpiar($historia_clinica->ante_personales->Medicamentos);
+								$vacunas = CleanRowDB::limpiar($historia_clinica->ante_personales->Vacunas);
+							@endphp
+
 					    	<div class="card-header" id="headingThree">
 					      		<h2 class="mb-0">
 					        		<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#Antecedentes_Personales" aria-expanded="false" aria-controls="Antecedentes_Personales">
@@ -532,11 +629,11 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_ejercicio" type="radio" name="ejercicio" value="1">
+					        					<input class="form-check-input" id="si_ejercicio" type="radio" name="ejercicio" value="1" @isset ($historia_clinica)@if ($ejercicio[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_ejercicio">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_ejercicio" type="radio" name="ejercicio" value="2">
+					        					<input class="form-check-input" id="no_ejercicio" type="radio" name="ejercicio" value="2" @isset ($historia_clinica)@if ($ejercicio[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_ejercicio">No</label>
 						        			</div>
 					        			</div>
@@ -544,13 +641,13 @@
 					        				<span>Tipo</span>
 					        			</div>
 					        			<div class="col-md-3 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="ejercicio_tipo">
+					        				<input class="form-control form-control-sm" type="text" name="ejercicio_tipo" @isset ($historia_clinica)@if (isset($ejercicio[1])){!! 'value="'.$ejercicio[1].'"' !!}@endif @endisset>
 					        			</div>
 					        			<div class="col-md-1 pl-0 text-right">
 					        				<span>Frecuencia</span>
 					        			</div>
 					        			<div class="col-md-3 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="ejercicio_frecuencia">
+					        				<input class="form-control form-control-sm" type="text" name="ejercicio_frecuencia" @isset ($historia_clinica)@if (isset($ejercicio[2])){!! 'value="'.$ejercicio[2].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 					        		<div class="row align-items-center mt-1">
@@ -562,11 +659,11 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_fuma" type="radio" name="fuma" value="1">
+					        					<input class="form-check-input" id="si_fuma" type="radio" name="fuma" value="1" @isset ($historia_clinica)@if ($fuma[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_fuma">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_fuma" type="radio" name="fuma" value="2">
+					        					<input class="form-check-input" id="no_fuma" type="radio" name="fuma" value="2" @isset ($historia_clinica)@if ($fuma[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_fuma">No</label>
 						        			</div>
 					        			</div>
@@ -574,19 +671,19 @@
 					        				<span>¿Por Día?</span>
 					        			</div>
 					        			<div class="col-md-1 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="fuma_por_dia" placeholder="Cantidad">
+					        				<input class="form-control form-control-sm" type="text" name="fuma_por_dia" placeholder="Cantidad" @isset ($historia_clinica)@if (isset($fuma[1])){!! 'value="'.$fuma[1].'"' !!}@endif @endisset>
 					        			</div>
 					        			<div class="col-md-1 pl-0 text-right">
 					        				<span>¿Desde?</span>
 					        			</div>
 					        			<div class="col-md-2 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="fuma_desde">
+					        				<input class="form-control form-control-sm" type="text" name="fuma_desde" @isset ($historia_clinica)@if (isset($fuma[2])){!! 'value="'.$fuma[2].'"' !!}@endif @endisset>
 					        			</div>
 					        			<div class="col-md-1 pl-0 text-right">
 					        				<span>Hasta?</span>
 					        			</div>
 					        			<div class="col-md-2 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="fuma_hasta" placeholder="Suspendido hace...">
+					        				<input class="form-control form-control-sm" type="text" name="fuma_hasta" placeholder="Suspendido hace..." @isset ($historia_clinica)@if (isset($fuma[3])){!! 'value="'.$fuma[3].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 					        		<div class="row align-items-center mt-1">
@@ -598,11 +695,11 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_alcohol" type="radio" name="alcohol" value="1">
+					        					<input class="form-check-input" id="si_alcohol" type="radio" name="alcohol" value="1" @isset ($historia_clinica)@if ($alcohol[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_alcohol">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_alcohol" type="radio" name="alcohol" value="2">
+					        					<input class="form-check-input" id="no_alcohol" type="radio" name="alcohol" value="2" @isset ($historia_clinica)@if ($alcohol[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_alcohol">No</label>
 						        			</div>
 					        			</div>
@@ -610,19 +707,19 @@
 					        				<span>Tipo</span>
 					        			</div>
 					        			<div class="col-md-1 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="alcohol_tipo">
+					        				<input class="form-control form-control-sm" type="text" name="alcohol_tipo" @isset ($historia_clinica)@if (isset($alcohol[1])){!! 'value="'.$alcohol[1].'"' !!}@endif @endisset>
 					        			</div>
 					        			<div class="col-md-1 pl-0 text-right">
 					        				<span>¿Desde?</span>
 					        			</div>
 					        			<div class="col-md-2 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="alcohol_desde">
+					        				<input class="form-control form-control-sm" type="text" name="alcohol_desde" @isset ($historia_clinica)@if (isset($alcohol[2])){!! 'value="'.$alcohol[2].'"' !!}@endif @endisset>
 					        			</div>
 					        			<div class="col-md-1 pl-0 text-right">
 					        				<span>Hasta?</span>
 					        			</div>
 					        			<div class="col-md-2 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="alcohol_hasta" placeholder="Suspendido hace...">
+					        				<input class="form-control form-control-sm" type="text" name="alcohol_hasta" placeholder="Suspendido hace..." @isset ($historia_clinica)@if (isset($alcohol[3])){!! 'value="'.$alcohol[3].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 					        		<div class="row align-items-center mt-1">
@@ -634,11 +731,11 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_sustancias" type="radio" name="sustancias" value="1">
+					        					<input class="form-check-input" id="si_sustancias" type="radio" name="sustancias" value="1" @isset ($historia_clinica)@if ($sustancias[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_sustancias">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_sustancias" type="radio" name="sustancias" value="2">
+					        					<input class="form-check-input" id="no_sustancias" type="radio" name="sustancias" value="2" @isset ($historia_clinica)@if ($sustancias[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_sustancias">No</label>
 						        			</div>
 					        			</div>
@@ -646,19 +743,19 @@
 					        				<span>Tipo</span>
 					        			</div>
 					        			<div class="col-md-1 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="sustancias_tipo">
+					        				<input class="form-control form-control-sm" type="text" name="sustancias_tipo" @isset ($historia_clinica)@if (isset($sustancias[1])){!! 'value="'.$sustancias[1].'"' !!}@endif @endisset>
 					        			</div>
 					        			<div class="col-md-1 pl-0 text-right">
 					        				<span>¿Desde?</span>
 					        			</div>
 					        			<div class="col-md-2 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="sustancias_desde">
+					        				<input class="form-control form-control-sm" type="text" name="sustancias_desde" @isset ($historia_clinica)@if (isset($sustancias[2])){!! 'value="'.$sustancias[2].'"' !!}@endif @endisset>
 					        			</div>
 					        			<div class="col-md-1 pl-0 text-right">
 					        				<span>Hasta?</span>
 					        			</div>
 					        			<div class="col-md-2 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="sustancias_hasta" placeholder="Suspendido hace...">
+					        				<input class="form-control form-control-sm" type="text" name="sustancias_hasta" placeholder="Suspendido hace..." @isset ($historia_clinica)@if (isset($sustancias[3])){!! 'value="'.$sustancias[3].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 					        		<div class="row align-items-center mt-1">
@@ -670,11 +767,11 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_alergias" type="radio" name="alergias" value="1">
+					        					<input class="form-check-input" id="si_alergias" type="radio" name="alergias" value="1" @isset ($historia_clinica)@if ($alergias[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_alergias">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_alergias" type="radio" name="alergias" value="2">
+					        					<input class="form-check-input" id="no_alergias" type="radio" name="alergias" value="2" @isset ($historia_clinica)@if ($alergias[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_alergias">No</label>
 						        			</div>
 					        			</div>
@@ -682,7 +779,7 @@
 					        				<span>¿A qué?</span>
 					        			</div>
 					        			<div class="col-md-7 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="alergias_descripcion" placeholder="Medicamentos, Alimento, Sustancia...">
+					        				<input class="form-control form-control-sm" type="text" name="alergias_descripcion" placeholder="Medicamentos, Alimento, Sustancia..." @isset ($historia_clinica)@if (isset($alergias[1])){!! 'value="'.$alergias[1].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 					        		<div class="row align-items-center mt-1">
@@ -694,11 +791,11 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_medicamentos" type="radio" name="medicamentos" value="1">
+					        					<input class="form-check-input" id="si_medicamentos" type="radio" name="medicamentos" value="1" @isset ($historia_clinica)@if ($medicamentos[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_medicamentos">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_medicamentos" type="radio" name="medicamentos" value="2">
+					        					<input class="form-check-input" id="no_medicamentos" type="radio" name="medicamentos" value="2" @isset ($historia_clinica)@if ($medicamentos[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_medicamentos">No</label>
 						        			</div>
 					        			</div>
@@ -706,7 +803,7 @@
 					        				<span>¿Cuáles?</span>
 					        			</div>
 					        			<div class="col-md-7 pl-0">
-					        				<textarea class="form-control form-control-sm" style="max-width: 610px; min-height: 31px; max-height: 100px; height: 31px" placeholder="¿Cuáles y Cómo los toma?" name="medicamentos_descripcion"></textarea>
+					        				<textarea class="form-control form-control-sm" style="max-width: 610px; min-height: 31px; max-height: 100px; height: 31px" placeholder="¿Cuáles y Cómo los toma?" name="medicamentos_descripcion">@isset ($historia_clinica)@if(isset($medicamentos[1])){!! $medicamentos[1] !!}@endif @endisset</textarea>
 					        			</div>
 					        		</div>
 					        		<div class="row align-items-center mt-1">
@@ -718,11 +815,11 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_vacunas" type="radio" name="vacunas" value="1">
+					        					<input class="form-check-input" id="si_vacunas" type="radio" name="vacunas" value="1" @isset ($historia_clinica)@if ($vacunas[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_vacunas">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_vacunas" type="radio" name="vacunas" value="2">
+					        					<input class="form-check-input" id="no_vacunas" type="radio" name="vacunas" value="2" @isset ($historia_clinica)@if ($vacunas[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_vacunas">No</label>
 						        			</div>
 					        			</div>
@@ -730,7 +827,7 @@
 					        				<span>¿Cuáles?</span>
 					        			</div>
 					        			<div class="col-md-7 pl-0">
-					        				<textarea class="form-control form-control-sm" style="max-width: 610px; min-height: 31px; max-height: 100px; height: 31px" name="vacunas_descripcion"></textarea>
+					        				<textarea class="form-control form-control-sm" style="max-width: 610px; min-height: 31px; max-height: 100px; height: 31px" name="vacunas_descripcion">@isset ($historia_clinica)@if (isset($vacunas[1])){!! $vacunas[1] !!}@endif @endisset</textarea>
 					        			</div>
 					        		</div>
 					      		</div>
@@ -740,6 +837,30 @@
 					  	<!-- Antecedentes Médicos -->
 
 					  	<div class="card">
+					  		@php
+					  			//Antecedentes Médicos
+
+					  			$cirugias = CleanRowDB::limpiar($historia_clinica->ante_medicos->Cirugias);
+					  			$diabetes_2 = CleanRowDB::limpiar($historia_clinica->ante_medicos->Diabetes);
+					  			$hipertension_2 = CleanRowDB::limpiar($historia_clinica->ante_medicos->Hipertension);
+					  			$tiroides = CleanRowDB::limpiar($historia_clinica->ante_medicos->Tiroides);
+					  			$migrania = CleanRowDB::limpiar($historia_clinica->ante_medicos->Migrania);
+					  			$gastrointestinales = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Gastrointestinales);
+					  			$fractura = CleanRowDB::limpiar($historia_clinica->ante_medicos->Fractura);
+					  			$higado = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Higado);
+					  			$reumas = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Reumaticos);
+					  			$vesicula = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Vesicula);
+					  			$nerviosismo = CleanRowDB::limpiar($historia_clinica->ante_medicos->Nerviosismo_Ansiedad);
+					  			$pulmonares = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Pulmonares);
+					  			$depresion = CleanRowDB::limpiar($historia_clinica->ante_medicos->Depresion);
+					  			$corazon_2 = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Corazon);
+					  			$convulsiones = CleanRowDB::limpiar($historia_clinica->ante_medicos->Epilepsia);
+					  			$trombosis = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Circulacion);
+					  			$cancer_2 = CleanRowDB::limpiar($historia_clinica->ante_medicos->Cancer);
+					  			$genitourinarios = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Genitourinarios);
+					  			$transfusiones = CleanRowDB::limpiar($historia_clinica->ante_medicos->Transfusiones);
+					  			$piel = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Piel); 
+					  		@endphp
 					    	<div class="card-header" id="headingTwo">
 					      		<h2 class="mb-0">
 					        		<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#Antecedentes_Medicos" aria-expanded="false" aria-controls="Antecedentes_Medicos">
@@ -756,11 +877,11 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_cirugias" type="radio" name="cirugias" value="1">
+					        					<input class="form-check-input" id="si_cirugias" type="radio" name="cirugias" value="1" @isset ($historia_clinica)@if ($cirugias[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_cirugias">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_cirugias" type="radio" name="cirugias" value="2">
+					        					<input class="form-check-input" id="no_cirugias" type="radio" name="cirugias" value="2" @isset ($historia_clinica)@if ($cirugias[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_cirugias">No</label>
 						        			</div>
 					        			</div>
@@ -768,7 +889,7 @@
 					        				<span>¿Cuáles?</span>
 					        			</div>
 					        			<div class="col-md-7 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="cirugias_descripcion" placeholder="Describa las cirugías previas...">
+					        				<input class="form-control form-control-sm" type="text" name="cirugias_descripcion" placeholder="Describa las cirugías previas..." @isset ($historia_clinica)@if (isset($cirugias[1])){!! 'value="'.$cirugias[1].'"' !!}@endif @endisset>
 					        			</div>
 					      			</div>
 
@@ -781,20 +902,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_diabetes_2" type="radio" name="diabetes_2" value="1">
+					        					<input class="form-check-input" id="si_diabetes_2" type="radio" name="diabetes_2" value="1" @isset ($historia_clinica)@if ($diabetes_2[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_diabetes_2">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_diabetes_2" type="radio" name="diabetes_2" value="2">
+					        					<input class="form-check-input" id="no_diabetes_2" type="radio" name="diabetes_2" value="2" @isset ($historia_clinica)@if ($diabetes_2[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_diabetes_2">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_diabetes_2" type="radio" name="diabetes_2" value="0">
+					        					<input class="form-check-input" id="no_se_diabetes_2" type="radio" name="diabetes_2" value="0" @isset ($historia_clinica)@if ($diabetes_2[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_diabetes_2">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="diabetes_2_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="diabetes_2_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($diabetes_2[1])){!! 'value="'.$diabetes_2[1].'"' !!}@endif @endisset>
 					        			</div>
 
 					        			<!-- Hipertensión -->
@@ -804,20 +925,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_hipertension_2" type="radio" name="hipertension_2" value="1">
+					        					<input class="form-check-input" id="si_hipertension_2" type="radio" name="hipertension_2" value="1" @isset ($historia_clinica)@if ($hipertension_2[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_hipertension_2">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_hipertension_2" type="radio" name="hipertension_2" value="2">
+					        					<input class="form-check-input" id="no_hipertension_2" type="radio" name="hipertension_2" value="2" @isset ($historia_clinica)@if ($hipertension_2[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_hipertension_2">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_hipertension_2" type="radio" name="hipertension_2" value="0">
+					        					<input class="form-check-input" id="no_se_hipertension_2" type="radio" name="hipertension_2" value="0" @isset ($historia_clinica)@if ($hipertension_2[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_hipertension_2">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="hipertension_2_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="hipertension_2_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($hipertension_2[1])){!! 'value="'.$hipertension_2[1].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 
@@ -830,20 +951,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_tiroides" type="radio" name="tiroides" value="1">
+					        					<input class="form-check-input" id="si_tiroides" type="radio" name="tiroides" value="1" @isset ($historia_clinica)@if ($tiroides[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_tiroides">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_tiroides" type="radio" name="tiroides" value="2">
+					        					<input class="form-check-input" id="no_tiroides" type="radio" name="tiroides" value="2" @isset ($historia_clinica)@if ($tiroides[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_tiroides">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_tiroides" type="radio" name="tiroides" value="0">
+					        					<input class="form-check-input" id="no_se_tiroides" type="radio" name="tiroides" value="0" @isset ($historia_clinica)@if ($tiroides[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_tiroides">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="tiroides_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="tiroides_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($tiroides[1])){!! 'value="'.$tiroides[1].'"' !!}@endif @endisset>
 					        			</div>
 
 					        			<!-- Migraña -->
@@ -853,20 +974,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_migrania" type="radio" name="migrania" value="1">
+					        					<input class="form-check-input" id="si_migrania" type="radio" name="migrania" value="1" @isset ($historia_clinica)@if ($migrania[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_migrania">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_migrania" type="radio" name="migrania" value="2">
+					        					<input class="form-check-input" id="no_migrania" type="radio" name="migrania" value="2" @isset ($historia_clinica)@if ($migrania[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_migrania">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_migrania" type="radio" name="migrania" value="0">
+					        					<input class="form-check-input" id="no_se_migrania" type="radio" name="migrania" value="0" @isset ($historia_clinica)@if ($migrania[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_migrania">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="migrania_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="migrania_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($migrania[1])){!! 'value="'.$migrania[1].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 
@@ -879,20 +1000,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_gastrointestinales" type="radio" name="gastrointestinales" value="1">
+					        					<input class="form-check-input" id="si_gastrointestinales" type="radio" name="gastrointestinales" value="1" @isset ($historia_clinica)@if ($gastrointestinales[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_gastrointestinales">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_gastrointestinales" type="radio" name="gastrointestinales" value="2">
+					        					<input class="form-check-input" id="no_gastrointestinales" type="radio" name="gastrointestinales" value="2" @isset ($historia_clinica)@if ($gastrointestinales[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_gastrointestinales">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_gastrointestinales" type="radio" name="gastrointestinales" value="0">
+					        					<input class="form-check-input" id="no_se_gastrointestinales" type="radio" name="gastrointestinales" value="0" @isset ($historia_clinica)@if ($gastrointestinales[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_gastrointestinales">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="gastrointestinales_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="gastrointestinales_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($gastrointestinales[1])){!! 'value="'.$gastrointestinales[1].'"' !!}@endif @endisset>
 					        			</div>
 
 					        			<!-- Fractura -->
@@ -902,46 +1023,46 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_fractura" type="radio" name="fractura" value="1">
+					        					<input class="form-check-input" id="si_fractura" type="radio" name="fractura" value="1" @isset ($historia_clinica)@if ($fractura[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_fractura">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_fractura" type="radio" name="fractura" value="2">
+					        					<input class="form-check-input" id="no_fractura" type="radio" name="fractura" value="2" @isset ($historia_clinica)@if ($fractura[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_fractura">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_fractura" type="radio" name="fractura" value="0">
+					        					<input class="form-check-input" id="no_se_fractura" type="radio" name="fractura" value="0" @isset ($historia_clinica)@if ($fractura[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_fractura">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="fractura_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="fractura_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($fractura[1])){!! 'value="'.$fractura[1].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 
 					        		<div class="row align-items-center">
 
-					        			<!-- Dolores de Cabeza -->
+					        			<!-- Problemas Hígado -->
 
 					        			<div class="col-md-2 text-right">
 					        				<span>Problemas de Hígado</span>
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_higado" type="radio" name="higado" value="1">
+					        					<input class="form-check-input" id="si_higado" type="radio" name="higado" value="1" @isset ($historia_clinica)@if ($higado[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_higado">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_higado" type="radio" name="higado" value="2">
+					        					<input class="form-check-input" id="no_higado" type="radio" name="higado" value="2" @isset ($historia_clinica)@if ($higado[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_higado">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_higado" type="radio" name="higado" value="0">
+					        					<input class="form-check-input" id="no_se_higado" type="radio" name="higado" value="0" @isset ($historia_clinica)@if ($higado[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_higado">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="higado_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="higado_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($higado[1])){!! 'value="'.$higado[1].'"' !!}@endif @endisset>
 					        			</div>
 
 					        			<!-- Enfermedades Reumáticas -->
@@ -951,20 +1072,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_reumas" type="radio" name="reumas" value="1">
+					        					<input class="form-check-input" id="si_reumas" type="radio" name="reumas" value="1" @isset ($historia_clinica)@if ($reumas[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_reumas">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_reumas" type="radio" name="reumas" value="2">
+					        					<input class="form-check-input" id="no_reumas" type="radio" name="reumas" value="2" @isset ($historia_clinica)@if ($reumas[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_reumas">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_reumas" type="radio" name="reumas" value="0">
+					        					<input class="form-check-input" id="no_se_reumas" type="radio" name="reumas" value="0" @isset ($historia_clinica)@if ($reumas[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_reumas">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="reumas_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="reumas_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($reumas[1])){!! 'value="'.$reumas[1].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 
@@ -977,20 +1098,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_vesicula" type="radio" name="vesicula" value="1">
+					        					<input class="form-check-input" id="si_vesicula" type="radio" name="vesicula" value="1" @isset ($historia_clinica)@if ($vesicula[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_vesicula">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_vesicula" type="radio" name="vesicula" value="2">
+					        					<input class="form-check-input" id="no_vesicula" type="radio" name="vesicula" value="2" @isset ($historia_clinica)@if ($vesicula[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_vesicula">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_vesicula" type="radio" name="vesicula" value="0">
+					        					<input class="form-check-input" id="no_se_vesicula" type="radio" name="vesicula" value="0" @isset ($historia_clinica)@if ($vesicula[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_vesicula">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="vesicula_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="vesicula_desde" placeholder="¿Desde Cuándo?"@isset ($historia_clinica)@if (isset($vesicula[1])){!! 'value="'.$vesicula[1].'"' !!}@endif @endisset>
 					        			</div>
 
 					        			<!-- Nerviosismo o Ansiedad -->
@@ -1000,20 +1121,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_nerviosismo" type="radio" name="nerviosismo" value="1">
+					        					<input class="form-check-input" id="si_nerviosismo" type="radio" name="nerviosismo" value="1" @isset ($historia_clinica)@if ($nerviosismo[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_nerviosismo">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_nerviosismo" type="radio" name="nerviosismo" value="2">
+					        					<input class="form-check-input" id="no_nerviosismo" type="radio" name="nerviosismo" value="2" @isset ($historia_clinica)@if ($nerviosismo[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_nerviosismo">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_nerviosismo" type="radio" name="nerviosismo" value="0">
+					        					<input class="form-check-input" id="no_se_nerviosismo" type="radio" name="nerviosismo" value="0" @isset ($historia_clinica)@if ($nerviosismo[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_nerviosismo">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="nerviosismo_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="nerviosismo_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($nerviosismo[1])){!! 'value="'.$nerviosismo[1].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 
@@ -1026,20 +1147,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_pulmonares_2" type="radio" name="pulmonares_2" value="1">
+					        					<input class="form-check-input" id="si_pulmonares_2" type="radio" name="pulmonares_2" value="1" @isset ($historia_clinica)@if ($pulmonares[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_pulmonares_2">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_pulmonares_2" type="radio" name="pulmonares_2" value="2">
+					        					<input class="form-check-input" id="no_pulmonares_2" type="radio" name="pulmonares_2" value="2" @isset ($historia_clinica)@if ($pulmonares[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_pulmonares_2">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_pulmonares_2" type="radio" name="pulmonares_2" value="0">
+					        					<input class="form-check-input" id="no_se_pulmonares_2" type="radio" name="pulmonares_2" value="0" @isset ($historia_clinica)@if ($pulmonares[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_pulmonares_2">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="pulmonares_2_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="pulmonares_2_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($pulmonares[1])){!! 'value="'.$pulmonares[1].'"' !!}@endif @endisset>
 					        			</div>
 
 					        			<!-- Depresión -->
@@ -1049,20 +1170,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_depresion" type="radio" name="depresion" value="1">
+					        					<input class="form-check-input" id="si_depresion" type="radio" name="depresion" value="1" @isset ($historia_clinica)@if ($depresion[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_depresion">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_depresion" type="radio" name="depresion" value="2">
+					        					<input class="form-check-input" id="no_depresion" type="radio" name="depresion" value="2" @isset ($historia_clinica)@if ($depresion[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_depresion">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_depresion" type="radio" name="depresion" value="0">
+					        					<input class="form-check-input" id="no_se_depresion" type="radio" name="depresion" value="0" @isset ($historia_clinica)@if ($depresion[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_depresion">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="depresion_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="depresion_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($depresion[1])){!! 'value="'.$depresion[1].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 
@@ -1075,20 +1196,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_corazon_2" type="radio" name="corazon_2" value="1">
+					        					<input class="form-check-input" id="si_corazon_2" type="radio" name="corazon_2" value="1" @isset ($historia_clinica)@if ($corazon_2[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_corazon_2">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_corazon_2" type="radio" name="corazon_2" value="2">
+					        					<input class="form-check-input" id="no_corazon_2" type="radio" name="corazon_2" value="2" @isset ($historia_clinica)@if ($corazon_2[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_corazon_2">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_corazon_2" type="radio" name="corazon_2" value="0">
+					        					<input class="form-check-input" id="no_se_corazon_2" type="radio" name="corazon_2" value="0" @isset ($historia_clinica)@if ($corazon_2[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_corazon_2">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="corazon_2_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="corazon_2_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($corazon_2[1])){!! 'value="'.$corazon_2[1].'"' !!}@endif @endisset>
 					        			</div>
 
 					        			<!-- Convulsiones o Epilepsia -->
@@ -1098,20 +1219,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_convulsiones" type="radio" name="convulsiones" value="1">
+					        					<input class="form-check-input" id="si_convulsiones" type="radio" name="convulsiones" value="1" @isset ($historia_clinica)@if ($convulsiones[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_convulsiones">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_convulsiones" type="radio" name="convulsiones" value="2">
+					        					<input class="form-check-input" id="no_convulsiones" type="radio" name="convulsiones" value="2" @isset ($historia_clinica)@if ($convulsiones[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_convulsiones">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_convulsiones" type="radio" name="convulsiones" value="0">
+					        					<input class="form-check-input" id="no_se_convulsiones" type="radio" name="convulsiones" value="0" @isset ($historia_clinica)@if ($convulsiones[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_convulsiones">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="convulsiones_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="convulsiones_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($convulsiones[1])){!! 'value="'.$convulsiones[1].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 
@@ -1124,20 +1245,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_circulacion_2" type="radio" name="circulacion_2" value="1">
+					        					<input class="form-check-input" id="si_circulacion_2" type="radio" name="circulacion_2" value="1" @isset ($historia_clinica)@if ($trombosis[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_circulacion_2">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_circulacion_2" type="radio" name="circulacion_2" value="2">
+					        					<input class="form-check-input" id="no_circulacion_2" type="radio" name="circulacion_2" value="2" @isset ($historia_clinica)@if ($trombosis[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_circulacion_2">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_circulacion_2" type="radio" name="circulacion_2" value="0">
+					        					<input class="form-check-input" id="no_se_circulacion_2" type="radio" name="circulacion_2" value="0" @isset ($historia_clinica)@if ($trombosis[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_circulacion_2">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="circulacion_2_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="circulacion_2_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($trombosis[1])){!! 'value="'.$trombosis[1].'"' !!}@endif @endisset>
 					        			</div>
 
 					        			<!-- Cancer o Tumores -->
@@ -1147,20 +1268,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_cancer_2" type="radio" name="cancer_2" value="1">
+					        					<input class="form-check-input" id="si_cancer_2" type="radio" name="cancer_2" value="1" @isset ($historia_clinica)@if ($cancer_2[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_cancer_2">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_cancer_2" type="radio" name="cancer_2" value="2">
+					        					<input class="form-check-input" id="no_cancer_2" type="radio" name="cancer_2" value="2" @isset ($historia_clinica)@if ($cancer_2[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_cancer_2">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_cancer_2" type="radio" name="cancer_2" value="0">
+					        					<input class="form-check-input" id="no_se_cancer_2" type="radio" name="cancer_2" value="0" @isset ($historia_clinica)@if ($cancer_2[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_cancer_2">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="cancer_2_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="cancer_2_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($cancer_2[1])){!! 'value="'.$cancer_2[1].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 
@@ -1173,20 +1294,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_genitourinarios" type="radio" name="genitourinarios" value="1">
+					        					<input class="form-check-input" id="si_genitourinarios" type="radio" name="genitourinarios" value="1" @isset ($historia_clinica)@if ($genitourinarios[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_genitourinarios">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_genitourinarios" type="radio" name="genitourinarios" value="2">
+					        					<input class="form-check-input" id="no_genitourinarios" type="radio" name="genitourinarios" value="2" @isset ($historia_clinica)@if ($genitourinarios[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_genitourinarios">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_genitourinarios" type="radio" name="genitourinarios" value="0">
+					        					<input class="form-check-input" id="no_se_genitourinarios" type="radio" name="genitourinarios" value="0" @isset ($historia_clinica)@if ($genitourinarios[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_genitourinarios">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="genitourinarios_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="genitourinarios_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($genitourinarios[1])){!! 'value="'.$genitourinarios[1].'"' !!}@endif @endisset>
 					        			</div>
 
 					        			<!-- Transfusiones -->
@@ -1196,20 +1317,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_transfusiones" type="radio" name="transfusiones" value="1">
+					        					<input class="form-check-input" id="si_transfusiones" type="radio" name="transfusiones" value="1" @isset ($historia_clinica)@if ($transfusiones[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_transfusiones">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_transfusiones" type="radio" name="transfusiones" value="2">
+					        					<input class="form-check-input" id="no_transfusiones" type="radio" name="transfusiones" value="2" @isset ($historia_clinica)@if ($transfusiones[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_transfusiones">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_transfusiones" type="radio" name="transfusiones" value="0">
+					        					<input class="form-check-input" id="no_se_transfusiones" type="radio" name="transfusiones" value="0" @isset ($historia_clinica)@if ($transfusiones[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_transfusiones">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="transfusiones_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="transfusiones_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($transfusiones[1])){!! 'value="'.$transfusiones[1].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 
@@ -1222,20 +1343,20 @@
 					        			</div>
 					        			<div class="col-md-2 p-0  text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_piel" type="radio" name="piel" value="1">
+					        					<input class="form-check-input" id="si_piel" type="radio" name="piel" value="1" @isset ($historia_clinica)@if ($piel[0] == 1){{'checked'}}@endif @endisset>
 					        					<label class="form-check-label" for="si_piel">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_piel" type="radio" name="piel" value="2">
+					        					<input class="form-check-input" id="no_piel" type="radio" name="piel" value="2" @isset ($historia_clinica)@if ($piel[0] == 2){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_piel">No</label>
 						        			</div>
 						        			<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_se_piel" type="radio" name="piel" value="0">
+					        					<input class="form-check-input" id="no_se_piel" type="radio" name="piel" value="0" @isset ($historia_clinica)@if ($piel[0] == 0){{'checked'}}@endif @endisset>
 						        				<label class="form-check-label" for="no_se_piel">No sé</label>
 						        			</div>
 					        			</div>
 					        			<div class="col-md-2">
-					        				<input class="form-control form-control-sm" type="text" name="piel_desde" placeholder="¿Desde Cuándo?">
+					        				<input class="form-control form-control-sm" type="text" name="piel_desde" placeholder="¿Desde Cuándo?" @isset ($historia_clinica)@if (isset($piel[1])){!! 'value="'.$piel[1].'"' !!}@endif @endisset>
 					        			</div>
 
 					        			<!-- Otras -->
@@ -1244,7 +1365,7 @@
 					        				<span>Otras</span>
 					        			</div>
 					        			<div class="col-md-4 pl-0">
-					        				<input class="form-control form-control-sm" type="text" name="otras_2">
+					        				<input class="form-control form-control-sm" type="text" name="otras_2" @isset ($historia_clinica)@if ($historia_clinica->ante_medicos->Otras){!! 'value="'.$historia_clinica->ante_medicos->Otras !!}@endif @endisset>
 					        			</div>
 					        		</div>
 					      		</div>
