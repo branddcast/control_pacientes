@@ -188,7 +188,7 @@ class HistoriasClinicasController extends Controller
         $ant_nut->Peso = $request->peso;
         $ant_nut->Estatura = $request->estatura;
         $ant_nut->Percentil = $request->percentil;
-        $ant_nut->Peso_Ult_6_Meses = $request->aumento."|".$request->cuanto_aumento."|";
+        $ant_nut->Peso_Ult_6_Meses = $request->aumento."|".$request->cuanto_aumento."|".$request->porque_aumento."|";
         $ant_nut->IMC = $request->imc;
         $ant_nut->Dieta_Especial = $request->dieta."|".$request->cual_dieta."|";
         $ant_nut->Peso_Perdida_Global = $request->perdida_global;
@@ -204,33 +204,38 @@ class HistoriasClinicasController extends Controller
             return back()->with('error', 'Error al registrar la información. Intente de nuevo más tarde.');
         }
 
-        // ANTECEDENTES GINECO-OBSTETRICOS
 
-        $ant_gin = new AntecedentesGinecoObstetricos;
+        //Se habilita el llenado si el paciente es Mujer
 
-        $ant_gin->Menarca = $request->menarca;
-        $ant_gin->Ritmo = $request->ritmo;
-        $ant_gin->Ult_Menstruacion = $request->ult_menstruacion;
-        $ant_gin->Parejas_Sexuales = $request->parejas_sexuales;
-        $ant_gin->Dismenorrea = $request->dismenorrea."|".$request->tratamiento_dismenorrea."|";
-        $ant_gin->Inicio_Vida_Sexual = $request->vida_sexual;
-        $ant_gin->Embarazos = $request->embarazos;
-        $ant_gin->Partos = $request->partos;
-        $ant_gin->Cesareas = $request->cesareas;
-        $ant_gin->Abortos = $request->abortos;
-        $ant_gin->Control_Natal = $request->control_natal;
-        $ant_gin->Dispareunia = $request->dispareunia;
-        $ant_gin->Mastografia = $request->mastografia."|".$request->fecha_mastografia."|";
-        $ant_gin->Ultrasonido_Mamario = $request->ultrasonido_mamario."|".$request->fecha_ultrasonido_mamario."|";
-        $ant_gin->Autoexploracion_Mamaria = $request->autoexploracion;
-        $ant_gin->Numero_Ultrasonidos = $request->cantidad_ultrasonidos."|".$request->fecha_ultrasonido."|".$request->resultado_ultrasonido."|";
-        $ant_gin->Colposcopia_Papanicolaou = $request->colposcopia."|".$request->fecha_colposcopia."|".$request->resultado_colposcopia."|";
-        $ant_gin->Planificacion_Familiar = $request->tipo_planificacion;
+        if($request->sexo == 'M'){
+            // ANTECEDENTES GINECO-OBSTETRICOS
 
-        if($ant_gin->save()){
-            $id_ant_gin = DB::table('antecedentes_gineco-obstetricos')->select(DB::raw('LAST_INSERT_ID() as id'))->get();
-        }else{
-            return back()->with('error', 'Error al registrar la información. Intente de nuevo más tarde.');
+            $ant_gin = new AntecedentesGinecoObstetricos;
+
+            $ant_gin->Menarca = $request->menarca;
+            $ant_gin->Ritmo = $request->ritmo;
+            $ant_gin->Ult_Menstruacion = $request->ult_menstruacion;
+            $ant_gin->Parejas_Sexuales = $request->parejas_sexuales;
+            $ant_gin->Dismenorrea = $request->dismenorrea."|".$request->tratamiento_dismenorrea."|";
+            $ant_gin->Inicio_Vida_Sexual = $request->vida_sexual;
+            $ant_gin->Embarazos = $request->embarazos;
+            $ant_gin->Partos = $request->partos;
+            $ant_gin->Cesareas = $request->cesareas;
+            $ant_gin->Abortos = $request->abortos;
+            $ant_gin->Control_Natal = $request->control_natal;
+            $ant_gin->Dispareunia = $request->dispareunia;
+            $ant_gin->Mastografia = $request->mastografia."|".$request->fecha_mastografia."|";
+            $ant_gin->Ultrasonido_Mamario = $request->ultrasonido_mamario."|".$request->fecha_ultrasonido_mamario."|";
+            $ant_gin->Autoexploracion_Mamaria = $request->autoexploracion;
+            $ant_gin->Numero_Ultrasonidos = $request->cantidad_ultrasonidos."|".$request->fecha_ultrasonido."|".$request->resultado_ultrasonido."|";
+            $ant_gin->Colposcopia_Papanicolaou = $request->colposcopia."|".$request->fecha_colposcopia."|".$request->resultado_colposcopia."|";
+            $ant_gin->Planificacion_Familiar = $request->tipo_planificacion;
+
+            if($ant_gin->save()){
+                $id_ant_gin = DB::table('antecedentes_gineco-obstetricos')->select(DB::raw('LAST_INSERT_ID() as id'))->get();
+            }else{
+                return back()->with('error', 'Error al registrar la información. Intente de nuevo más tarde.');
+            }
         }
 
         // HISTORIA CLINICA

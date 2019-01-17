@@ -1731,6 +1731,12 @@
 						<!-- Antecedentes Nutricionales -->
 
 					  	<div class="card">
+					  		@php
+					  			//Antecedentes Nutricionales
+
+					  			$peso_ult_6_meses = CleanRowDB::limpiar($historia_clinica->ante_nutricionales->Peso_Ult_6_Meses);
+					  			$dieta_especial = CleanRowDB::limpiar($historia_clinica->ante_nutricionales->Dieta_Especial);
+					  		@endphp
 					    	<div class="card-header" id="headingTwo">
 					      		<h2 class="mb-0">
 					        		<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#Antecedentes_Nutricionales" aria-expanded="false" aria-controls="Antecedentes_Nutricionales">
@@ -1749,7 +1755,7 @@
 												<div class="input-group-prepend">
 												   <span class="input-group-text">Peso</span>
 												</div>
-					        					<input class=" form-control form-control-sm" type="number" name="peso" id="peso" step=".01" min="0" max="999.99" placeholder="00,00">
+					        					<input class=" form-control form-control-sm" type="number" name="peso" id="peso" step=".01" min="0" max="999.99" placeholder="00,00" @isset ($historia_clinica)@if (isset($historia_clinica->ante_nutricionales->Peso)){!! 'value="'.$historia_clinica->ante_nutricionales->Peso.'"' !!}@endif @endisset>
 						        				<div class="input-group-append">
 													<span class="input-group-text">kg</span>
 												</div>
@@ -1763,7 +1769,7 @@
 												<div class="input-group-prepend">
 												   <span class="input-group-text">Estatura</span>
 												</div>
-					        					<input class=" form-control form-control-sm" type="number" name="estatura" id="estatura" step=".01" min="0" max="2.50" placeholder="0,00">
+					        					<input class=" form-control form-control-sm" type="number" name="estatura" id="estatura" step=".01" min="0" max="2.50" placeholder="0,00" @isset ($historia_clinica)@if (isset($historia_clinica->ante_nutricionales->Estatura)){!! 'value="'.$historia_clinica->ante_nutricionales->Estatura.'"' !!}@endif @endisset>
 						        				<div class="input-group-append">
 													<span class="input-group-text">m</span>
 												</div>
@@ -1777,7 +1783,7 @@
 												<div class="input-group-prepend">
 												   <span class="input-group-text">Percentil</span>
 												</div>
-					        					<input class=" form-control form-control-sm" type="number" name="percentil" step=".01" min="0" max="100.99" placeholder="0,00">
+					        					<input class=" form-control form-control-sm" type="number" name="percentil" step=".01" min="0" max="100.99" placeholder="0,00" @isset ($historia_clinica)@if (isset($historia_clinica->ante_nutricionales->Percentil)){!! 'value="'.$historia_clinica->ante_nutricionales->Percentil.'"' !!}@endif @endisset>
 											</div>
 					        			</div>
 					        		</div>
@@ -1791,11 +1797,11 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_aumento" type="radio" name="aumento" value="1">
+					        					<input class="form-check-input" id="si_aumento" type="radio" name="aumento" value="1" @isset ($historia_clinica)@if ($peso_ult_6_meses[0] == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_aumento">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_aumento" type="radio" name="aumento" value="2">
+					        					<input class="form-check-input" id="no_aumento" type="radio" name="aumento" value="2" @isset ($historia_clinica)@if ($peso_ult_6_meses[0] == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_aumento">No</label>
 						        			</div>
 					        			</div>
@@ -1808,7 +1814,7 @@
 							        				<span>¿Cuánto?</span>
 							        			</div>
 							        			<div class="col-md-4 pl-0">
-							        				<input class="form-control form-control-sm" type="text" name="cuanto_aumento">
+							        				<input class="form-control form-control-sm" type="text" name="cuanto_aumento" @isset ($historia_clinica)@if (isset($peso_ult_6_meses[1])){!! 'value="'.$peso_ult_6_meses[1].'"' !!}@endif @endisset>
 							        			</div>
 						        			</div>
 						        		</div>
@@ -1819,7 +1825,7 @@
 					        				<span>¿Por qué?</span>
 					        			</div>
 					        			<div class="col-md-10 text-left">
-					        				<input class="form-control form-control-sm" type="text" name="porque_aumento">
+					        				<input class="form-control form-control-sm" type="text" name="porque_aumento" @isset ($historia_clinica)@if (isset($peso_ult_6_meses[2])){!! 'value="'.$peso_ult_6_meses[2].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 
@@ -1828,7 +1834,7 @@
 					        				<span>Índice de Masa Corporal (Peso/Estatura<sup><small>2</small></sup>)</span>
 					        			</div>
 					        			<div class="col-md-2 text-left">
-					        				<input class="form-control form-control-sm" onclick="javascript:Indice_Masa_Corporal();" type="number" id="imc" name="imc" step=".01" min="0" max="100.00">
+					        				<input class="form-control form-control-sm" onclick="javascript:Indice_Masa_Corporal();" type="number" id="imc" name="imc" step=".01" min="0" max="100.00" @isset ($historia_clinica)@if (isset($historia_clinica->ante_nutricionales->IMC)){!! 'value="'.$historia_clinica->ante_nutricionales->IMC.'"' !!}@endif @endisset>
 					        			</div>
 
 					        			<div class="col-md-1 text-left pt-1">
@@ -1847,11 +1853,11 @@
 					        			</div>
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_dieta" type="radio" name="dieta" value="1">
+					        					<input class="form-check-input" id="si_dieta" type="radio" name="dieta" value="1" @isset ($historia_clinica)@if ($dieta_especial[0] == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_dieta">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_dieta" type="radio" name="dieta" value="2">
+					        					<input class="form-check-input" id="no_dieta" type="radio" name="dieta" value="2" @isset ($historia_clinica)@if ($dieta_especial[0] == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_dieta">No</label>
 						        			</div>
 					        			</div>
@@ -1864,7 +1870,7 @@
 							        				<span>¿Cuál?</span>
 							        			</div>
 							        			<div class="col-md-10 pl-0">
-							        				<input class="form-control form-control-sm" type="text" name="cual_dieta">
+							        				<input class="form-control form-control-sm" type="text" name="cual_dieta" @isset ($historia_clinica)@if (isset($dieta_especial[1])){!! 'value="'.$dieta_especial[1].'"' !!}@endif @endisset>
 							        			</div>
 						        			</div>
 						        		</div>
@@ -1882,7 +1888,7 @@
 					        						<span>Pérdida global (Últ. 6 meses)</span>
 					        					</div>
 					        					<div class="col-md-4">
-					        						<input class="form-control-sm form-control" type="number" step=".01" min="0" max="99.99" name="perdida_global">
+					        						<input class="form-control-sm form-control" type="number" step=".01" min="0" max="99.99" name="perdida_global" @isset ($historia_clinica)@if (isset($historia_clinica->ante_nutricionales->Peso_Perdida_Global)){!! 'value="'.$historia_clinica->ante_nutricionales->Peso_Perdida_Global.'"' !!}@endif @endisset>
 					        					</div>
 					        				</div>
 					        				<div class="row align-items-center mt-2">
@@ -1890,7 +1896,7 @@
 					        						<span>Porcentaje de la pérdida</span>
 					        					</div>
 					        					<div class="col-md-4">
-					        						<input class="form-control-sm form-control" type="number" step=".01" min="0" max="999.99" name="perdida_porcentaje">
+					        						<input class="form-control-sm form-control" type="number" step=".01" min="0" max="999.99" name="perdida_porcentaje" @isset ($historia_clinica)@if (isset($historia_clinica->ante_nutricionales->Porcentaje_Perdida)){!! 'value="'.$historia_clinica->ante_nutricionales->Porcentaje_Perdida.'"' !!}@endif @endisset>
 					        					</div>
 					        				</div>
 					        				<div class="row align-items-center mt-2">
@@ -1903,7 +1909,7 @@
 					        						<span>Aumento</span>
 					        					</div>
 					        					<div class="col-md-4">
-					        						<input class="form-control-sm form-control" type="number" step=".01" min="0" max="999.99" name="aumento_ultimo">
+					        						<input class="form-control-sm form-control" type="number" step=".01" min="0" max="999.99" name="aumento_ultimo" @isset ($historia_clinica)@if (isset($historia_clinica->ante_nutricionales->Ultimo_Aumento)){!! 'value="'.$historia_clinica->ante_nutricionales->Ultimo_Aumento.'"' !!}@endif @endisset>
 					        					</div>
 					        				</div>
 					        				<div class="row align-items-center mt-2">
@@ -1911,7 +1917,7 @@
 					        						<span>Peso estable</span>
 					        					</div>
 					        					<div class="col-md-4">
-					        						<input class="form-control-sm form-control" type="number" step=".01" min="0" max="999.99" name="peso_estable">
+					        						<input class="form-control-sm form-control" type="number" step=".01" min="0" max="999.99" name="peso_estable" @isset ($historia_clinica)@if (isset($historia_clinica->ante_nutricionales->Peso_Estable)){!! 'value="'.$historia_clinica->ante_nutricionales->Peso_Estable.'"' !!}@endif @endisset>
 					        					</div>
 					        				</div>
 					        				<div class="row align-items-center mt-2">
@@ -1919,7 +1925,7 @@
 					        						<span>Reducción</span>
 					        					</div>
 					        					<div class="col-md-4">
-					        						<input class="form-control-sm form-control" type="number" step=".01" min="0" max="999.99" name="reduccion">
+					        						<input class="form-control-sm form-control" type="number" step=".01" min="0" max="999.99" name="reduccion" @isset ($historia_clinica)@if (isset($historia_clinica->ante_nutricionales->Reduccion)){!! 'value="'.$historia_clinica->ante_nutricionales->Reduccion.'"' !!}@endif @endisset>
 					        					</div>
 					        				</div>
 					        			</div>
@@ -1931,6 +1937,14 @@
 					    <!-- Antecedentes Gineco-Obstetricos  -->
 
 					  	<div class="card">
+					  		@php
+					  			//Antecedentes Gineco-Obstetricos
+					  			$dismenorrea = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Dismenorrea);
+					  			$mastografia = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Mastografia);
+					  			$ultrasonido_mamario = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Ultrasonido_Mamario);
+					  			$ultrasonidos = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Numero_Ultrasonidos);
+					  			$colposcopia = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Colposcopia_Papanicolaou);
+					  		@endphp
 					    	<div class="card-header" id="headingTwo">
 					      		<h2 class="mb-0">
 					        		<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#Antecedentes_Gineco-Obstetricos" aria-expanded="false" aria-controls="Antecedentes_Gineco-Obstetricos" id="Antecedentes_Gineco-Obstetricos">
@@ -1950,7 +1964,7 @@
 					        			</div>
 
 					        			<div class="col-md-2">
-							        		<input class="form-control form-control-sm" type="text" name="menarca">
+							        		<input class="form-control form-control-sm" type="text" name="menarca" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Menarca)){!! 'value="'.$historia_clinica->ante_ginecoObstetricos->Menarca.'"' !!}@endif @endisset>
 						        		</div>
 
 						        		<!-- Ritmo -->
@@ -1960,7 +1974,7 @@
 					        			</div>
 
 					        			<div class="col-md-2">
-							        		<input class="form-control form-control-sm" type="text" name="ritmo">
+							        		<input class="form-control form-control-sm" type="text" name="ritmo" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Ritmo)){!! 'value="'.$historia_clinica->ante_ginecoObstetricos->Ritmo.'"' !!}@endif @endisset>
 						        		</div>
 
 						        		<!-- Ult. Menstruación -->
@@ -1970,7 +1984,7 @@
 					        			</div>
 
 					        			<div class="col-md-2">
-							        		<input class="form-control form-control-sm" type="text" name="ult_menstruacion" placeholder="Fecha">
+							        		<input class="form-control form-control-sm" type="date" name="ult_menstruacion" placeholder="Fecha" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Ult_Menstruacion)){!! 'value="'.$historia_clinica->ante_ginecoObstetricos->Ult_Menstruacion.'"' !!}@endif @endisset>
 						        		</div>
 					        		</div>
 
@@ -1983,7 +1997,7 @@
 					        			</div>
 
 					        			<div class="col-md-2">
-							        		<input class="form-control form-control-sm" type="text" name="parejas_sexuales" placeholder="Cantidad">
+							        		<input class="form-control form-control-sm" type="text" name="parejas_sexuales" placeholder="Cantidad" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Parejas_Sexuales)){!! 'value="'.$historia_clinica->ante_ginecoObstetricos->Parejas_Sexuales.'"' !!}@endif @endisset>
 						        		</div>
 
 						        		<!-- Dismenorrea -->
@@ -1994,11 +2008,11 @@
 
 					        			<div class="col-md-2 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_dismenorrea" type="radio" name="dismenorrea" value="1">
+					        					<input class="form-check-input" id="si_dismenorrea" type="radio" name="dismenorrea" value="1" @isset ($historia_clinica)@if ($dismenorrea[0] == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_dismenorrea">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_dismenorrea" type="radio" name="dismenorrea" value="2">
+					        					<input class="form-check-input" id="no_dismenorrea" type="radio" name="dismenorrea" value="2" @isset ($historia_clinica)@if ($dismenorrea[0] == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_dismenorrea">No</label>
 						        			</div>
 					        			</div>
@@ -2010,7 +2024,7 @@
 					        			</div>
 
 					        			<div class="col-md-2">
-							        		<input class="form-control form-control-sm" type="text" name="tratamiento_dismenorrea">
+							        		<input class="form-control form-control-sm" type="text" name="tratamiento_dismenorrea" @isset ($historia_clinica)@if (isset($dismenorrea[1])){!! 'value="'.$dismenorrea[1].'"' !!}@endif @endisset>
 						        		</div>
 					        		</div>
 
@@ -2022,7 +2036,7 @@
 					        			</div>
 
 					        			<div class="col-md-2">
-							        		<input class="form-control form-control-sm" type="text" name="vida_sexual" placeholder="Inicio">
+							        		<input class="form-control form-control-sm" type="text" name="vida_sexual" placeholder="Inicio" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Inicio_Vida_Sexual)){!! 'value="'.$historia_clinica->ante_ginecoObstetricos->Inicio_Vida_Sexual.'"' !!}@endif @endisset>
 						        		</div>
 
 						        		<!-- Embarazos -->
@@ -2032,7 +2046,7 @@
 					        			</div>
 
 					        			<div class="col-md-2">
-							        		<input class="form-control form-control-sm" type="text" name="embarazos" placeholder="Cantidad">
+							        		<input class="form-control form-control-sm" type="text" name="embarazos" placeholder="Cantidad" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Embarazos)){!! 'value="'.$historia_clinica->ante_ginecoObstetricos->Embarazos.'"' !!}@endif @endisset>
 						        		</div>
 
 						        		<!-- Partos -->
@@ -2042,7 +2056,7 @@
 					        			</div>
 
 					        			<div class="col-md-2">
-							        		<input class="form-control form-control-sm" type="text" name="partos" placeholder="Cantidad">
+							        		<input class="form-control form-control-sm" type="text" name="partos" placeholder="Cantidad" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Partos)){!! 'value="'.$historia_clinica->ante_ginecoObstetricos->Partos.'"' !!}@endif @endisset>
 						        		</div>
 					        		</div>
 
@@ -2055,7 +2069,7 @@
 					        			</div>
 
 					        			<div class="col-md-2">
-							        		<input class="form-control form-control-sm" type="text" name="cesareas" placeholder="Cantidad">
+							        		<input class="form-control form-control-sm" type="text" name="cesareas" placeholder="Cantidad" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Cesareas)){!! 'value="'.$historia_clinica->ante_ginecoObstetricos->Cesareas.'"' !!}@endif @endisset>
 						        		</div>
 
 						        		<!-- Abortos -->
@@ -2065,7 +2079,7 @@
 					        			</div>
 
 					        			<div class="col-md-2">
-							        		<input class="form-control form-control-sm" type="text" name="abortos" placeholder="Cantidad">
+							        		<input class="form-control form-control-sm" type="text" name="abortos" placeholder="Cantidad" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Abortos)){!! 'value="'.$historia_clinica->ante_ginecoObstetricos->Abortos.'"' !!}@endif @endisset>
 						        		</div>
 
 						        		<!-- Control Natal -->
@@ -2076,11 +2090,11 @@
 
 					        			<div class="col-md-2 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_control_natal" type="radio" name="control_natal" value="1">
+					        					<input class="form-check-input" id="si_control_natal" type="radio" name="control_natal" value="1" @isset ($historia_clinica)@if ($historia_clinica->ante_ginecoObstetricos->Control_Natal == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_control_natal">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_control_natal" type="radio" name="control_natal" value="2">
+					        					<input class="form-check-input" id="no_control_natal" type="radio" name="control_natal" value="2" @isset ($historia_clinica)@if ($historia_clinica->ante_ginecoObstetricos->Control_Natal == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_control_natal">No</label>
 						        			</div>
 					        			</div>
@@ -2096,11 +2110,11 @@
 
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_dispareunia" type="radio" name="dispareunia" value="1">
+					        					<input class="form-check-input" id="si_dispareunia" type="radio" name="dispareunia" value="1" @isset ($historia_clinica)@if ($historia_clinica->ante_ginecoObstetricos->Dispareunia == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_dispareunia">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_dispareunia" type="radio" name="dispareunia" value="2">
+					        					<input class="form-check-input" id="no_dispareunia" type="radio" name="dispareunia" value="2" @isset ($historia_clinica)@if ($historia_clinica->ante_ginecoObstetricos->Dispareunia == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_dispareunia">No</label>
 						        			</div>
 					        			</div>
@@ -2113,11 +2127,11 @@
 
 					        			<div class="col-md-2 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_mastografia" type="radio" name="mastografia" value="1">
+					        					<input class="form-check-input" id="si_mastografia" type="radio" name="mastografia" value="1" @isset ($historia_clinica)@if ($mastografia[0] == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_mastografia">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_mastografia" type="radio" name="mastografia" value="2">
+					        					<input class="form-check-input" id="no_mastografia" type="radio" name="mastografia" value="2" @isset ($historia_clinica)@if ($mastografia[0] == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_mastografia">No</label>
 						        			</div>
 					        			</div>
@@ -2129,7 +2143,7 @@
 					        			</div>
 
 					        			<div class="col-md-3">
-							        		<input class="form-control form-control-sm" type="text" name="fecha_mastografia">
+							        		<input class="form-control form-control-sm" type="text" name="fecha_mastografia" @isset ($historia_clinica)@if (isset($mastografia[1])){!! 'value="'.$mastografia[1].'"' !!}@endif @endisset>
 						        		</div>
 					        		</div>
 
@@ -2143,11 +2157,11 @@
 
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_ultrasonido_mamario" type="radio" name="ultrasonido_mamario" value="1">
+					        					<input class="form-check-input" id="si_ultrasonido_mamario" type="radio" name="ultrasonido_mamario" value="1" @isset ($historia_clinica)@if ($ultrasonido_mamario[0] == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_ultrasonido_mamario">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_ultrasonido_mamario" type="radio" name="ultrasonido_mamario" value="2">
+					        					<input class="form-check-input" id="no_ultrasonido_mamario" type="radio" name="ultrasonido_mamario" value="2" @isset ($historia_clinica)@if ($ultrasonido_mamario[0] == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_ultrasonido_mamario">No</label>
 						        			</div>
 					        			</div>
@@ -2159,10 +2173,10 @@
 					        			</div>
 
 					        			<div class="col-md-3">
-							        		<input class="form-control form-control-sm" type="text" name="fecha_ultrasonido_mamario">
+							        		<input class="form-control form-control-sm" type="text" name="fecha_ultrasonido_mamario" @isset ($historia_clinica)@if (isset($ultrasonido_mamario[1])){!! 'value="'.$ultrasonido_mamario[1].'"' !!}@endif @endisset>
 						        		</div>
 
-					        			<!-- Mastografía -->
+					        			<!-- Auto Exploracion Mamaria -->
 
 					        			<div class="col-md-2 text-right">
 					        				<span>Autoexploración Mamaria</span>
@@ -2170,11 +2184,11 @@
 
 					        			<div class="col-md-2 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_autoexploracion" type="radio" name="autoexploracion" value="1">
+					        					<input class="form-check-input" id="si_autoexploracion" type="radio" name="autoexploracion" value="1" @isset ($historia_clinica)@if ($historia_clinica->ante_ginecoObstetricos->Autoexploracion_Mamaria == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_autoexploracion">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_autoexploracion" type="radio" name="autoexploracion" value="2">
+					        					<input class="form-check-input" id="no_autoexploracion" type="radio" name="autoexploracion" value="2" @isset ($historia_clinica)@if ($historia_clinica->ante_ginecoObstetricos->Autoexploracion_Mamaria == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_autoexploracion">No</label>
 						        			</div>
 					        			</div>
@@ -2189,7 +2203,7 @@
 					        			</div>
 
 					        			<div class="col-md-2 text-center">
-					        				<input class="form-control form-control-sm" type="text" name="cantidad_ultrasonidos" placeholder="Cantidad">
+					        				<input class="form-control form-control-sm" type="text" name="cantidad_ultrasonidos" placeholder="Cantidad" @isset ($historia_clinica)@if (isset($ultrasonidos[0])){!! 'value="'.$ultrasonidos[0].'"' !!}@endif @endisset>
 					        			</div>
 
 					        			<!-- Fecha -->
@@ -2199,7 +2213,7 @@
 					        			</div>
 
 					        			<div class="col-md-3">
-							        		<input class="form-control form-control-sm" type="text" name="fecha_ultrasonido" placeholder="Último">
+							        		<input class="form-control form-control-sm" type="text" name="fecha_ultrasonido" placeholder="Último" @isset ($historia_clinica)@if (isset($ultrasonidos[1])){!! 'value="'.$ultrasonidos[1].'"' !!}@endif @endisset>
 						        		</div>
 
 					        			<!-- Resultado -->
@@ -2209,7 +2223,7 @@
 					        			</div>
 
 					        			<div class="col-md-3 text-center">
-					        				<input class="form-control form-control-sm" type="text" name="resultado_ultrasonido">
+					        				<input class="form-control form-control-sm" type="text" name="resultado_ultrasonido" @isset ($historia_clinica)@if (isset($ultrasonidos[2])){!! 'value="'.$ultrasonidos[2].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 
@@ -2223,11 +2237,11 @@
 
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_colposcopia" type="radio" name="colposcopia" value="1">
+					        					<input class="form-check-input" id="si_colposcopia" type="radio" name="colposcopia" value="1" @isset ($historia_clinica)@if ($colposcopia[0] == 1) {{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_colposcopia">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_colposcopia" type="radio" name="colposcopia" value="2">
+					        					<input class="form-check-input" id="no_colposcopia" type="radio" name="colposcopia" value="2" @isset ($historia_clinica)@if ($colposcopia[0] == 2) {{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_colposcopia">No</label>
 						        			</div>
 					        			</div>
@@ -2239,7 +2253,7 @@
 					        			</div>
 
 					        			<div class="col-md-3">
-							        		<input class="form-control form-control-sm" type="text" name="fecha_colposcopia">
+							        		<input class="form-control form-control-sm" type="text" name="fecha_colposcopia" @isset ($historia_clinica)@if (isset($colposcopia[1])){!! 'value="'.$colposcopia[1].'"' !!}@endif @endisset>
 						        		</div>
 
 					        			<!-- Resultado -->
@@ -2249,7 +2263,7 @@
 					        			</div>
 
 					        			<div class="col-md-3 text-center">
-					        				<input class="form-control form-control-sm" type="text" name="resultado_colposcopia">
+					        				<input class="form-control form-control-sm" type="text" name="resultado_colposcopia" @isset ($historia_clinica)@if (isset($colposcopia[2])){!! 'value="'.$colposcopia[2].'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 
@@ -2258,7 +2272,7 @@
 					        				<span>Tipo de Planificación Familiar</span>
 					        			</div>
 					        			<div class="col-md-9">
-					        				<input class="form-control form-control-sm" type="text" name="tipo_planificacion" multiple>
+					        				<input class="form-control form-control-sm" type="text" name="tipo_planificacion" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Planificacion_Familiar)){!! 'value="'.$historia_clinica->ante_ginecoObstetricos->Planificacion_Familiar.'"' !!}@endif @endisset>
 					        			</div>
 					        		</div>
 					      		</div>
@@ -2283,7 +2297,7 @@
 											  	<div class="input-group-prepend">
 											    	<span class="input-group-text" id="basic-addon1">Padecimiento Actual</span>
 											  	</div>
-											  	<textarea style="max-width: 100%; min-height: 31px; max-height: 100px; height: 100px" name="padecimiento_actual" class="form-control"></textarea>
+											  	<textarea style="max-width: 100%; min-height: 31px; max-height: 100px; height: 100px" name="padecimiento_actual" class="form-control">@isset ($historia_clinica)@if (isset($historia_clinica->Padecimiento_Actual)){!! $historia_clinica->Padecimiento_Actual !!}@endif @endisset</textarea>
 											</div>
 					      				</div>
 
@@ -2292,7 +2306,7 @@
 											  	<div class="input-group-prepend">
 											    	<span class="input-group-text" id="basic-addon1">Diagnósticos</span>
 											  	</div>
-											  	<textarea style="max-width: 100%; min-height: 31px; max-height: 150px; height: 150px" name="diagnostico" class="form-control"></textarea>
+											  	<textarea style="max-width: 100%; min-height: 31px; max-height: 150px; height: 150px" name="diagnostico" class="form-control">@isset($historia_clinica)@if(isset($historia_clinica->Diagnosticos)){!! $historia_clinica->Diagnosticos !!}@endif @endisset</textarea>
 											</div>
 					      				</div>
 
@@ -2301,7 +2315,7 @@
 											  	<div class="input-group-prepend">
 											    	<span class="input-group-text" id="basic-addon1">Comentarios</span>
 											  	</div>
-											  	<textarea style="max-width: 100%; min-height: 31px; max-height: 150px; height: 150px" name="comentarios" class="form-control"></textarea>
+											  	<textarea style="max-width: 100%; min-height: 31px; max-height: 150px; height: 150px" name="comentarios" class="form-control">@isset ($historia_clinica)@if (isset($historia_clinica->Comentarios)){!! $historia_clinica->Comentarios !!}@endif @endisset</textarea>
 											</div>
 					      				</div>
 					      			</div>
