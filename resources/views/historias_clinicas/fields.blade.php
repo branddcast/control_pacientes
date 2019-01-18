@@ -29,7 +29,7 @@
                 	</div>                	
                 	<div class="accordion" id="accordionExample">
 
-                		<form id="historia_clinica_form" method="post" enctype="multipart/form-data" action="{{ route('historia_clinica.store') }}" >
+                		<form id="historia_clinica_form" method="post" enctype="multipart/form-data" action="{{ route('historia_clinica.store') }}" file="true">
                 			@csrf
                 		<input type="hidden" name="paciente" value="@isset ($paciente)
                 		    {{$paciente->Id_Paciente}}
@@ -1938,12 +1938,14 @@
 
 					  	<div class="card">
 					  		@php
-					  			//Antecedentes Gineco-Obstetricos
-					  			$dismenorrea = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Dismenorrea);
-					  			$mastografia = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Mastografia);
-					  			$ultrasonido_mamario = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Ultrasonido_Mamario);
-					  			$ultrasonidos = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Numero_Ultrasonidos);
-					  			$colposcopia = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Colposcopia_Papanicolaou);
+					  			if($historia_clinica->Sexo == 'M'){
+						  			//Antecedentes Gineco-Obstetricos
+						  			$dismenorrea = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Dismenorrea);
+						  			$mastografia = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Mastografia);
+						  			$ultrasonido_mamario = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Ultrasonido_Mamario);
+						  			$ultrasonidos = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Numero_Ultrasonidos);
+						  			$colposcopia = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Colposcopia_Papanicolaou);
+						  		}
 					  		@endphp
 					    	<div class="card-header" id="headingTwo">
 					      		<h2 class="mb-0">
@@ -2008,11 +2010,11 @@
 
 					        			<div class="col-md-2 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_dismenorrea" type="radio" name="dismenorrea" value="1" @isset ($historia_clinica)@if ($dismenorrea[0] == 1){{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="si_dismenorrea" type="radio" name="dismenorrea" value="1" @isset ($dismenorrea)@if ($dismenorrea[0] == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_dismenorrea">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_dismenorrea" type="radio" name="dismenorrea" value="2" @isset ($historia_clinica)@if ($dismenorrea[0] == 2){{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="no_dismenorrea" type="radio" name="dismenorrea" value="2" @isset ($dismenorrea)@if ($dismenorrea[0] == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_dismenorrea">No</label>
 						        			</div>
 					        			</div>
@@ -2090,11 +2092,11 @@
 
 					        			<div class="col-md-2 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_control_natal" type="radio" name="control_natal" value="1" @isset ($historia_clinica)@if ($historia_clinica->ante_ginecoObstetricos->Control_Natal == 1){{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="si_control_natal" type="radio" name="control_natal" value="1" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Control_Natal) && $historia_clinica->ante_ginecoObstetricos->Control_Natal == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_control_natal">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_control_natal" type="radio" name="control_natal" value="2" @isset ($historia_clinica)@if ($historia_clinica->ante_ginecoObstetricos->Control_Natal == 2){{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="no_control_natal" type="radio" name="control_natal" value="2" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Control_Natal) && $historia_clinica->ante_ginecoObstetricos->Control_Natal == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_control_natal">No</label>
 						        			</div>
 					        			</div>
@@ -2110,11 +2112,11 @@
 
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_dispareunia" type="radio" name="dispareunia" value="1" @isset ($historia_clinica)@if ($historia_clinica->ante_ginecoObstetricos->Dispareunia == 1){{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="si_dispareunia" type="radio" name="dispareunia" value="1" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Dispareunia) && $historia_clinica->ante_ginecoObstetricos->Dispareunia == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_dispareunia">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_dispareunia" type="radio" name="dispareunia" value="2" @isset ($historia_clinica)@if ($historia_clinica->ante_ginecoObstetricos->Dispareunia == 2){{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="no_dispareunia" type="radio" name="dispareunia" value="2" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Dispareunia) && $historia_clinica->ante_ginecoObstetricos->Dispareunia == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_dispareunia">No</label>
 						        			</div>
 					        			</div>
@@ -2127,11 +2129,11 @@
 
 					        			<div class="col-md-2 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_mastografia" type="radio" name="mastografia" value="1" @isset ($historia_clinica)@if ($mastografia[0] == 1){{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="si_mastografia" type="radio" name="mastografia" value="1" @isset ($historia_clinica)@if (isset($mastografia) && $mastografia[0] == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_mastografia">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_mastografia" type="radio" name="mastografia" value="2" @isset ($historia_clinica)@if ($mastografia[0] == 2){{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="no_mastografia" type="radio" name="mastografia" value="2" @isset ($historia_clinica)@if (isset($mastografia) && $mastografia[0] == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_mastografia">No</label>
 						        			</div>
 					        			</div>
@@ -2157,11 +2159,11 @@
 
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_ultrasonido_mamario" type="radio" name="ultrasonido_mamario" value="1" @isset ($historia_clinica)@if ($ultrasonido_mamario[0] == 1){{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="si_ultrasonido_mamario" type="radio" name="ultrasonido_mamario" value="1" @isset ($historia_clinica)@if (isset($ultrasonido_mamario) && $ultrasonido_mamario[0] == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_ultrasonido_mamario">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_ultrasonido_mamario" type="radio" name="ultrasonido_mamario" value="2" @isset ($historia_clinica)@if ($ultrasonido_mamario[0] == 2){{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="no_ultrasonido_mamario" type="radio" name="ultrasonido_mamario" value="2" @isset ($historia_clinica)@if (isset($ultrasonido_mamario) && $ultrasonido_mamario[0] == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_ultrasonido_mamario">No</label>
 						        			</div>
 					        			</div>
@@ -2184,11 +2186,11 @@
 
 					        			<div class="col-md-2 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_autoexploracion" type="radio" name="autoexploracion" value="1" @isset ($historia_clinica)@if ($historia_clinica->ante_ginecoObstetricos->Autoexploracion_Mamaria == 1){{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="si_autoexploracion" type="radio" name="autoexploracion" value="1" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Autoexploracion_Mamaria) && $historia_clinica->ante_ginecoObstetricos->Autoexploracion_Mamaria == 1){{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_autoexploracion">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_autoexploracion" type="radio" name="autoexploracion" value="2" @isset ($historia_clinica)@if ($historia_clinica->ante_ginecoObstetricos->Autoexploracion_Mamaria == 2){{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="no_autoexploracion" type="radio" name="autoexploracion" value="2" @isset ($historia_clinica)@if (isset($historia_clinica->ante_ginecoObstetricos->Autoexploracion_Mamaria) && $historia_clinica->ante_ginecoObstetricos->Autoexploracion_Mamaria == 2){{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_autoexploracion">No</label>
 						        			</div>
 					        			</div>
@@ -2237,11 +2239,11 @@
 
 					        			<div class="col-md-2 p-0 text-center">
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="si_colposcopia" type="radio" name="colposcopia" value="1" @isset ($historia_clinica)@if ($colposcopia[0] == 1) {{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="si_colposcopia" type="radio" name="colposcopia" value="1" @isset ($historia_clinica)@if (isset($colposcopia) && $colposcopia[0] == 1) {{ 'checked' }}@endif @endisset>
 					        					<label class="form-check-label" for="si_colposcopia">Sí</label>
 					        				</div>
 					        				<div class="form-check form-check-inline">
-					        					<input class="form-check-input" id="no_colposcopia" type="radio" name="colposcopia" value="2" @isset ($historia_clinica)@if ($colposcopia[0] == 2) {{ 'checked' }}@endif @endisset>
+					        					<input class="form-check-input" id="no_colposcopia" type="radio" name="colposcopia" value="2" @isset ($historia_clinica)@if (isset($colposcopia) && $colposcopia[0] == 2) {{ 'checked' }}@endif @endisset>
 						        				<label class="form-check-label" for="no_colposcopia">No</label>
 						        			</div>
 					        			</div>
@@ -2337,7 +2339,7 @@
 					      		<div class="card-body">
 					      			<div class="row justify-content-center">
 					      				<div class="col-md-6 offset-md-1">
-					      					<input id="input-id" type="file" name="archivos[]" class="file" data-preview-file-type="text" multiple>
+					      					<input id="input-id" type="file" name="archivos" class="file" data-preview-file-type="text" multiple>
 					      					
 					      				</div>
 					      			</div>

@@ -15,6 +15,7 @@ use App\Models\AntecedentesNutricionales;
 use App\Models\AntecedentesGinecoObstetricos;
 use App\Facades\PushNotify;
 use App\Facades\CleanRowDB;
+use Illuminate\Support\Facades\Storage;
 
 class HistoriasClinicasController extends Controller
 {
@@ -64,6 +65,7 @@ class HistoriasClinicasController extends Controller
      */
     public function store(Request $request)
     {
+        
         $id_ant_fam = 0;
         $id_ant_per = 0;
         $id_ant_med = 0;
@@ -101,9 +103,9 @@ class HistoriasClinicasController extends Controller
 
         $ant_per = new AntecedentesPersonales;
 
-        $ant_per->Ejercicio = $request->ejercicio."|".$request->ejercicio_tipo."|".$request->ejercicio_frecuencia|";
+        $ant_per->Ejercicio = $request->ejercicio."|".$request->ejercicio_tipo."|".$request->ejercicio_frecuencia."|";
         $ant_per->Cigarro = $request->fuma."|".$request->fuma_por_dia."|".$request->fuma_desde."|".$request->fuma_hasta."|";
-        $ant_per->Alcohol = $request->alcohol."|".$request->alcohol_tipo."|".$request->alcohol_desde."|".$request->alcohol_hasta.|";
+        $ant_per->Alcohol = $request->alcohol."|".$request->alcohol_tipo."|".$request->alcohol_desde."|".$request->alcohol_hasta."|";
         $ant_per->Sustancias = $request->sustancias."|".$request->sustancias_tipo."|".$request->sustancias_desde."|".$request->sustancias_hasta."|";
         $ant_per->Alergias = $request->alergias."|".$request->alergias_descripcion." |";
         $ant_per->Medicamentos = $request->medicamentos."|".$request->medicamentos_descripcion." |";
@@ -259,7 +261,37 @@ class HistoriasClinicasController extends Controller
         $historia_clinica->Id_Antecedentes_Psicologicos = $id_ant_psi[0]->id;
         $historia_clinica->Id_Valoracion_Funcional = $id_val_fun[0]->id;
         $historia_clinica->Id_Antecedentes_Nutricionales = $id_ant_nut[0]->id;
-        $historia_clinica->Id_Antecedentes_Gineco_Obstetricos = $id_ant_gin[0]->id;
+
+        if($request->sexo == 'M'){
+            $historia_clinica->Id_Antecedentes_Gineco_Obstetricos = $id_ant_gin[0]->id;
+        }
+
+        //Array para files
+        $docs = '';
+
+        if($request->hasFile('archivos')){
+
+            $documentos = $request->file('archivos');
+
+            //'file_'.$request->paciente.'_'.str_random(5).'.'.$ext
+
+            foreach ($documentos as $doc) {
+
+                $ext = $doc->extension(); //Extension 
+               
+                //$ok = $doc->storeAs('public/uploads/docs', 'file_'.$request->paciente.'_'.str_random(5).'.'.$ext, 'local');
+                //\Storage::disk('local')->put($doc->getClientOriginalName(),  \File::get($doc));
+
+                $ok = $doc->move('uploads/docs', 'file_'.$request->paciente.'_'.str_random(5).'.'.$ext);
+                $docs = $docs.'file_'.$request->paciente.'_'.str_random(5).'.'.$ext.'|';
+
+                if(!$ok){
+                    return back()->with('error', '¡Error al subir archivo! El archivo '.$doc->getClientOriginalName().' no pudo cargarse correctamente. Intente de nuevo, por favor.');
+                }
+            }
+        }
+
+        $historia_clinica->Documentacion = $docs;
 
         if($historia_clinica->save()){
             $notificar = PushNotify::push('generó una historia clínica', \Auth::user()->usuario, 0);
@@ -267,6 +299,7 @@ class HistoriasClinicasController extends Controller
         }else{
             return back()->with('error', '¡No se pudo generar la historia clínica!');
         }
+
     }
 
     public function show($id){
