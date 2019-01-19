@@ -355,8 +355,27 @@ class HistoriasClinicasController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //Verificamos si hay archivos adjuntos
+        if($request->hasFile('archivos')){
+
+            $files = $request->file('archivos');
+
+            foreach ($files as $file) {
+                if($file->getClientSize() > 10485760){
+                    return back()->with('error', 'Los archivos deben pesar menos de 10Mb');
+                }
+            }
+        }
+
         //Extraemos la historia clinica de bd por medio del $id dado como argumento
         $historia_clinica = HistoriaClinica::find($id);
+
+        //Cantidad de archivos libres para guardar 
+        $cantidad_libre = 10 - count(CleanRowDB::limpiar($historia_clinica->Documentacion));
+
+        if($cantidad_libre == 0){
+            return back()->with('error', 'Ha excedido el número de archivos permitidos para subir.');
+        }
 
         //Bandera
         $flag = false;
@@ -561,9 +580,10 @@ class HistoriasClinicasController extends Controller
 
         if($request->hasFile('archivos')){
 
-            $documentos = $request->file('archivos');
-
-            //'file_'.$request->paciente.'_'.str_random(5).'.'.$ext
+            //Guardaremos en un array solo la cantidad de archivos que faltan para llenar el total permitido
+            for ($i=0; $i < $cantidad_libre; $i++) { 
+                $documentos[$i] = $request->archivos[$i];
+            }
 
             foreach ($documentos as $doc) {
 
@@ -582,7 +602,7 @@ class HistoriasClinicasController extends Controller
                 }
             }
 
-            $historia_clinica->Documentacion = $docs;
+            $historia_clinica->Documentacion .= $docs;
 
         }
 
@@ -666,6 +686,84 @@ class HistoriasClinicasController extends Controller
 
         }else{
             return redirect('pacientes')->with('error', 'Historia Clínica inexistente');
+        }
+    }
+
+    public function eliminarDoc($file, $id)
+    {
+        //Declaración de variables
+        $cont = 0;
+        $docs = '';
+
+        //Extraemos la informacion sobre los archivos adjuntos en la historia clinica
+        $historia_clinica = HistoriaClinica::find($id);
+
+        //Limpiamos el string para obtener cada nombre de los documentos
+        $documentos = CleanRowDB::limpiar($historia_clinica->Documentacion);
+
+        if($file != 'all'){
+
+            //Buscamos el documento recibido como argumento en el arreglo de archivos adjuntos
+            for ($i=0; $i < count($documentos); $i++) { 
+                if($documentos[$i] == $file){
+                    $cont = $i;
+                    break;
+                }
+            }
+
+            //Una vez encontrada la posición del documento, en el array, se elimina.
+
+            //Eliminar archivo del arreglo con función unset
+            unset($documentos[$cont]);
+
+            //Reordenar el arreglo, ahora sin el documento borrado.
+            $documentos = array_values($documentos);
+
+            //Eliminar archivo, ahora del storage. Siempre y cuando, exista.
+            if(\File::exists(public_path('uploads/docs/'.$file))){
+                $file_deleted = \File::delete(public_path('uploads/docs/'.$file));
+            }else{
+                dd('Error al eliminar el archivo, no existe.');
+            }
+
+            //Una vez borrado, el archivo, del storage, se actualiza el registro de la bd de la tabla Historia Clinica y la columna Documentacion
+            if($file_deleted){
+
+                //Se recorre un for para concatenar los elementos del arreglo y convertir en una sola cadena
+                for ($i=0; $i < count($documentos); $i++) { 
+                    $docs .= $documentos[$i].'|';
+                }
+
+                $historia_clinica->Documentacion = $docs;
+
+                //Actualizacomos la tabla de la bd
+                if($historia_clinica->save()){
+                    return back()->with('file_deleted', 'Archivo <b>'.$file.'</b> eliminado correctamente.');
+                }else{
+                    return back()->with('file_no_deleted', 'No se pudo eliminar el archivo. Intente de nuevo.');
+                }
+            }
+        }else{
+
+            //Se borran todos los archivos.
+            foreach ($documentos as $doc) {
+                if(\File::exists(public_path('uploads/docs/'.$doc))){
+                    $file_deleted = \File::delete(public_path('uploads/docs/'.$doc));
+                }else{
+                    dd('Error al eliminar el archivo, no existe.');
+                }
+            }
+
+            //Se elimina el registro del campo Documentacion en la tabla Historia Clinica
+            $historia_clinica->Documentacion = null;
+
+            //Actualizacomos la tabla de la bd
+            if($historia_clinica->save()){
+                return back()->with('file_deleted', 'Archivos eliminados correctamente.');
+            }else{
+                return back()->with('file_no_deleted', 'No se pudieron eliminar los archivos.');
+            }
+
         }
     }
 }

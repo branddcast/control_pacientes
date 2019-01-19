@@ -2364,17 +2364,32 @@
 					      			<div class="row">
 					      				<div class="col-md-4 text-center">
 					      					<h5>Documentación Almacenada</h5><br>
+					      					@if(session('file_deleted'))
+											    <div class="alert alert-success">
+											        {!! session('file_deleted') !!}
+											    </div>
+											@elseif(session('file_no_deleted'))
+												<div class="alert alert-danger">
+											        {!! session('file_no_deleted') !!}
+											    </div>
+											@endif
 					      					<ul class="list-unstyled text-left">
 					      						@if (isset($historia_clinica) && isset($documentos))
 					      							@foreach ($documentos as $doc)
-					      								<li><a href="{{ url('download/'.$doc) }}"><i class="far fa-file-alt"></i> {{ $doc }}</a></li>
+					      								<li><a href="{{ url('download/'.$doc) }}"><i class="far fa-file-alt"></i> {{ $doc }}</a> - <a href="{{ route('historia_clinica.delete_file', ['file' => $doc, 'id' => $historia_clinica->Id_Historia_Clinica]) }}" ><i class="far fa-times-circle" style="color: red"></i></a></li>
 					      							@endforeach
 					      						@endif
 											</ul>
+											@if ($historia_clinica->Documentacion != null)
+												<a href="{{ route('historia_clinica.delete_file', ['file' => 'all', 'id' => $historia_clinica->Id_Historia_Clinica]) }}"><i class="far fa-times-circle" style="color: red"></i> Borrar todos los archivos</a>
+											@endif
 					      				</div>
 					      				<div class="col-md-6 offset-sm-2">
-					      					<input id="input-id" type="file" name="archivos[]" class="file" data-preview-file-type="text" multiple>
-					      					
+					      					@if(count(CleanRowDB::limpiar($historia_clinica->Documentacion)) < 10)
+					      						<input id="input-id" type="file" name="archivos[]" class="file" data-preview-file-type="text" multiple>
+					      					@else
+					      						<input id="input-id" type="file" name="archivos[]" class="file" data-preview-file-type="text" multiple disabled>
+					      					@endif
 					      				</div>
 					      			</div>
 					      		</div>
@@ -2453,6 +2468,7 @@
 		showUpload: true,
 		allowedPreviewTypes: true,
 		maxFileCount: 10,
+		maxFileSize: 10240,
         allowedFileExtensions: ['pdf', 'docx', 'doc', 'jpg', 'png'],
         hideThumbnailContent: true,
         showPreview: true,

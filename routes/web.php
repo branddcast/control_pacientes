@@ -49,6 +49,10 @@ Route::post('historia_clinica/destroy/{id}', 'HistoriasClinicasController@destro
 		->name('historia_clinica.destroy')
 		->middleware('auth', 'rol:Super Admin, Admin');
 
+Route::get('historia_clinica/delete_file/{file}/{id}', 'HistoriasClinicasController@eliminarDoc')
+		->name('historia_clinica.delete_file')
+		->middleware('auth', 'rol:Super Admin, Admin');
+
 //Rutas downloads
 Route::get('/download/{file}' 	, 'HistoriasClinicasController@downloadFile');
 
