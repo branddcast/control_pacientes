@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\PushNotifyServiceProvider::class,
         App\Providers\CleanRowDBServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -227,6 +228,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Notificar' => App\Facades\PushNotify::class,
         'CleanRowDB' => App\Facades\CleanRowDB::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

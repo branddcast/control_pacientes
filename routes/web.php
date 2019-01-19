@@ -53,6 +53,10 @@ Route::get('historia_clinica/delete_file/{file}/{id}', 'HistoriasClinicasControl
 		->name('historia_clinica.delete_file')
 		->middleware('auth', 'rol:Super Admin, Admin');
 
+Route::get('historia_clinica/print/{id}', 'HistoriasClinicasController@print')
+		->name('historia_clinica.print')
+		->middleware('auth', 'rol:Super Admin, Admin');
+
 //Rutas downloads
 Route::get('/download/{file}' 	, 'HistoriasClinicasController@downloadFile');
 

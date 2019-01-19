@@ -16,6 +16,7 @@ use App\Models\AntecedentesGinecoObstetricos;
 use App\Facades\PushNotify;
 use App\Facades\CleanRowDB;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade;
 
 class HistoriasClinicasController extends Controller
 {
@@ -765,5 +766,25 @@ class HistoriasClinicasController extends Controller
             }
 
         }
+    }
+
+    public function print($id){
+        //Extraer info. de la historia clinica
+        $historia_clinica = HistoriaClinica::find($id);
+
+         $citas = DB::table('citas')
+                     ->join('especialistas', 'citas.Id_Especialista', '=', 'especialistas.Id_Especialista')
+                     ->where('Id_Paciente', $historia_clinica->Id_Paciente)
+                     ->select(DB::raw('DISTINCT(citas.Id_Especialista), especialistas.Nombre, especialistas.Ap_Paterno'))
+                     ->get();
+
+        $view = \View::make('reportes.historia_clinica', ['historia_clinica' => $historia_clinica, 'citas' => $citas])->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'helvetica']);
+        $pdf->loadHTML($view);
+
+        return $pdf->stream('historia_clinica'.'.pdf');
+
+        //return view('reportes.historia_clinica', ['historia_clinica' => $historia_clinica, 'citas' => $citas]);
     }
 }

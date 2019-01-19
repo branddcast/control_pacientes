@@ -22,8 +22,19 @@
                 ?>
                 	
                 <div class="card-body">
-                	<div class="row justify-content-end mb-2">
-                		<div class="col-md-3 text-right">
+                	<div class="row justify-content-end mb-2 align-items-center">
+                		<div class="col-md-1 text-right">
+                			<a class="btn btn-outline-dark btn-sm" href="{{ route('historia_clinica.print', [$historia_clinica->Id_Historia_Clinica]) }}"><i class="fas fa-print"></i> Imprimir</a>
+	                	</div>
+	                	@isset ($historia_clinica)
+	                	<div class="col-md-1 text-right">
+							<form method="post" action="{!! action('HistoriasClinicasController@destroy', $historia_clinica->Id_Historia_Clinica) !!}">
+		    					{!! csrf_field() !!}
+								<button type="submit" class="btn btn-outline-danger btn-sm"><i class="fas fa-times"></i> Eliminar</button>
+							</form>
+						</div>
+						@endisset
+                		<div class="col-md-2 text-right">
                 			<span><em>{{strtoupper(strftime("%B %e de %Y", strtotime(date('d-m-Y'))))}}</em></span>
                 		</div>
                 	</div>                	
