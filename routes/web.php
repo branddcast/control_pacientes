@@ -29,9 +29,28 @@ Route::resource('citas'			, 'CitasController')->middleware('auth', 'rol:Super Ad
 Route::resource('colores'		, 'ColoresController')->middleware('auth', 'rol:Super Admin, Admin');
 Route::resource('usuarios'		, 'UsuariosController')->middleware('auth', 'rol:Super Admin, Admin');
 Route::resource('notificaciones', 'NotificacionesController')->middleware('auth', 'rol:Super Admin, Admin');
-Route::get('historia_clinica/create/{id}', 'HistoriasClinicasController@create')->middleware('auth', 'rol:Super Admin, Admin');
-Route::get('historia_clinica/show/{id}', 'HistoriasClinicasController@show')->name('historia_clinica.show')->middleware('auth', 'rol:Super Admin, Admin');
-Route::post('historia_clinica/store', 'HistoriasClinicasController@store')->name('historia_clinica.store')->middleware('auth', 'rol:Super Admin, Admin');
+
+Route::get('historia_clinica/create/{id}', 'HistoriasClinicasController@create')
+		->middleware('auth', 'rol:Super Admin, Admin');
+
+Route::get('historia_clinica/show/{id}', 'HistoriasClinicasController@show')
+		->name('historia_clinica.show')
+		->middleware('auth', 'rol:Super Admin, Admin');
+
+Route::post('historia_clinica/store', 'HistoriasClinicasController@store')
+		->name('historia_clinica.store')
+		->middleware('auth', 'rol:Super Admin, Admin');
+
+Route::post('historia_clinica/update/{id}', 'HistoriasClinicasController@update')
+		->name('historia_clinica.update')
+		->middleware('auth', 'rol:Super Admin, Admin');
+
+Route::post('historia_clinica/destroy/{id}', 'HistoriasClinicasController@destroy')
+		->name('historia_clinica.destroy')
+		->middleware('auth', 'rol:Super Admin, Admin');
+
+//Rutas downloads
+Route::get('/download/{file}' 	, 'HistoriasClinicasController@downloadFile');
 
 //Rutas de Citas
 Route::get( '/citas_json'		, 'CitasController@citas_json')->name('citas_json');

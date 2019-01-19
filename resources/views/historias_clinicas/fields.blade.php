@@ -29,7 +29,13 @@
                 	</div>                	
                 	<div class="accordion" id="accordionExample">
 
-                		<form id="historia_clinica_form" method="post" enctype="multipart/form-data" action="{{ route('historia_clinica.store') }}" file="true">
+                		<form id="historia_clinica_form" method="post" enctype="multipart/form-data" 
+                			@if (isset($historia_clinica))
+                				action="{{ route('historia_clinica.update', $historia_clinica->Id_Historia_Clinica) }}"
+                			@else
+                				action="{{ route('historia_clinica.store') }}"
+                			@endif>
+
                 			@csrf
                 		<input type="hidden" name="paciente" value="@isset ($paciente)
                 		    {{$paciente->Id_Paciente}}
@@ -174,19 +180,21 @@
 					  	<div class="card">
 
 					  		@php
-		                		//Antecedentes Familiares
+					  			if(isset($historia_clinica)){
+			                		//Antecedentes Familiares
 
-							    $diabetes = CleanRowDB::limpiar($historia_clinica->ante_familiares->Diabetes);
-							    $hipertension = CleanRowDB::limpiar($historia_clinica->ante_familiares->Hipertension);
-							    $cancer = CleanRowDB::limpiar($historia_clinica->ante_familiares->Cancer);
-							    $corazon = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Corazon);
-							    $circulacion = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Circulacion);
-							    $pulmonares = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Pulmonares);
-							    $digestivos = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Digestivos);
-							    $epilepsia = CleanRowDB::limpiar($historia_clinica->ante_familiares->Epilepsia);
-							    $psiquiatricos = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Psiquiatricos);
-							    $trombosis = CleanRowDB::limpiar($historia_clinica->ante_familiares->Trom_Embo_Hemo_Cerebrales);
-							    $obesidad = CleanRowDB::limpiar($historia_clinica->ante_familiares->Obesidad);
+								    $diabetes = CleanRowDB::limpiar($historia_clinica->ante_familiares->Diabetes);
+								    $hipertension = CleanRowDB::limpiar($historia_clinica->ante_familiares->Hipertension);
+								    $cancer = CleanRowDB::limpiar($historia_clinica->ante_familiares->Cancer);
+								    $corazon = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Corazon);
+								    $circulacion = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Circulacion);
+								    $pulmonares = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Pulmonares);
+								    $digestivos = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Digestivos);
+								    $epilepsia = CleanRowDB::limpiar($historia_clinica->ante_familiares->Epilepsia);
+								    $psiquiatricos = CleanRowDB::limpiar($historia_clinica->ante_familiares->Problemas_Psiquiatricos);
+								    $trombosis = CleanRowDB::limpiar($historia_clinica->ante_familiares->Trom_Embo_Hemo_Cerebrales);
+								    $obesidad = CleanRowDB::limpiar($historia_clinica->ante_familiares->Obesidad);
+								}
 							@endphp
 
 					    	<div class="card-header" id="headingTwo">
@@ -594,15 +602,17 @@
 						<div class="card">
 
 							@php
-								//Antecedentes Personales
+								if(isset($historia_clinica)){
+									//Antecedentes Personales
 
-								$ejercicio = CleanRowDB::limpiar($historia_clinica->ante_personales->Ejercicio);
-								$fuma = CleanRowDB::limpiar($historia_clinica->ante_personales->Cigarro);
-								$alcohol = CleanRowDB::limpiar($historia_clinica->ante_personales->Alcohol);
-								$sustancias = CleanRowDB::limpiar($historia_clinica->ante_personales->Sustancias);
-								$alergias = CleanRowDB::limpiar($historia_clinica->ante_personales->Alergias);
-								$medicamentos = CleanRowDB::limpiar($historia_clinica->ante_personales->Medicamentos);
-								$vacunas = CleanRowDB::limpiar($historia_clinica->ante_personales->Vacunas);
+									$ejercicio = CleanRowDB::limpiar($historia_clinica->ante_personales->Ejercicio);
+									$fuma = CleanRowDB::limpiar($historia_clinica->ante_personales->Cigarro);
+									$alcohol = CleanRowDB::limpiar($historia_clinica->ante_personales->Alcohol);
+									$sustancias = CleanRowDB::limpiar($historia_clinica->ante_personales->Sustancias);
+									$alergias = CleanRowDB::limpiar($historia_clinica->ante_personales->Alergias);
+									$medicamentos = CleanRowDB::limpiar($historia_clinica->ante_personales->Medicamentos);
+									$vacunas = CleanRowDB::limpiar($historia_clinica->ante_personales->Vacunas);
+								}
 							@endphp
 
 					    	<div class="card-header" id="headingThree">
@@ -838,28 +848,30 @@
 
 					  	<div class="card">
 					  		@php
-					  			//Antecedentes Médicos
+					  			if(isset($historia_clinica)){
+						  			//Antecedentes Médicos
 
-					  			$cirugias = CleanRowDB::limpiar($historia_clinica->ante_medicos->Cirugias);
-					  			$diabetes_2 = CleanRowDB::limpiar($historia_clinica->ante_medicos->Diabetes);
-					  			$hipertension_2 = CleanRowDB::limpiar($historia_clinica->ante_medicos->Hipertension);
-					  			$tiroides = CleanRowDB::limpiar($historia_clinica->ante_medicos->Tiroides);
-					  			$migrania = CleanRowDB::limpiar($historia_clinica->ante_medicos->Migrania);
-					  			$gastrointestinales = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Gastrointestinales);
-					  			$fractura = CleanRowDB::limpiar($historia_clinica->ante_medicos->Fractura);
-					  			$higado = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Higado);
-					  			$reumas = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Reumaticos);
-					  			$vesicula = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Vesicula);
-					  			$nerviosismo = CleanRowDB::limpiar($historia_clinica->ante_medicos->Nerviosismo_Ansiedad);
-					  			$pulmonares = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Pulmonares);
-					  			$depresion = CleanRowDB::limpiar($historia_clinica->ante_medicos->Depresion);
-					  			$corazon_2 = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Corazon);
-					  			$convulsiones = CleanRowDB::limpiar($historia_clinica->ante_medicos->Epilepsia);
-					  			$trombosis = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Circulacion);
-					  			$cancer_2 = CleanRowDB::limpiar($historia_clinica->ante_medicos->Cancer);
-					  			$genitourinarios = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Genitourinarios);
-					  			$transfusiones = CleanRowDB::limpiar($historia_clinica->ante_medicos->Transfusiones);
-					  			$piel = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Piel); 
+						  			$cirugias = CleanRowDB::limpiar($historia_clinica->ante_medicos->Cirugias);
+						  			$diabetes_2 = CleanRowDB::limpiar($historia_clinica->ante_medicos->Diabetes);
+						  			$hipertension_2 = CleanRowDB::limpiar($historia_clinica->ante_medicos->Hipertension);
+						  			$tiroides = CleanRowDB::limpiar($historia_clinica->ante_medicos->Tiroides);
+						  			$migrania = CleanRowDB::limpiar($historia_clinica->ante_medicos->Migrania);
+						  			$gastrointestinales = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Gastrointestinales);
+						  			$fractura = CleanRowDB::limpiar($historia_clinica->ante_medicos->Fractura);
+						  			$higado = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Higado);
+						  			$reumas = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Reumaticos);
+						  			$vesicula = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Vesicula);
+						  			$nerviosismo = CleanRowDB::limpiar($historia_clinica->ante_medicos->Nerviosismo_Ansiedad);
+						  			$pulmonares = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Pulmonares);
+						  			$depresion = CleanRowDB::limpiar($historia_clinica->ante_medicos->Depresion);
+						  			$corazon_2 = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Corazon);
+						  			$convulsiones = CleanRowDB::limpiar($historia_clinica->ante_medicos->Epilepsia);
+						  			$trombosis = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Circulacion);
+						  			$cancer_2 = CleanRowDB::limpiar($historia_clinica->ante_medicos->Cancer);
+						  			$genitourinarios = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Genitourinarios);
+						  			$transfusiones = CleanRowDB::limpiar($historia_clinica->ante_medicos->Transfusiones);
+						  			$piel = CleanRowDB::limpiar($historia_clinica->ante_medicos->Problemas_Piel); 
+						  		}
 					  		@endphp
 					    	<div class="card-header" id="headingTwo">
 					      		<h2 class="mb-0">
@@ -1377,18 +1389,20 @@
 					  	<div class="card">
 
 					  		@php
-					  			//Antecedentes Psicológicos
+					  			if(isset($historia_clinica)){
+						  			//Antecedentes Psicológicos
 
-					  			$nerviosismo_2 = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Nerviosismo);
-					  			$equilibrio = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Alter_Equilibrio);
-					  			$depresion_2 = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Depresion);
-					  			$habla = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Dific_Habla);
-					  			$concentracion = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Dific_Concentracion);
-					  			$dormir = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Dific_Dormir);
-					  			$cabeza = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Dolores_Cabeza);
-					  			$mareos = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Mareos);
-					  			$desmayos = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Desmayos);
-					  			$medicamentos = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Medicamentos);
+						  			$nerviosismo_2 = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Nerviosismo);
+						  			$equilibrio = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Alter_Equilibrio);
+						  			$depresion_2 = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Depresion);
+						  			$habla = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Dific_Habla);
+						  			$concentracion = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Dific_Concentracion);
+						  			$dormir = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Dific_Dormir);
+						  			$cabeza = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Dolores_Cabeza);
+						  			$mareos = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Mareos);
+						  			$desmayos = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Desmayos);
+						  			$medicamentos = CleanRowDB::limpiar($historia_clinica->ante_psicologicos->Medicamentos);
+						  		}
 					  		@endphp
 					    	<div class="card-header" id="headingTwo">
 					      		<h2 class="mb-0">
@@ -1653,9 +1667,11 @@
 
 					  	<div class="card">
 					  		@php
-					  			//Valoración Funcional
+					  			if(isset($historia_clinica)){
+						  			//Valoración Funcional
 
-					  			$apoyo = CleanRowDB::limpiar($historia_clinica->valoracion_funcional->Apoyo_Especial);
+						  			$apoyo = CleanRowDB::limpiar($historia_clinica->valoracion_funcional->Apoyo_Especial);
+						  		}
 					  		@endphp
 					    	<div class="card-header" id="headingTwo">
 					      		<h2 class="mb-0">
@@ -1732,10 +1748,12 @@
 
 					  	<div class="card">
 					  		@php
-					  			//Antecedentes Nutricionales
+					  			if(isset($historia_clinica)){
+						  			//Antecedentes Nutricionales
 
-					  			$peso_ult_6_meses = CleanRowDB::limpiar($historia_clinica->ante_nutricionales->Peso_Ult_6_Meses);
-					  			$dieta_especial = CleanRowDB::limpiar($historia_clinica->ante_nutricionales->Dieta_Especial);
+						  			$peso_ult_6_meses = CleanRowDB::limpiar($historia_clinica->ante_nutricionales->Peso_Ult_6_Meses);
+						  			$dieta_especial = CleanRowDB::limpiar($historia_clinica->ante_nutricionales->Dieta_Especial);
+						  		}
 					  		@endphp
 					    	<div class="card-header" id="headingTwo">
 					      		<h2 class="mb-0">
@@ -1938,7 +1956,7 @@
 
 					  	<div class="card">
 					  		@php
-					  			if($historia_clinica->Sexo == 'M'){
+					  			if(isset($historia_clinica) && $historia_clinica->Sexo == 'M'){
 						  			//Antecedentes Gineco-Obstetricos
 						  			$dismenorrea = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Dismenorrea);
 						  			$mastografia = CleanRowDB::limpiar($historia_clinica->ante_ginecoObstetricos->Mastografia);
@@ -2328,6 +2346,12 @@
 					    <!-- Archivos (Labs., Exam., etc.) -->
 
 					    <div class="card">
+
+					    	@php
+					    		if(isset($historia_clinica)){
+					    			$documentos = CleanRowDB::limpiar($historia_clinica->Documentacion);
+					    		}
+					    	@endphp	
 					    	<div class="card-header" id="headingTwo">
 					      		<h2 class="mb-0">
 					        		<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#Archivos" aria-expanded="false" aria-controls="Archivos">
@@ -2337,9 +2361,19 @@
 					    	</div>
 					    	<div id="Archivos" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
 					      		<div class="card-body">
-					      			<div class="row justify-content-center">
-					      				<div class="col-md-6 offset-md-1">
-					      					<input id="input-id" type="file" name="archivos" class="file" data-preview-file-type="text" multiple>
+					      			<div class="row">
+					      				<div class="col-md-4 text-center">
+					      					<h5>Documentación Almacenada</h5><br>
+					      					<ul class="list-unstyled text-left">
+					      						@if (isset($historia_clinica) && isset($documentos))
+					      							@foreach ($documentos as $doc)
+					      								<li><a href="{{ url('download/'.$doc) }}"><i class="far fa-file-alt"></i> {{ $doc }}</a></li>
+					      							@endforeach
+					      						@endif
+											</ul>
+					      				</div>
+					      				<div class="col-md-6 offset-sm-2">
+					      					<input id="input-id" type="file" name="archivos[]" class="file" data-preview-file-type="text" multiple>
 					      					
 					      				</div>
 					      			</div>
@@ -2349,11 +2383,22 @@
 
 					    <div class="row justify-content-center mt-4">
 					    	<div class="col-md-3">
-					    		<input type="submit" class="btn btn-block btn-success" value="Generar Historia Clínica">
+					    		@if (isset($historia_clinica))
+					    			<input type="submit" class="btn btn-block btn-success" value="Modificar Historia Clínica">
+					    		@else
+					    			<input type="submit" class="btn btn-block btn-success" value="Generar Historia Clínica">
+					    		@endif
 					    	</div>
+					    	</form>
+					    	@isset ($historia_clinica)
+					    	<form method="post" action="{!! action('HistoriasClinicasController@destroy', $historia_clinica->Id_Historia_Clinica) !!}">
+    							{!! csrf_field() !!}
+						    	<div class="col-md-12">
+						    		<button type="submit" class="btn btn-block btn-danger"> Eliminar Historia Clínica</button>
+						    	</div>
+						    </form>
+					    	@endisset
 					    </div>
-
-					   </form>
 					</div>
                 </div>
             </div>
