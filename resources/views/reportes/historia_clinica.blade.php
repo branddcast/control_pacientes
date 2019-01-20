@@ -4,19 +4,22 @@
     date_default_timezone_set('America/Monterrey'); 
     setlocale(LC_TIME, 'spanish');
 @endphp
-<!DOCTYPE html>
 <html>
 <head>
 	<title>Historia Clínica • {{ $historia_clinica->paciente->Nombre.' '.$historia_clinica->paciente->Ap_Paterno.' '.$historia_clinica->paciente->Ap_Materno }}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 	<style type="text/css">
-		*{
-			font-family: verdana;
-		}
+
+		/*@font-face {
+		    font-family: verdana;
+		    src: url({{ storage_path('fonts\verdana.ttf') }});
+		}*/
 
 		table{
-			width: 99%;
+			width: 100%;
+			font-family: courier;
+			font-size: 8pt;
 		}
 
 		.page-break {
@@ -27,8 +30,8 @@
 			text-align: center;
 		}
 
-		table, td, tr, th{
-			border: 1px solid #8C8C8CFF;
+		table, td, th{
+			border: 0.5px solid #8C8C8CFF;
 		}
 
 		td{
@@ -38,7 +41,7 @@
 		th{
 			background: #f2f2f2;
 			padding: 5px;
-			font-family: verdana, arial;
+			text-align: center;
 		}
 
 		.sin_borde{
@@ -137,7 +140,10 @@
 	<table cellspacing="0">
 		<tr>
 			<td colspan="2" class="centrar"><h3>HISTORIA CLÍNICA GENERAL</h3></td>
-			<td rowspan="2" class="centrar">Reg. No.: {{ $historia_clinica->Id_Historia_Clinica }}</td>			
+			<td rowspan="2" class="centrar">
+				Reg. No.: {{ $historia_clinica->Id_Historia_Clinica }}<br/>
+				Elabora: {{\Auth::user()->usuario}}
+			</td>			
 		</tr>
 		<tr>
 			<td colspan="1" class="centrar">Control de Pacientes</td>
@@ -1163,13 +1169,13 @@
 		</tr>
 		<tr>
 			<td class="sin_borde centrar" style="padding-top: 100px;">
-				<span style="border-top: 1px solid #000;"> Nombre y Firma quien elaboró </span>
+				<span style="border-top: 1px solid #000;"> Elaboró - Firma</span>
 			</td>
 			<td class="sin_borde centrar" style="padding-top: 100px;">
-				<span style="border-top: 1px solid #000;"> Nombre y Firma del informante </span>
+				<span style="border-top: 1px solid #000;"> Informante - Firma</span>
 			</td>
 			<td class="sin_borde centrar" style="padding-top: 100px;">
-				<span style="border-top: 1px solid #000;"> Nombre y Firma tratante </span>
+				<span style="border-top: 1px solid #000;"> Tratante - Firma</span>
 			</td>
 		</tr>
 	</table>
