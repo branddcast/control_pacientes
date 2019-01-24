@@ -98,20 +98,20 @@
 									<div class="col-md-4">
 										<div class="row">
 											<!-- Input Especialidad -->
-					                		<div class="col-md-12 input-group input-group-sm mb-3">
+					                		<!--<div class="col-md-12 input-group input-group-sm mb-3">
 												<div class="input-group-prepend">
 													<span class="input-group-text" id="basic-addon1"><i class="far fa-flag"></i></span>
 												</div>
 												<select class="custom-select custom-select-sm" name="especialidad" style="height: 31px" required>
 													<option selected disabled>Especialidad</option>
-													@foreach ($especialidades as $especialidad)
-														<option value="{{$especialidad->Id_Especialidad}}" @isset($especialista)@if ($especialista->Id_Especialidad == $especialidad->Id_Especialidad)
+													@--foreach ($especialidades as $especialidad)
+														<option value="{{--$especialidad->Id_Especialidad}}" @isset($especialista)@if ($especialista->Id_Especialidad == $especialidad->Id_Especialidad)
 															{{ 'selected'}}
 														@endif
-														@endisset>{{$especialidad->Nombre}}</option>
-													@endforeach
+														@endisset>{{$especialidad->Nombre--}}</option>
+													@--endforeach
 												</select>
-					                		</div>
+					                		</div>-->
 
 					                		<!-- Input Color -->
 					                		<div class="col-md-12 input-group input-group-sm mb-3">

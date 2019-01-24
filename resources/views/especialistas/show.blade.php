@@ -46,7 +46,6 @@
 						    	<tr>
 						      		<th scope="col">#</th>
 						      		<th scope="col">Estatus</th>
-						      		<th scope="col">Especialidad</th>
 						      		<th scope="col">Nombre</th>
 						      		<th scope="col">Edad</th>
 						      		<th scope="col">Email</th>
@@ -73,13 +72,6 @@
 						  					</span>
 						  				</td>
 						  			@endif
-						  			@else
-						  				<td class="text-center"></td>
-						  			@endif
-
-						  			<!-- Especialidad -->
-						  			@if ($especialista->Id_Especialidad != null)
-						  				<td><i class="fas fa-circle mr-1" style="color: {{ $especialista->color->bgColor }}"></i> {{ $especialista->especialidad->Nombre }}</td>
 						  			@else
 						  				<td class="text-center"></td>
 						  			@endif

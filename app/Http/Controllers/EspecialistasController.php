@@ -46,7 +46,7 @@ class EspecialistasController extends Controller
     public function create()
     {
         $estatus = Estatus::all();
-        $especialidades = Especialidad::all();
+        //$especialidades = Especialidad::all();
         $especialistas = Especialista::all();
 
         $colores = Color::whereNotIn('Id_Color', function ($query) {
@@ -56,7 +56,7 @@ class EspecialistasController extends Controller
 
         //SELECT bgColor FROM colores WHERE Id_Color NOT IN (SELECT Id_Color FROM especialistas);
 
-        return view('especialistas.create', ['estatus' => $estatus, 'especialidades' => $especialidades, 'colores' => $colores]);
+        return view('especialistas.create', ['estatus' => $estatus, 'colores' => $colores]);
     }
 
     /**
@@ -77,7 +77,7 @@ class EspecialistasController extends Controller
         $especialista->id_color = $request->color;
         $especialista->direccion = $request->direccion;
         $especialista->id_estatus = $request->estatus;
-        $especialista->id_especialidad = $request->especialidad;
+        //$especialista->id_especialidad = $request->especialidad;
         $especialista->created_at = Carbon::now();
         $especialista->updated_at = null;
         $ok = $especialista->save();
@@ -139,7 +139,7 @@ class EspecialistasController extends Controller
         
         $especialista->direccion = $request->direccion;
         $especialista->id_estatus = $request->estatus;
-        $especialista->id_especialidad = $request->especialidad;
+        //$especialista->id_especialidad = $request->especialidad;
         $especialista->created_at = Carbon::now();
         $especialista->updated_at = null;
         $ok = $especialista->save();
