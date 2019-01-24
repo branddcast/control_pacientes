@@ -73,7 +73,7 @@ class EspecialistasController extends Controller
         $especialista->ap_materno = $request->ap_materno;
         $especialista->edad = $request->edad;
         $especialista->telefono = $request->telefono;
-        $especoalista->email = $request->email;
+        $especialista->email = $request->email;
         $especialista->id_color = $request->color;
         $especialista->direccion = $request->direccion;
         $especialista->id_estatus = $request->estatus;

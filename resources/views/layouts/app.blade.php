@@ -107,6 +107,7 @@
                       <ul class="treeview-menu">
                         <li><a class="treeview-item {{ request()->is('especialistas') ? 'active' : '' }}" href="{{ url('/especialistas') }}"><i class="icon fas fa-list"></i> Mostrar</a></li>
                         <li><a class="treeview-item {{ request()->is('especialistas/create') ? 'active' : '' }}" href="{{ url('/especialistas/create') }}" rel="noopener"><i class="icon fas fa-plus"></i> Agregar</a></li>
+                        <li><a class="treeview-item {{ request()->is('detalles_especialistas') ? 'active' : '' }}" href="{{ url('/detalles_especialistas') }}" rel="noopener"><i class="icon fas fa-plus"></i>Asignar Especialidad</a></li>
                       </ul>
                     </li>
                     <li class="treeview"><a class="app-menu__item {{ request()->is('especialidades') ? 'active' : '' }} {{ request()->is('especialidades/create') ? 'active' : '' }}" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-briefcase-medical"></i><span class="app-menu__label">Especialidades</span><i class="treeview-indicator fa fa-angle-right"></i></a>
