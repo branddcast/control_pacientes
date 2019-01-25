@@ -39,9 +39,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 </head>
     @guest
-        <body class="app">
+        <!--<body class="app">
             <header class="app-header shadow-sm"><a class="app-header__logo" href="{{ url('/home') }}"><i class="fas fa-h-square"></i>&nbsp; Clínica</a>
-            </header>
+            </header>-->
     @else
         <body class="app sidebar-mini rtl">
           
@@ -143,9 +143,9 @@
                     @endif
                   </ul>
                 </aside>
-            @endguest
     <main class="app-content">
-          @yield('content')  
+      @endguest
+          @yield('content')
     </main>
     
     <!-- Essential javascripts for application to work-->

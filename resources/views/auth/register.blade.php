@@ -1,29 +1,29 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Registrarse') }}</div>
-
-                <div class="card-body">
-
-                    <div class="row justify-content-center">
-                        <div class="col-md-6 text-center">
-                            @if(session('success'))
-                                <div class="alert alert-success">
-                                    {{ session('success') }}
-                                </div>
-                            @elseif(session('error'))
-                                <div class="alert alert-danger">
-                                    {{ session('error') }}
-                                </div>
-                            @endif
+<section class="material-half-bg">
+        <div class="cover"></div>
+</section>
+    <section class="login-content">
+        <div class="logo">
+            <h1 class="text-dark" style="text-shadow: 2px 2px 2px #333333FF;"><i class="fas fa-h-square"></i>&nbsp; Clínica</h1>
+        </div>
+        <div class="login-box rounded shadow-sm">
+                    <form class="login-form" method="POST" action="{{ route('register') }}">
+                        <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Registro</h3>
+                        <div class="row justify-content-center">
+                            <div class="col-md-6 text-center">
+                                @if(session('success'))
+                                    <div class="alert alert-success">
+                                        {{ session('success') }}
+                                    </div>
+                                @elseif(session('error'))
+                                    <div class="alert alert-danger">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
+                            </div>
                         </div>
-                    </div>
-
-                    <form method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <!--<div class="form-group row">
@@ -41,7 +41,7 @@
                         </div>-->
 
                         <div class="row justify-content-center">
-                            <div class="input-group mb-3 col-md-6">
+                            <div class="input-group mb-3 col-md-12">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="fas fa-pencil-alt"></i></span>
                                 </div>
@@ -57,7 +57,7 @@
                         </div>
 
                        <div class="row justify-content-center">
-                            <div class="input-group mb-3 col-md-6">
+                            <div class="input-group mb-3 col-md-12">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="far fa-envelope"></i></span>
                                 </div>
@@ -72,7 +72,7 @@
                         </div>
 
                         <div class="row justify-content-center">
-                            <div class="input-group mb-3 col-md-6">
+                            <div class="input-group mb-3 col-md-12">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
                                 </div>
@@ -87,7 +87,7 @@
                         </div>
 
                         <div class="row justify-content-center">
-                            <div class="input-group mb-3 col-md-6">
+                            <div class="input-group mb-3 col-md-12">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
                                 </div>
@@ -96,21 +96,18 @@
                         </div>
 
                         <div class="form-group row mb-0 justify-content-center">
-                            <div class="col-md-3 text-left">
+                            <div class="col-md-7 text-left">
                                 <a class="btn btn-link" href="{{ route('login') }}">
                                     <i class="fas fa-sign-in-alt"></i> {{ __('Ya tengo una cuenta') }}
                                 </a>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-5">
                                 <button type="submit" class="btn btn-primary btn-block">
                                     {{ __('Registrar') }}
                                 </button>
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
         </div>
-    </div>
-</div>
+    </section>
 @endsection

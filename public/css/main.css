@@ -14531,8 +14531,10 @@ be a descendant of the grid when it is being dragged.
 }
 
 .material-half-bg .cover {
-  background-color: #009688;
-  height: 50vh;
+  background-image: url(../img/header_login_edit.jpg);
+  /*background-color: #009688;*/
+  /*height: 50vh;*/
+  height: 100%;
 }
 
 .m-loader {
@@ -14891,7 +14893,8 @@ be a descendant of the grid when it is being dragged.
 
 .login-content .logo {
   margin-bottom: 40px;
-  font-family: "Niconne";
+  /*font-family: "Niconne";*/
+  font-family: 'PT Sans';
   color: #fff;
 }
 
