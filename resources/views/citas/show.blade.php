@@ -19,8 +19,12 @@
 										    Especialidades
 										</div>
 										<div class="card-body">
-											@foreach ($especialistas as $especialista)
-												<span class="badge" style="color:{{$especialista->color->textColor}}; background-color: {{$especialista->color->bgColor}};">{{ $especialista->especialidad->Nombre }}</span >
+											@foreach ($especialistas as $item)
+												<!--<span class="badge" style="color:{{--$item->especialista->color->textColor}}; background-color: {{$item->especialista->color->bgColor}};">{{ $item->especialista->Nombre.' - '.$item->especialidad->Nombre --}}</span >-->
+												<span class="badge border bg-light">
+													<i class="fas fa-circle mr-1" style="color: {{ $item->color->bgColor }};"></i>
+													{{ $item->Nombre }}
+												</span>
 											@endforeach
 										</div>
 									</div>
@@ -212,7 +216,7 @@
 				    			<select id="especialista_cita" class="custom-select custom-select-sm" name="especialista_cita" style="height: 31px">
 				    				<option selected="true" disabled="true" value="0">Especialista</option>
 				    				@foreach ($especialistas as $especialista)
-				    					<option value="{{$especialista->Id_Especialista}}">{{$especialista->especialidad->Nombre." - ".$especialista->Nombre." ".$especialista->Ap_Paterno}}</option>
+				    					<option value="{{$especialista->Id_Especialista}}">{{$especialista->Nombre." ".$especialista->Ap_Paterno}}</option>
 				    				@endforeach
 				    			</select>
 				    		</div>

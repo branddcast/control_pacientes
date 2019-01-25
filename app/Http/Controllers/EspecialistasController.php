@@ -24,7 +24,7 @@ class EspecialistasController extends Controller
     {
         if(Input::get('q') != ''){
             $q = Input::get('q');
-            $especialistas = Especialista::where('Nombre', 'LIKE', '%'.$q.'%')
+            $especialistas = Especialista::select(DB::raw('Id_Especialista, Nombre, Ap_Paterno, Ap_Materno, Telefono, substring(Direccion, 1, 50) as Direccion, Id_Estatus, Email, Edad'))->where('Nombre', 'LIKE', '%'.$q.'%')
                 ->orWhere('Ap_Paterno', 'LIKE', '%'.$q.'%')
                 ->orWhere('Ap_Materno', 'LIKE', '%'.$q.'%')
                 ->orWhere('Edad'      , '='   ,     $q    )
@@ -32,8 +32,9 @@ class EspecialistasController extends Controller
                 ->paginate(15);
 
         }else{
-            $especialistas = Especialista::paginate(15);
+            $especialistas = Especialista::select(DB::raw('Id_Especialista, Nombre, Ap_Paterno, Ap_Materno, Telefono, substring(Direccion, 1, 50) as Direccion, Id_Estatus, Email, Edad'))->paginate(15);
         }
+
 
         return view('especialistas.show', ['especialistas' => $especialistas]);
     }

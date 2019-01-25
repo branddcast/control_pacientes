@@ -22,7 +22,6 @@ class SeederEspecialistas extends Seeder
             'Direccion' => 'Av. Siempre Viva 742. Cuernavaca, Mor. México',
             'Id_Color' => 1,
             'Id_Estatus' => 1,
-            'Id_Especialidad' => 1,
         	'created_at' => Carbon::now(new DateTimeZone('America/Monterrey'))
         ]);
         
@@ -36,7 +35,6 @@ class SeederEspecialistas extends Seeder
             'Email' => 'example2@example.com',
             'Id_Color' => 2,
             'Id_Estatus' => 1,
-            'Id_Especialidad' => 2,
         	'created_at' => Carbon::now(new DateTimeZone('America/Monterrey'))
         ]);
     }

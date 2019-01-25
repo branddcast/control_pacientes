@@ -16,6 +16,7 @@ use App\Facades\PushNotify;
 use App\Facades\CleanRowDB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\verificarCita;
+use App\Models\DetallesEspecialista;
 
 class CitasController extends Controller
 {
@@ -27,9 +28,10 @@ class CitasController extends Controller
     public function index()
     {
         $especialistas = Especialista::where('Id_Estatus', 1)->get();
+        $detalles_especialistas = DetallesEspecialista::selectRaw('DISTINCT(Id_Especialista) as Id_Especialista,Id_Especialidad')->get();
         $pacientes = Paciente::where('Id_Estatus', 1)->get();
 
-        return view('citas.show', ['pacientes' => $pacientes, 'especialistas' => $especialistas]);
+        return view('citas.show', ['pacientes' => $pacientes, 'especialistas' => $especialistas, 'detalles_especialistas' => $detalles_especialistas]);
     }
 
     /**

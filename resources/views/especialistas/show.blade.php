@@ -79,7 +79,7 @@
 									<td>{{$especialista->Edad}}</td>
 									<td>{{$especialista->Email}}</td>
 									<td>{{$especialista->Telefono}}</td>
-									<td>{{substr($especialista->Direccion, 0, 50)}}...</td>
+									<td>{{$especialista->Direccion}}...</td>
 									<td class="text-center">
 										<form id="especialista_delete" action="{{route('especialistas.destroy', $especialista->Id_Especialista)}}" method="post">
 								            <a href="{{ route('especialistas.edit', ['id' => $especialista->Id_Especialista]) }}" class="btn btn-info btn-sm"><i class="far fa-edit"></i></a>
