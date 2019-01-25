@@ -23,9 +23,11 @@
                 	
                 <div class="card-body">
                 	<div class="row justify-content-end mb-2 align-items-center">
+                		@isset($historia_clinica)
                 		<div class="col-md-1 text-right">
                 			<a class="btn btn-outline-dark btn-sm" href="{{ route('historia_clinica.print', [$historia_clinica->Id_Historia_Clinica]) }}"><i class="fas fa-print"></i> Imprimir</a>
 	                	</div>
+	                	@endisset
 	                	@isset ($historia_clinica)
 	                	<div class="col-md-1 text-right">
 							<form method="post" action="{!! action('HistoriasClinicasController@destroy', $historia_clinica->Id_Historia_Clinica) !!}">
@@ -45,7 +47,7 @@
                 				action="{{ route('historia_clinica.update', $historia_clinica->Id_Historia_Clinica) }}"
                 			@else
                 				action="{{ route('historia_clinica.store') }}"
-                			@endif>
+                			@endif onKeyPress="return disableEnterKey(event)">
 
                 			@csrf
                 		<input type="hidden" name="paciente" value="@isset ($paciente)
@@ -2389,17 +2391,25 @@
 					      							@foreach ($documentos as $doc)
 					      								<li><a href="{{ url('download/'.$doc) }}"><i class="far fa-file-alt"></i> {{ $doc }}</a> - <a href="{{ route('historia_clinica.delete_file', ['file' => $doc, 'id' => $historia_clinica->Id_Historia_Clinica]) }}" ><i class="far fa-times-circle" style="color: red"></i></a></li>
 					      							@endforeach
+					      						@else
+					      								<li class="text-center">No hay archivos del paciente</li>
 					      						@endif
 											</ul>
+											@isset($historia_clinica)
 											@if ($historia_clinica->Documentacion != null)
 												<a href="{{ route('historia_clinica.delete_file', ['file' => 'all', 'id' => $historia_clinica->Id_Historia_Clinica]) }}"><i class="far fa-times-circle" style="color: red"></i> Borrar todos los archivos</a>
 											@endif
+											@endisset
 					      				</div>
 					      				<div class="col-md-6 offset-sm-2">
+					      					@if(isset($historia_clinica))
 					      					@if(count(CleanRowDB::limpiar($historia_clinica->Documentacion)) < 10)
 					      						<input id="input-id" type="file" name="archivos[]" class="file" data-preview-file-type="text" multiple>
 					      					@else
 					      						<input id="input-id" type="file" name="archivos[]" class="file" data-preview-file-type="text" multiple disabled>
+					      					@endif
+					      					@else
+					      						<input id="input-id" type="file" name="archivos[]" class="file" data-preview-file-type="text" multiple>
 					      					@endif
 					      				</div>
 					      			</div>
@@ -2464,6 +2474,22 @@
 		var imc 	 = peso / (estatura*estatura);
 
 		$('#imc').val(imc.toFixed(2));
+	}
+
+	function disableEnterKey(e){
+		var key;
+
+		if(window.event){
+			key = window.event.keyCode; //IE
+		}else{
+			key = e.which; //firefox
+		}
+		
+		if(key==13){
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 	$('#hombre').click(function (){
