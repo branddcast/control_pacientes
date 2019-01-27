@@ -61,7 +61,7 @@
 			                		<!-- Input Actual password -->
 			                		<div class="col-md-6 input-group input-group-sm mb-3">
 										<div class="input-group-prepend">
-											<span class="input-group-text" id="basic-addon1"><i class="fas fa-at"></i></span>
+											<span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
 										</div>
 			                			<input class="form-control form-control-sm" type="password" name="actual_password" placeholder="Contraseña Actual" @empty($usuario) {{'disabled'}} @endempty required>
 			                		</div>
