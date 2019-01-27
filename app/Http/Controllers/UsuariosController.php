@@ -132,6 +132,7 @@ class UsuariosController extends Controller
         $user = User::find($id);
 
         $nombre_usuario = "";
+        $flag_email_changed = false;
 
         if($request->actual_password == ''){
             return back()->with('error', '¡Contraseña actual no aceptada! Ingresala correctamente.');
@@ -172,6 +173,11 @@ class UsuariosController extends Controller
             $user->Id_Rol = $request->rol;
         }
 
+        if(strcmp($user->email, $request->email) != 0){
+            $flag_email_changed = true;
+            $user->codigo_verificacion = str_random(10);
+        }
+
         $user->name = $request->nombre;
         $user->email = $request->email;
         if(isset($request->password)){
@@ -180,8 +186,11 @@ class UsuariosController extends Controller
         $user->usuario = $nombre_usuario;
 
             if($user->save()){
-                Mail::to($user->email)->send(new verificarEmail($user));
                 $notificar = PushNotify::push('modificó un nuevo usuario', \Auth::user()->usuario, 0);
+                if($flag_email_changed){
+                    Mail::to($user->email)->send(new verificarEmail($user));
+                    return redirect('usuarios')->with('success', '¡Usuario modificado exitosamente! Ingrese a su email que acaba de asignar, para confirmación de cuenta.');
+                }
                 return redirect('usuarios')->with('success', '¡Usuario modificado exitosamente!');
             }else{
                 return redirect('usuarios')->with('error', '¡Error al modificar el usuario! Intente de nuevo más tarde.');
@@ -235,7 +244,11 @@ class UsuariosController extends Controller
         }else{
             return redirect('login')->with('error', $error_2);
         }
- 
+
+        if(\Auth::check()){
+            \Auth::logout();
+        }
+
         return redirect('login')->with('success', $success);
     }
 }
