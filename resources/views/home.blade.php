@@ -45,9 +45,14 @@ function hex2rgba($color, $opacity = false) {
         <h1>Bienvenido(a)</h1>
         <p>{{$usuario->name}}</p>
     </div>
-    <ul class="app-breadcrumb breadcrumb">
-        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-    </ul>
+    <form method="get" action="#" class="mr-2 mt-2 app-breadcrumb breadcrumb" style="width: 20%">
+        <div class="input-group mb-3">
+            <input class="form-control form-control-sm" type="text" name="buscar" placeholder="Buscar" disabled>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-outline-dark btn-sm" disabled><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </form>
 </div>
 <div class="container-fluid">
 

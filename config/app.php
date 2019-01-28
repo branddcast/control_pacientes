@@ -177,6 +177,7 @@ return [
         App\Providers\PushNotifyServiceProvider::class,
         App\Providers\CleanRowDBServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
 
     ],
 
