@@ -1,5 +1,7 @@
 <h1>DEMO</h1>
 <a href="http://clinica.branddcast.x10.mx">Ver Demo</a>
+<span><strong>Credenciales</strong></span>
+<p>: admin@demo.com<br/>: admin</p>
 
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
